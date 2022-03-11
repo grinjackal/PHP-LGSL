@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/github/v/release/grinjackal/PHP-LGSL?display_name=tag&style=for-the-badge)](https://packagist.org/packages/grinjackal/lgsl)
 [![Total Downloads](https://img.shields.io/packagist/dt/grinjackal/lgsl.svg?style=for-the-badge)](https://packagist.org/packages/grinjackal/lgsl)
-[![License](https://img.shields.io/packagist/l/grinjackal/PHP-LGSL?style=for-the-badge)](https://github.com/grinjackal/PHP-LGSL/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/grinjackal/PHP-LGSL?style=for-the-badge)](https://github.com/grinjackal/PHP-LGSL/blob/master/LICENSE)
 # Live Game Server Status (LGSL)
 This package is edited version of LGSL 6.1.1 by tltneon.
 
