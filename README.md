@@ -1,52 +1,63 @@
 # Very short description of the package
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/grinjackal/lgsl.svg?style=flat-square)](https://packagist.org/packages/grinjackal/lgsl)
-[![Total Downloads](https://img.shields.io/packagist/dt/grinjackal/lgsl.svg?style=flat-square)](https://packagist.org/packages/grinjackal/lgsl)
-![GitHub Actions](https://github.com/grinjackal/lgsl/actions/workflows/main.yml/badge.svg)
+[![Latest Version on Packagist](https://img.shields.io/github/v/release/grinjackal/PHP-LGSL?display_name=tag&style=for-the-badge)](https://packagist.org/packages/grinjackal/lgsl)
+[![Total Downloads](https://img.shields.io/packagist/dt/grinjackal/lgsl.svg?style=for-the-badge)](https://packagist.org/packages/grinjackal/lgsl)
+[![License](https://img.shields.io/packagist/l/grinjackal/PHP-LGSL?style=for-the-badge)](https://github.com/grinjackal/PHP-LGSL/blob/master/LICENSE)
+# Live Game Server Status (LGSL)
+This package is edited version of LGSL 6.1.1 by tltneon.
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+## Require
+```bash
+PHP 8.0 or higher
+```
 
 ## Installation
-
-You can install the package via composer:
 
 ```bash
 composer require grinjackal/lgsl
 ```
 
 ## Usage
+After generated autoload files:
 
+## Example #1
 ```php
-// Usage description here
+require_once('./vendor/autoload.php');
+
+use GrinJackal\LGSL\LGSL;
+
+$result = LGSL::Query('urbanterror', '176.9.28.206', 27971, 27971, 0, "sep");
+
+echo 'Status: '.($result['b']['status'] == 1 ? 'ONLINE' : 'OFFLINE').'<br />';
+echo 'Name: '.$result['s']['name'].'<br />';
+echo 'Map: '.$result['s']['map'] . '<br />';
+echo 'Players: '.$result['s']['players'].'/'.$result['s']['playersmax'].'<br />';
 ```
 
-### Testing
+## Example #2
+```php
+require_once('./vendor/autoload.php');
 
-```bash
-composer test
+use GrinJackal\LGSL\LGSL;
+
+$result = LGSL::Query('discord', 'nDuNTC6', 1, 1, 0, "sep");
+
+echo 'Status: '.($result['b']['status'] == 1 ? 'ONLINE' : 'OFFLINE').'<br />';
+echo 'Name: '.$result['s']['name'].'<br />';
+echo 'Map: '.$result['s']['map'].'<br />';
+echo 'Players: '.$result['s']['players'].'/'.$result['s']['playersmax'].'<br />';
 ```
-
-### Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
-
 If you discover any security related issues, please email grinjackal@gmail.com instead of using the issue tracker.
 
 ## Credits
 
+-   [Richard Perry](http://www.greycube.com)
+-   [Neon](https://github.com/tltneon/lgsl)
 -   [Grin Jackal](https://github.com/grinjackal)
--   [All Contributors](../../contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
-## PHP Package Boilerplate
-
-This package was generated using the [PHP Package Boilerplate](https://laravelpackageboilerplate.com) by [Beyond Code](http://beyondco.de/).
