@@ -1,0 +1,55 @@
+{
+    "name": "grinjackal/lgsl",
+    "description": "Live Game Server Query",
+    "keywords": [
+        "grinjackal",
+        "gameserver",
+        "query",
+		"discord", "fivem", "minecraft", "cs", "gmod", "rust", "dayz", "ark", "samp",
+        "cs16", "cs 1.6", "Counter strike", "csgo", "css", "samp", "mp"
+	],
+    "homepage": "https://github.com/grinjackal/lgsl",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+			"name": "Richard Perry",
+			"homepage": "http://www.greycube.com",
+			"role": "Author"
+		},
+		{
+			"name": "Neon",
+			"homepage": "https://github.com/tltneon",
+			"role": "Developer"
+		},
+        {
+            "name": "Grin Jackal",
+            "homepage": "https://github.com/grinjackal",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "GrinJackal\\LGSL\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GrinJackal\\LGSL\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
