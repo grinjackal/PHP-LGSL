@@ -6,6 +6,24 @@ use GrinJackal\LGSL\Protocols;
 
 class LGSL extends Protocols{
 
+    /**
+     * Retrive server status
+     * 
+     * @param string    $type
+     * @param string    $ip
+     * @param int       $c_port
+     * @param int       $q_port
+     * @param int       $s_port
+     * @param string    $request
+     * 
+     * @note $s_port is 0 or is eqaul $q_port
+     * @note $request can be: 
+     *          s = server, 
+     *          c = Convars,
+     *          p = Players
+     * 
+     * @return Array
+     */
     public static function Query($type, $ip, $c_port, $q_port, $s_port, $request) 
     {
         //---------------------------------------------------------+
@@ -23,34 +41,18 @@ class LGSL extends Protocols{
         
         $lgsl_function = "Query{$lgsl_protocol_list[$type]}";
         
-        //if (!function_exists($lgsl_function))
-        //{
-        //    exit("LGSL PROBLEM: FUNCTION DOES NOT EXIST FOR: {$type}");
-        //}
-        
         if (!intval($q_port))
         {
             exit("LGSL PROBLEM: INVALID QUERY PORT");
         }
         
-        //---------------------------------------------------------+
-        //  ARRAYS ARE SETUP IN ADVANCE
         $server = [
-            "b" => ["type" => $type, "ip" => $ip, "c_port" => $c_port, "q_port" => $q_port, "s_port" => $s_port, "status" => 1],
-            "s" => ["game" => "", "name" => "", "map" => "", "players" => 0, "playersmax" => 0, "password" => ""],
-            "e" => [],
-            "p" => [],
-            "t" => []
+            "basic" => ["type" => $type, "ip" => $ip, "c_port" => $c_port, "q_port" => $q_port, "s_port" => $s_port, "status" => 1],
+            "server" => ["game" => "", "name" => "", "map" => "", "players" => 0, "playersmax" => 0, "password" => ""],
+            "convars" => [],
+            "players" => [],
+            "teams" => []
         ];
-        
-        //---------------------------------------------------------+
-        //  GET DATA
-        if ($lgsl_function == "lgsl_query_01") // TEST RETURNS DIRECT
-        {
-            $lgsl_need = ""; $lgsl_fp = "";
-            $response = call_user_func_array($lgsl_function, [&$server, &$lgsl_need, &$lgsl_fp]);
-            return $server;
-        }
         
         $response = self::QueryDirect($server, $request, $lgsl_function, self::GameTypeScheme($type));
         
@@ -58,31 +60,31 @@ class LGSL extends Protocols{
         //  FORMAT RESPONSE
         if (!$response) // SERVER OFFLINE
         {
-            $server['b']['status'] = 0;
+            $server['basic']['status'] = 0;
         }else{
             // FILL IN EMPTY VALUES
-            if (empty($server['s']['game'])) { $server['s']['game'] = $type; }
-            if (empty($server['s']['map']))  { $server['s']['map']  = "-"; }
+            if (empty($server['server']['game'])) { $server['server']['game'] = $type; }
+            if (empty($server['server']['map']))  { $server['server']['map']  = "-"; }
         
             // REMOVE FOLDERS FROM MAP NAMES
-            if (($pos = strrpos($server['s']['map'], "/"))  !== FALSE) { $server['s']['map'] = substr($server['s']['map'], $pos + 1); }
-            if (($pos = strrpos($server['s']['map'], "\\")) !== FALSE) { $server['s']['map'] = substr($server['s']['map'], $pos + 1); }
+            if (($pos = strrpos($server['server']['map'], "/"))  !== FALSE) { $server['server']['map'] = substr($server['server']['map'], $pos + 1); }
+            if (($pos = strrpos($server['server']['map'], "\\")) !== FALSE) { $server['server']['map'] = substr($server['server']['map'], $pos + 1); }
         
             // PLAYER COUNT AND PASSWORD STATUS SHOULD BE NUMERIC
-            $server['s']['players']    = intval($server['s']['players']);
-            $server['s']['playersmax'] = intval($server['s']['playersmax']);
+            $server['server']['players']    = intval($server['server']['players']);
+            $server['server']['playersmax'] = intval($server['server']['playersmax']);
         
-            if (isset($server['s']['password'][0])) { $server['s']['password'] = (strtolower($server['s']['password'][0]) == "t") ? 1 : 0; }
-            else                                    { $server['s']['password'] = intval($server['s']['password']); }
+            if (isset($server['server']['password'][0])) { $server['server']['password'] = (strtolower($server['server']['password'][0]) == "t") ? 1 : 0; }
+            else                                    { $server['server']['password'] = intval($server['server']['password']); }
         
             // REMOVE EMPTY AND UN-REQUESTED ARRAYS
-            if (strpos($request, "p") === FALSE && empty($server['p']) && $server['s']['players'] != 0) { unset($server['p']); }
-            if (strpos($request, "p") === FALSE && empty($server['t']))                                 { unset($server['t']); }
-            if (strpos($request, "e") === FALSE && empty($server['e']))                                 { unset($server['e']); }
-            if (strpos($request, "s") === FALSE && empty($server['s']['name']))                         { unset($server['s']); }
+            if (strpos($request, "p") === FALSE && empty($server['players']) && $server['server']['players'] != 0) { unset($server['players']); }
+            if (strpos($request, "p") === FALSE && empty($server['teams']))                                 { unset($server['teams']); }
+            if (strpos($request, "e") === FALSE && empty($server['convars']))                                 { unset($server['convars']); }
+            if (strpos($request, "s") === FALSE && empty($server['server']['name']))                         { unset($server['server']); }
         }
         
-        $server['s']['cache_time'] = time();
+        $server['server']['cache_time'] = time();
         
         //---------------------------------------------------------+
         return $server;
@@ -104,10 +106,10 @@ class LGSL extends Protocols{
             curl_setopt($lgsl_fp, CURLOPT_TIMEOUT, 3);
             curl_setopt($lgsl_fp, CURLOPT_HTTPHEADER, array('Accept: application/json'));
         }else{
-            $lgsl_fp = @fsockopen("{$scheme}://{$server['b']['ip']}", $server['b']['q_port'], $errno, $errstr, 1);
+            $lgsl_fp = @fsockopen("{$scheme}://{$server['basic']['ip']}", $server['basic']['q_port'], $errno, $errstr, 1);
         
             if (!$lgsl_fp) { 
-                $server['e']['_error'] = $errstr; 
+                $server['convars']['_error'] = $errstr; 
                 return FALSE; 
             }
         
@@ -119,11 +121,11 @@ class LGSL extends Protocols{
         //  CHECK WHAT IS NEEDED
         $lgsl_need      = [];
         $lgsl_need['s'] = strpos($request, "s") !== FALSE ? TRUE : FALSE;
-        $lgsl_need['e'] = strpos($request, "e") !== FALSE ? TRUE : FALSE;
+        $lgsl_need['c'] = strpos($request, "c") !== FALSE ? TRUE : FALSE;
         $lgsl_need['p'] = strpos($request, "p") !== FALSE ? TRUE : FALSE;
         
         // ChANGE [e] TO [s][e] AS BASIC QUERIES OFTEN RETURN EXTRA INFO
-        if ($lgsl_need['e'] && !$lgsl_need['s']) { 
+        if ($lgsl_need['c'] && !$lgsl_need['s']) { 
             $lgsl_need['s'] = TRUE; 
         }
         
@@ -143,9 +145,9 @@ class LGSL extends Protocols{
             if ($lgsl_need_check == $lgsl_need) { break; }
         
             // OPTIMIZATION THAT SKIPS REQUEST FOR PLAYER DETAILS WHEN THE SERVER IS KNOWN TO BE EMPTY
-            if ($lgsl_need['p'] && $server['s']['players'] == "0") { $lgsl_need['p'] = FALSE; }
+            if ($lgsl_need['p'] && $server['server']['players'] == "0") { $lgsl_need['p'] = FALSE; }
         }
-        while ($lgsl_need['s'] == TRUE || $lgsl_need['e'] == TRUE || $lgsl_need['p'] == TRUE);
+        while ($lgsl_need['s'] == TRUE || $lgsl_need['c'] == TRUE || $lgsl_need['p'] == TRUE);
         
         //---------------------------------------------------------+
         if ($scheme == 'http') {

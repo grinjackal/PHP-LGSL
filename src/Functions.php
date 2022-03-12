@@ -127,8 +127,7 @@ class Functions{
             "wolfet"        => "Wolfenstein: Enemy Territory",
             "wolfrtcw"      => "Wolfenstein: Return To Castle Wolfenstein",
             "wolf2009"      => "Wolfenstein ( 2009 By Raven )",
-            "wow"           => "World of Warcraft",
-            "test"          => "~ Test ( For PHP Developers )"
+            "wow"           => "World of Warcraft"
         ];
     }
 
@@ -241,7 +240,6 @@ class Functions{
             "starwarsbf2"   => "09",
             "starwarsrc"    => "09",
             "swat4"         => "03",
-            "test"          => "01",
             "teeworlds"     => "21",
             "terraria"      => "38",
             "tribes"        => "23",

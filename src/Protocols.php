@@ -8,61 +8,61 @@ class Protocols extends Functions{
     /**
      * Query 01
      */
-    public static function Query01(&$server, &$lgsl_need, &$lgsl_fp)
-    {
-        //---------------------------------------------------------+
-        //  PROTOCOL FOR DEVELOPING WITHOUT USING LIVE SERVERS TO HELP ENSURE RETURNED
-        //  DATA IS SANITIZED AND THAT LONG SERVER AND PLAYER NAMES ARE HANDLED PROPERLY
-        $server['s'] = [
-            "game"       => "test_game",
-            "name"       => "test_ServerNameThatsOften'Really'LongAndCanHaveSymbols<hr />ThatWill\"Screw\"UpHtmlUnlessEntitied",
-            "map"        => "test_map",
-            "players"    => rand(0,  16),
-            "playersmax" => rand(16, 32),
-            "password"   => rand(0,  1)
-        ];
-
-        //---------------------------------------------------------+
-        $server['e'] = [
-            "testextra1" => "normal",
-            "testextra2" => 123,
-            "testextra3" => time(),
-            "testextra4" => "",
-            "testextra5" => "<b>Setting<hr />WithHtml</b>",
-            "testextra6" => "ReallyLongSettingLikeSomeMapCyclesThatHaveNoSpacesAndCauseThePageToGoReallyWideIfNotBrokenUp"
-        ];
-
-        //---------------------------------------------------------+
-        $server['p']['0']['name']  = "Normal";
-        $server['p']['0']['score'] = "12";
-        $server['p']['0']['ping']  = "34";
-
-        $server['p']['1']['name']  = "\xc3\xa9\x63\x68\x6f\x20\xd0\xb8-d0\xb3\xd1\x80\xd0\xbe\xd0\xba"; // UTF PLAYER NAME
-        $server['p']['1']['score'] = "56";
-        $server['p']['1']['ping']  = "78";
-
-        $server['p']['2']['name']  = "One&<Two>&Three&\"Four\"&'Five'";
-        $server['p']['2']['score'] = "90";
-        $server['p']['2']['ping']  = "12";
-
-        $server['p']['3']['name']  = "ReallyLongPlayerNameBecauseTheyAreUberCoolAndAreInFiveClans";
-        $server['p']['3']['score'] = "90";
-        $server['p']['3']['ping']  = "12";
-
-        //---------------------------------------------------------+
-        if (rand(0, 10) == 5) { $server['p'] = array(); } // RANDOM NO PLAYERS
-        if (rand(0, 10) == 5) { return FALSE; }           // RANDOM GOING OFFLINE
-
-        //---------------------------------------------------------+
-        return TRUE;
-    }
+    //public static function Query01(&$server, &$lgsl_need, &$lgsl_fp)
+    //{
+    //    //---------------------------------------------------------+
+    //    //  PROTOCOL FOR DEVELOPING WITHOUT USING LIVE SERVERS TO HELP ENSURE RETURNED
+    //    //  DATA IS SANITIZED AND THAT LONG SERVER AND PLAYER NAMES ARE HANDLED PROPERLY
+    //    $server['server'] = [
+    //        "game"       => "test_game",
+    //        "name"       => "test_ServerNameThatsOften'Really'LongAndCanHaveSymbols<hr />ThatWill\"Screw\"UpHtmlUnlessEntitied",
+    //        "map"        => "test_map",
+    //        "players"    => rand(0,  16),
+    //        "playersmax" => rand(16, 32),
+    //        "password"   => rand(0,  1)
+    //    ];
+    //
+    //    //---------------------------------------------------------+
+    //    $server['convars'] = [
+    //        "testextra1" => "normal",
+    //        "testextra2" => 123,
+    //        "testextra3" => time(),
+    //        "testextra4" => "",
+    //        "testextra5" => "<b>Setting<hr />WithHtml</b>",
+    //        "testextra6" => "ReallyLongSettingLikeSomeMapCyclesThatHaveNoSpacesAndCauseThePageToGoReallyWideIfNotBrokenUp"
+    //    ];
+    //
+    //    //---------------------------------------------------------+
+    //    $server['players']['0']['name']  = "Normal";
+    //    $server['players']['0']['score'] = "12";
+    //    $server['players']['0']['ping']  = "34";
+    //
+    //    $server['players']['1']['name']  = "\xc3\xa9\x63\x68\x6f\x20\xd0\xb8-d0\xb3\xd1\x80\xd0\xbe\xd0\xba"; // UTF PLAYER NAME
+    //    $server['players']['1']['score'] = "56";
+    //    $server['players']['1']['ping']  = "78";
+    //
+    //    $server['players']['2']['name']  = "One&<Two>&Three&\"Four\"&'Five'";
+    //    $server['players']['2']['score'] = "90";
+    //    $server['players']['2']['ping']  = "12";
+    //
+    //    $server['players']['3']['name']  = "ReallyLongPlayerNameBecauseTheyAreUberCoolAndAreInFiveClans";
+    //    $server['players']['3']['score'] = "90";
+    //    $server['players']['3']['ping']  = "12";
+    //
+    //    //---------------------------------------------------------+
+    //    if (rand(0, 10) == 5) { $server['players'] = array(); } // RANDOM NO PLAYERS
+    //    if (rand(0, 10) == 5) { return FALSE; }           // RANDOM GOING OFFLINE
+    //
+    //    //---------------------------------------------------------+
+    //    return TRUE;
+    //}
 
     public static function Query02(&$server, &$lgsl_need, &$lgsl_fp)
     {
         //---------------------------------------------------------+
-        if     ($server['b']['type'] == "quake2")              { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFFstatus");        }
-        elseif ($server['b']['type'] == "warsowold")           { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFFgetinfo");       }
-        elseif (strpos($server['b']['type'], "moh") !== FALSE) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFF\x02getstatus"); } // mohaa_ mohaab_ mohaas_ mohpa_
+        if     ($server['basic']['type'] == "quake2")              { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFFstatus");        }
+        elseif ($server['basic']['type'] == "warsowold")           { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFFgetinfo");       }
+        elseif (strpos($server['basic']['type'], "moh") !== FALSE) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFF\x02getstatus"); } // mohaa_ mohaab_ mohaas_ mohpa_
         else                                                   { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFFgetstatus");     }
 
         $buffer = fread($lgsl_fp, 4096);
@@ -79,46 +79,46 @@ class Protocols extends Functions{
             if (!($item_key % 2)) { continue; } // SKIP EVEN KEYS
 
             $data_key               = strtolower(self::ParserColor($data_key, "1"));
-            $server['e'][$data_key] = self::ParserColor($item[$item_key+1], "1");
+            $server['convars'][$data_key] = self::ParserColor($item[$item_key+1], "1");
         }
 
         //---------------------------------------------------------+
-        if (!empty($server['e']['hostname']))    { $server['s']['name'] = $server['e']['hostname']; }
-        if (!empty($server['e']['sv_hostname'])) { $server['s']['name'] = $server['e']['sv_hostname']; }
+        if (!empty($server['convars']['hostname']))    { $server['server']['name'] = $server['convars']['hostname']; }
+        if (!empty($server['convars']['sv_hostname'])) { $server['server']['name'] = $server['convars']['sv_hostname']; }
 
-        if (isset($server['e']['gamename'])) { $server['s']['game'] = $server['e']['gamename']; }
-        if (isset($server['e']['mapname']))  { $server['s']['map']  = $server['e']['mapname']; }
+        if (isset($server['convars']['gamename'])) { $server['server']['game'] = $server['convars']['gamename']; }
+        if (isset($server['convars']['mapname']))  { $server['server']['map']  = $server['convars']['mapname']; }
 
-        $server['s']['players'] = empty($part['2']) ? 0 : count($part) - 2;
+        $server['server']['players'] = empty($part['2']) ? 0 : count($part) - 2;
 
-        if (isset($server['e']['maxclients']))    { $server['s']['playersmax'] = $server['e']['maxclients']; }    // QUAKE 2
-        if (isset($server['e']['sv_maxclients'])) { $server['s']['playersmax'] = $server['e']['sv_maxclients']; }
+        if (isset($server['convars']['maxclients']))    { $server['server']['playersmax'] = $server['convars']['maxclients']; }    // QUAKE 2
+        if (isset($server['convars']['sv_maxclients'])) { $server['server']['playersmax'] = $server['convars']['sv_maxclients']; }
 
-        if (isset($server['e']['pswrd']))      { $server['s']['password'] = $server['e']['pswrd']; }              // CALL OF DUTY
-        if (isset($server['e']['needpass']))   { $server['s']['password'] = $server['e']['needpass']; }           // QUAKE 2
-        if (isset($server['e']['g_needpass'])) { $server['s']['password'] = (int)$server['e']['g_needpass']; }
+        if (isset($server['convars']['pswrd']))      { $server['server']['password'] = $server['convars']['pswrd']; }              // CALL OF DUTY
+        if (isset($server['convars']['needpass']))   { $server['server']['password'] = $server['convars']['needpass']; }           // QUAKE 2
+        if (isset($server['convars']['g_needpass'])) { $server['server']['password'] = (int)$server['convars']['g_needpass']; }
 
         array_shift($part); // REMOVE HEADER
         array_shift($part); // REMOVE SETTING
 
         //---------------------------------------------------------+
-        if ($server['b']['type'] == "nexuiz") // (SCORE) (PING) (TEAM IF TEAM GAME) "(NAME)"
+        if ($server['basic']['type'] == "nexuiz") // (SCORE) (PING) (TEAM IF TEAM GAME) "(NAME)"
         {
             $pattern = "/(.*) (.*) (.*)\"(.*)\"/U"; $fields = array(1=>"score", 2=>"ping", 3=>"team", 4=>"name");
         }
-        elseif ($server['b']['type'] == "warsow") // (SCORE) (PING) "(NAME)" (TEAM)
+        elseif ($server['basic']['type'] == "warsow") // (SCORE) (PING) "(NAME)" (TEAM)
         {
             $pattern = "/(.*) (.*) \"(.*)\" (.*)/"; $fields = array(1=>"score", 2=>"ping", 3=>"name", 4=>"team");
         }
-        elseif ($server['b']['type'] == "sof2") // (SCORE) (PING) (DEATHS) "(NAME)"
+        elseif ($server['basic']['type'] == "sof2") // (SCORE) (PING) (DEATHS) "(NAME)"
         {
             $pattern = "/(.*) (.*) (.*) \"(.*)\"/"; $fields = array(1=>"score", 2=>"ping", 3=>"deaths", 4=>"name");
         }
-        elseif (strpos($server['b']['type'], "mohpa") !== FALSE) // (?) (SCORE) (?) (TIME) (?) "(RANK?)" "(NAME)"
+        elseif (strpos($server['basic']['type'], "mohpa") !== FALSE) // (?) (SCORE) (?) (TIME) (?) "(RANK?)" "(NAME)"
         {
             $pattern = "/(.*) (.*) (.*) (.*) (.*) \"(.*)\" \"(.*)\"/"; $fields = array(2=>"score", 3=>"deaths", 4=>"time", 6=>"rank", 7=>"name");
         }
-        elseif (strpos($server['b']['type'], "moh") !== FALSE) // (PING) "(NAME)"
+        elseif (strpos($server['basic']['type'], "moh") !== FALSE) // (PING) "(NAME)"
         {
             $pattern = "/(.*) \"(.*)\"/"; $fields = array(1=>"ping", 2=>"name");
         }
@@ -136,14 +136,14 @@ class Protocols extends Functions{
 
             foreach ($fields as $match_key => $field_name)
             {
-                if (isset($match[$match_key])) { $server['p'][$player_key][$field_name] = trim($match[$match_key]); }
+                if (isset($match[$match_key])) { $server['players'][$player_key][$field_name] = trim($match[$match_key]); }
             }
 
-            $server['p'][$player_key]['name'] = self::ParserColor($server['p'][$player_key]['name'], "1");
+            $server['players'][$player_key]['name'] = self::ParserColor($server['players'][$player_key]['name'], "1");
 
-            if (isset($server['p'][$player_key]['time']))
+            if (isset($server['players'][$player_key]['time']))
             {
-                $server['p'][$player_key]['time'] = self::Time($server['p'][$player_key]['time']);
+                $server['players'][$player_key]['time'] = self::Time($server['players'][$player_key]['time']);
             }
         }
 
@@ -155,10 +155,10 @@ class Protocols extends Functions{
     {
         //---------------------------------------------------------+
         // BF1942 BUG: RETURNS 'GHOST' NAMES - TO SKIP THESE WE NEED AN [s] REQUEST FOR AN ACCURATE PLAYER COUNT
-        if ($server['b']['type'] == "bf1942" && $lgsl_need['p'] && !$lgsl_need['s'] && !isset($lgsl_need['sp'])) { $lgsl_need['s'] = TRUE; $lgsl_need['sp'] = TRUE; }
+        if ($server['basic']['type'] == "bf1942" && $lgsl_need['p'] && !$lgsl_need['s'] && !isset($lgsl_need['sp'])) { $lgsl_need['s'] = TRUE; $lgsl_need['sp'] = TRUE; }
   
-        if     ($server['b']['type'] == "cncrenegade") { fwrite($lgsl_fp, "\\status\\"); }
-        elseif ($lgsl_need['s'] || $lgsl_need['e'])    { fwrite($lgsl_fp, "\\basic\\\\info\\\\rules\\"); $lgsl_need['s'] = FALSE; $lgsl_need['e'] = FALSE; }
+        if     ($server['basic']['type'] == "cncrenegade") { fwrite($lgsl_fp, "\\status\\"); }
+        elseif ($lgsl_need['s'] || $lgsl_need['c'])    { fwrite($lgsl_fp, "\\basic\\\\info\\\\rules\\"); $lgsl_need['s'] = FALSE; $lgsl_need['c'] = FALSE; }
         elseif ($lgsl_need['p'])                       { fwrite($lgsl_fp, "\\players\\");                $lgsl_need['p'] = FALSE; }
   
         //---------------------------------------------------------+
@@ -186,7 +186,7 @@ class Protocols extends Functions{
                 if (preg_match("/(.*)_([0-9]+)$/", $key, $match))
                 {
                     // SEPERATE TEAM NAMES
-                    if ($match[1] == "teamname") { $server['t'][$match[2]]['name'] = $value; continue; }
+                    if ($match[1] == "teamname") { $server['teams'][$match[2]]['name'] = $value; continue; }
                 
                     // CONVERT TO LGSL STANDARD
                     if     ($match[1] == "player")     { $match[1] = "name";  }
@@ -194,22 +194,22 @@ class Protocols extends Functions{
                     elseif ($match[1] == "frags")      { $match[1] = "score"; }
                     elseif ($match[1] == "ngsecret")   { $match[1] = "stats"; }
                 
-                    $server['p'][$match[2]][$match[1]] = $value; continue;
+                    $server['players'][$match[2]][$match[1]] = $value; continue;
                 }
   
                 // SEPERATE QUERYID
                 if ($key == "queryid") { $queryid = $value; continue; }
   
                 // SERVER SETTING
-                $server['e'][$key] = $value;
+                $server['convars'][$key] = $value;
             }
   
             // FINAL PACKET NUMBER IS THE TOTAL
-            if (isset($server['e']['final']))
+            if (isset($server['convars']['final']))
             {
                 preg_match("/([0-9]+)\.([0-9]+)/", $queryid, $match);
                 $packet_total = intval($match[2]);
-                unset($server['e']['final']);
+                unset($server['convars']['final']);
             }
   
             $packet_count ++;
@@ -217,61 +217,61 @@ class Protocols extends Functions{
         while ($packet_count < $packet_total);
   
         //---------------------------------------------------------+
-        if (isset($server['e']['mapname']))
+        if (isset($server['convars']['mapname']))
         {
-            $server['s']['map'] = $server['e']['mapname'];
+            $server['server']['map'] = $server['convars']['mapname'];
   
-            if (!empty($server['e']['hostname']))    { $server['s']['name'] = $server['e']['hostname']; }
-            if (!empty($server['e']['sv_hostname'])) { $server['s']['name'] = $server['e']['sv_hostname']; }
+            if (!empty($server['convars']['hostname']))    { $server['server']['name'] = $server['convars']['hostname']; }
+            if (!empty($server['convars']['sv_hostname'])) { $server['server']['name'] = $server['convars']['sv_hostname']; }
   
-            if (isset($server['e']['password']))   { $server['s']['password']   = $server['e']['password']; }
-            if (isset($server['e']['numplayers'])) { $server['s']['players']    = $server['e']['numplayers']; }
-            if (isset($server['e']['maxplayers'])) { $server['s']['playersmax'] = $server['e']['maxplayers']; }
+            if (isset($server['convars']['password']))   { $server['server']['password']   = $server['convars']['password']; }
+            if (isset($server['convars']['numplayers'])) { $server['server']['players']    = $server['convars']['numplayers']; }
+            if (isset($server['convars']['maxplayers'])) { $server['server']['playersmax'] = $server['convars']['maxplayers']; }
   
-            if (!empty($server['e']['gamename']))                                   { $server['s']['game'] = $server['e']['gamename']; }
-            if (!empty($server['e']['gameid']) && empty($server['e']['gamename']))  { $server['s']['game'] = $server['e']['gameid']; }
-            if (!empty($server['e']['gameid']) && $server['b']['type'] == "bf1942") { $server['s']['game'] = $server['e']['gameid']; }
+            if (!empty($server['convars']['gamename']))                                   { $server['server']['game'] = $server['convars']['gamename']; }
+            if (!empty($server['convars']['gameid']) && empty($server['convars']['gamename']))  { $server['server']['game'] = $server['convars']['gameid']; }
+            if (!empty($server['convars']['gameid']) && $server['basic']['type'] == "bf1942") { $server['server']['game'] = $server['convars']['gameid']; }
         }
   
         //---------------------------------------------------------+
-        if ($server['p'])
+        if ($server['players'])
         {
             // BF1942 BUG - REMOVE 'GHOST' PLAYERS
-            if ($server['b']['type'] == "bf1942" && $server['s']['players'])
+            if ($server['basic']['type'] == "bf1942" && $server['server']['players'])
             {
-                $server['p'] = array_slice($server['p'], 0, $server['s']['players']);
+                $server['players'] = array_slice($server['players'], 0, $server['server']['players']);
             }
   
             // OPERATION FLASHPOINT BUG: 'GHOST' PLAYERS IN UN-USED 'TEAM' FIELD
-            if ($server['b']['type'] == "flashpoint")
+            if ($server['basic']['type'] == "flashpoint")
             {
-                foreach ($server['p'] as $key => $value)
+                foreach ($server['players'] as $key => $value)
                 {
-                    unset($server['p'][$key]['team']);
+                    unset($server['players'][$key]['team']);
                 }
             }
   
             // AVP2 BUG: PLAYER NUMBER PREFIXED TO NAMES
-            if ($server['b']['type'] == "avp2")
+            if ($server['basic']['type'] == "avp2")
             {
-                foreach ($server['p'] as $key => $value)
+                foreach ($server['players'] as $key => $value)
                 {
-                    $server['p'][$key]['name'] = preg_replace("/[0-9]+~/", "", $server['p'][$key]['name']);
+                    $server['players'][$key]['name'] = preg_replace("/[0-9]+~/", "", $server['players'][$key]['name']);
                 }
             }
   
             // IF TEAM NAMES AVAILABLE USED INSTEAD OF TEAM NUMBERS
-            if (isset($server['t'][0]['name']))
+            if (isset($server['teams'][0]['name']))
             {
-                foreach ($server['p'] as $key => $value)
+                foreach ($server['players'] as $key => $value)
                 {
-                    $team_key = $server['p'][$key]['team'] - 1;
-                    $server['p'][$key]['team'] = $server['t'][$team_key]['name'];
+                    $team_key = $server['players'][$key]['team'] - 1;
+                    $server['players'][$key]['team'] = $server['teams'][$team_key]['name'];
                 }
             }
   
             // RE-INDEX PLAYER KEYS TO REMOVE ANY GAPS
-            $server['p'] = array_values($server['p']);
+            $server['players'] = array_values($server['players']);
         }
         return TRUE;
     }
@@ -330,32 +330,32 @@ class Protocols extends Functions{
         {
             $tmp = explode(" ", $data_value, 2);
             $data_key = isset($lgsl_ravenshield_key[$tmp[0]]) ? $lgsl_ravenshield_key[$tmp[0]] : $tmp[0]; // CONVERT TO DESCRIPTIVE KEYS
-            $server['e'][$data_key] = trim($tmp[1]); // ALL VALUES NEED TRIMMING
+            $server['convars'][$data_key] = trim($tmp[1]); // ALL VALUES NEED TRIMMING
         }
   
-        $server['e']['mapcycle']      = str_replace("/"," ", $server['e']['mapcycle']);      // CONVERT SLASH TO SPACE
-        $server['e']['mapcycletypes'] = str_replace("/"," ", $server['e']['mapcycletypes']); // SO LONG LISTS WRAP
+        $server['convars']['mapcycle']      = str_replace("/"," ", $server['convars']['mapcycle']);      // CONVERT SLASH TO SPACE
+        $server['convars']['mapcycletypes'] = str_replace("/"," ", $server['convars']['mapcycletypes']); // SO LONG LISTS WRAP
   
         //---------------------------------------------------------+
-        $server['s']['game']       = $server['e']['gamename'];
-        $server['s']['name']       = $server['e']['hostname'];
-        $server['s']['map']        = $server['e']['mapname'];
-        $server['s']['players']    = $server['e']['players'];
-        $server['s']['playersmax'] = $server['e']['playersmax'];
-        $server['s']['password']   = $server['e']['password'];
+        $server['server']['game']       = $server['convars']['gamename'];
+        $server['server']['name']       = $server['convars']['hostname'];
+        $server['server']['map']        = $server['convars']['mapname'];
+        $server['server']['players']    = $server['convars']['players'];
+        $server['server']['playersmax'] = $server['convars']['playersmax'];
+        $server['server']['password']   = $server['convars']['password'];
   
         //---------------------------------------------------------+
-        $player_name  = isset($server['e']['players_name'])  ? explode("/", substr($server['e']['players_name'],  1)) : array(); unset($server['e']['players_name']);
-        $player_time  = isset($server['e']['players_time'])  ? explode("/", substr($server['e']['players_time'],  1)) : array(); unset($server['e']['players_time']);
-        $player_ping  = isset($server['e']['players_ping'])  ? explode("/", substr($server['e']['players_ping'],  1)) : array(); unset($server['e']['players_ping']);
-        $player_score = isset($server['e']['players_score']) ? explode("/", substr($server['e']['players_score'], 1)) : array(); unset($server['e']['players_score']);
+        $player_name  = isset($server['convars']['players_name'])  ? explode("/", substr($server['convars']['players_name'],  1)) : array(); unset($server['convars']['players_name']);
+        $player_time  = isset($server['convars']['players_time'])  ? explode("/", substr($server['convars']['players_time'],  1)) : array(); unset($server['convars']['players_time']);
+        $player_ping  = isset($server['convars']['players_ping'])  ? explode("/", substr($server['convars']['players_ping'],  1)) : array(); unset($server['convars']['players_ping']);
+        $player_score = isset($server['convars']['players_score']) ? explode("/", substr($server['convars']['players_score'], 1)) : array(); unset($server['convars']['players_score']);
   
         foreach ($player_name as $key => $name)
         {
-            $server['p'][$key]['name']  = $player_name[$key];
-            $server['p'][$key]['time']  = $player_time[$key];
-            $server['p'][$key]['ping']  = $player_ping[$key];
-            $server['p'][$key]['score'] = $player_score[$key];
+            $server['players'][$key]['name']  = $player_name[$key];
+            $server['players'][$key]['time']  = $player_time[$key];
+            $server['players'][$key]['ping']  = $player_ping[$key];
+            $server['players'][$key]['score'] = $player_score[$key];
         }
   
         //---------------------------------------------------------+
@@ -366,16 +366,16 @@ class Protocols extends Functions{
     {
         //---------------------------------------------------------+
         //  REFERENCE: http://developer.valvesoftware.com/wiki/Server_Queries
-        if ($server['b']['type'] == "halflifewon")
+        if ($server['basic']['type'] == "halflifewon")
         {
             if     ($lgsl_need['s']) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFFdetails\x00"); }
-            elseif ($lgsl_need['e']) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFFrules\x00");   }
+            elseif ($lgsl_need['c']) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFFrules\x00");   }
             elseif ($lgsl_need['p']) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFFplayers\x00"); }
         }else{
             $challenge_code = isset($lgsl_need['challenge']) ? $lgsl_need['challenge'] : "\x00\x00\x00\x00";
   
             if     ($lgsl_need['s']) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFF\x54Source Engine Query\x00" . (isset($lgsl_need['challenge']) ? $challenge_code : "")); }
-            elseif ($lgsl_need['e']) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFF\x56{$challenge_code}");                                                                 }
+            elseif ($lgsl_need['c']) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFF\x56{$challenge_code}");                                                                 }
             elseif ($lgsl_need['p']) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFF\x55{$challenge_code}");                                                                 }
         }
   
@@ -391,7 +391,7 @@ class Protocols extends Functions{
         {
             if (!($packet = fread($lgsl_fp, 4096))) {
                 if ($lgsl_need['s']) { return FALSE; }
-                elseif ($lgsl_need['e']) { $lgsl_need['e'] = FALSE; return TRUE; }
+                elseif ($lgsl_need['c']) { $lgsl_need['c'] = FALSE; return TRUE; }
                 else { return TRUE; }
             }
   
@@ -400,11 +400,11 @@ class Protocols extends Functions{
             // THIS DISCARDS UN-EXPECTED PACKET FORMATS ON THE GO ( AS READING IN ADVANCE CAUSES TIMEOUT DELAYS FOR OTHER SERVER VERSIONS )
             // ITS NOT PERFECT AS [s] CAN FLIP BETWEEN HL1 AND SOURCE FORMATS DEPENDING ON ARRIVAL ORDER ( MAYBE FIX WITH RETURN ON HL1 APPID )
             if     ($lgsl_need['s']) { if ($packet[4] == "D") { continue; } }
-            elseif ($lgsl_need['e']) { if ($packet[4] == "m" || $packet[4] == "I" || $packet[4] == "D") { continue; } }
+            elseif ($lgsl_need['c']) { if ($packet[4] == "m" || $packet[4] == "I" || $packet[4] == "D") { continue; } }
             elseif ($lgsl_need['p']) { if ($packet[4] == "m" || $packet[4] == "I") { continue; } }
             
             //---------------------------------------------------------------------------------------------------------------------------------+
-            if     (substr($packet, 0,  5) == "\xFF\xFF\xFF\xFF\x41") { $lgsl_need['challenge'] = substr($packet, 5, 4); $server['s']['players'] = !$server['s']['game'] ? -1 : $server['s']['players']; return TRUE; } // REPEAT WITH GIVEN CHALLENGE CODE
+            if     (substr($packet, 0,  5) == "\xFF\xFF\xFF\xFF\x41") { $lgsl_need['challenge'] = substr($packet, 5, 4); $server['server']['players'] = !$server['server']['game'] ? -1 : $server['server']['players']; return TRUE; } // REPEAT WITH GIVEN CHALLENGE CODE
             elseif (substr($packet, 0,  4) == "\xFF\xFF\xFF\xFF")     { $packet_total = 1;                     $packet_type = 1;       } // SINGLE PACKET - HL1 OR HL2
             elseif (substr($packet, 9,  4) == "\xFF\xFF\xFF\xFF")     { $packet_total = ord($packet[8]) & 0xF; $packet_type = 2;       } // MULTI PACKET  - HL1 ( TOTAL IS LOWER NIBBLE OF BYTE )
             elseif (substr($packet, 12, 4) == "\xFF\xFF\xFF\xFF")     { $packet_total = ord($packet[8]);       $packet_type = 3;       } // MULTI PACKET  - HL2
@@ -415,7 +415,7 @@ class Protocols extends Functions{
         }
         while ($packet && $packet_count < $packet_total);
   
-        if ($packet_type == 0) { return $server['s'] ? TRUE : FALSE; } // UNKNOWN RESPONSE ( SOME SERVERS ONLY SEND [s] )
+        if ($packet_type == 0) { return $server['server'] ? TRUE : FALSE; } // UNKNOWN RESPONSE ( SOME SERVERS ONLY SEND [s] )
   
         //---------------------------------------------------------+
         //  WITH THE TYPE WE CAN NOW SORT AND JOIN THE PACKETS IN THE CORRECT ORDER
@@ -443,7 +443,7 @@ class Protocols extends Functions{
         {
             if (!function_exists("bzdecompress")) // REQUIRES http://php.net/bzip2
             {
-                $server['e']['bzip2'] = "unavailable"; $lgsl_need['e'] = FALSE;
+                $server['convars']['bzip2'] = "unavailable"; $lgsl_need['c'] = FALSE;
                 return TRUE;
             }
         
@@ -459,63 +459,63 @@ class Protocols extends Functions{
   
         if ($response_type == "I") // SOURCE INFO ( HALF-LIFE 2 )
         {
-            $server['e']['netcode']     = ord(self::CutByte($buffer, 1));
-            $server['s']['name']        = self::CutString($buffer);
-            $server['s']['map']         = self::CutString($buffer);
-            $server['s']['game']        = self::CutString($buffer);
-            $server['e']['description'] = self::CutString($buffer);
-            $server['e']['appid']       = self::UnPack(self::CutByte($buffer, 2), "S");
-            $server['s']['players']     = ord(self::CutByte($buffer, 1));
-            $server['s']['playersmax']  = ord(self::CutByte($buffer, 1));
-            $server['e']['bots']        = ord(self::CutByte($buffer, 1));
-            $server['e']['dedicated']   = self::CutByte($buffer, 1);
-            $server['e']['os']          = self::CutByte($buffer, 1);
-            $server['s']['password']    = ord(self::CutByte($buffer, 1));
-            $server['e']['anticheat']   = ord(self::CutByte($buffer, 1));
-            $server['e']['version']     = self::CutString($buffer);
+            $server['convars']['netcode']     = ord(self::CutByte($buffer, 1));
+            $server['server']['name']        = self::CutString($buffer);
+            $server['server']['map']         = self::CutString($buffer);
+            $server['server']['game']        = self::CutString($buffer);
+            $server['convars']['description'] = self::CutString($buffer);
+            $server['convars']['appid']       = self::UnPack(self::CutByte($buffer, 2), "S");
+            $server['server']['players']     = ord(self::CutByte($buffer, 1));
+            $server['server']['playersmax']  = ord(self::CutByte($buffer, 1));
+            $server['convars']['bots']        = ord(self::CutByte($buffer, 1));
+            $server['convars']['dedicated']   = self::CutByte($buffer, 1);
+            $server['convars']['os']          = self::CutByte($buffer, 1);
+            $server['server']['password']    = ord(self::CutByte($buffer, 1));
+            $server['convars']['anticheat']   = ord(self::CutByte($buffer, 1));
+            $server['convars']['version']     = self::CutString($buffer);
         
             if (ord(self::CutByte($buffer, 1)) == 177) {
               self::CutByte($buffer, 10);
             }else{
                 self::CutByte($buffer, 6);
             }
-            $server['e']['tags']        = self::CutString($buffer);
+            $server['convars']['tags']        = self::CutString($buffer);
         
-            if($server['s']['game'] == 'rust'){
-                preg_match('/cp\d{1,3}/', $server['e']['tags'], $e);
-                $server['s']['players'] = substr($e[0], 2);
-                preg_match('/mp\d{1,3}/', $server['e']['tags'], $e);
-                $server['s']['playersmax'] = substr($e[0], 2);
+            if($server['server']['game'] == 'rust'){
+                preg_match('/cp\d{1,3}/', $server['convars']['tags'], $e);
+                $server['server']['players'] = substr($e[0], 2);
+                preg_match('/mp\d{1,3}/', $server['convars']['tags'], $e);
+                $server['server']['playersmax'] = substr($e[0], 2);
             }
         }
   
         elseif ($response_type == "m") // HALF-LIFE 1 INFO
         {
             $server_ip                  = self::CutString($buffer);
-            $server['s']['name']        = self::CutString($buffer);
-            $server['s']['map']         = self::CutString($buffer);
-            $server['s']['game']        = self::CutString($buffer);
-            $server['e']['description'] = self::CutString($buffer);
-            $server['s']['players']     = ord(self::CutByte($buffer, 1));
-            $server['s']['playersmax']  = ord(self::CutByte($buffer, 1));
-            $server['e']['netcode']     = ord(self::CutByte($buffer, 1));
-            $server['e']['dedicated']   = self::CutByte($buffer, 1);
-            $server['e']['os']          = self::CutByte($buffer, 1);
-            $server['s']['password']    = ord(self::CutByte($buffer, 1));
+            $server['server']['name']        = self::CutString($buffer);
+            $server['server']['map']         = self::CutString($buffer);
+            $server['server']['game']        = self::CutString($buffer);
+            $server['convars']['description'] = self::CutString($buffer);
+            $server['server']['players']     = ord(self::CutByte($buffer, 1));
+            $server['server']['playersmax']  = ord(self::CutByte($buffer, 1));
+            $server['convars']['netcode']     = ord(self::CutByte($buffer, 1));
+            $server['convars']['dedicated']   = self::CutByte($buffer, 1);
+            $server['convars']['os']          = self::CutByte($buffer, 1);
+            $server['server']['password']    = ord(self::CutByte($buffer, 1));
   
             if (ord(self::CutByte($buffer, 1))) // MOD FIELDS ( OFF FOR SOME HALFLIFEWON-VALVE SERVERS )
             {
-                $server['e']['mod_url_info']     = self::CutString($buffer);
-                $server['e']['mod_url_download'] = self::CutString($buffer);
+                $server['convars']['mod_url_info']     = self::CutString($buffer);
+                $server['convars']['mod_url_download'] = self::CutString($buffer);
                 $buffer = substr($buffer, 1);
-                $server['e']['mod_version']      = self::UnPack(self::CutByte($buffer, 4), "l");
-                $server['e']['mod_size']         = self::UnPack(self::CutByte($buffer, 4), "l");
-                $server['e']['mod_server_side']  = ord(self::CutByte($buffer, 1));
-                $server['e']['mod_custom_dll']   = ord(self::CutByte($buffer, 1));
+                $server['convars']['mod_version']      = self::UnPack(self::CutByte($buffer, 4), "l");
+                $server['convars']['mod_size']         = self::UnPack(self::CutByte($buffer, 4), "l");
+                $server['convars']['mod_server_side']  = ord(self::CutByte($buffer, 1));
+                $server['convars']['mod_custom_dll']   = ord(self::CutByte($buffer, 1));
             }
   
-            $server['e']['anticheat'] = ord(self::CutByte($buffer, 1));
-            $server['e']['bots']      = ord(self::CutByte($buffer, 1));
+            $server['convars']['anticheat'] = ord(self::CutByte($buffer, 1));
+            $server['convars']['bots']      = ord(self::CutByte($buffer, 1));
         }
   
         elseif ($response_type == "D") // SOURCE AND HALF-LIFE 1 PLAYERS
@@ -527,9 +527,9 @@ class Protocols extends Functions{
             while ($buffer)
             {
                 self::CutByte($buffer, 1);
-                $server['p'][$player_key]['name']  = self::CutString($buffer);
-                $server['p'][$player_key]['score'] = self::UnPack(self::CutByte($buffer, 4), "l");
-                $server['p'][$player_key]['time']  = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
+                $server['players'][$player_key]['name']  = self::CutString($buffer);
+                $server['players'][$player_key]['score'] = self::UnPack(self::CutByte($buffer, 4), "l");
+                $server['players'][$player_key]['time']  = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
                 
                 $player_key ++;
             }
@@ -544,16 +544,16 @@ class Protocols extends Functions{
                 $item_key   = strtolower(self::CutString($buffer));
                 $item_value = self::CutString($buffer);
             
-                $server['e'][$item_key] = $item_value;
+                $server['convars'][$item_key] = $item_value;
             }
         }
   
         //---------------------------------------------------------+
         // IF ONLY [s] WAS REQUESTED THEN REMOVE INCOMPLETE [e]
-        if ($lgsl_need['s'] && !$lgsl_need['e']) { $server['e'] = array(); }
+        if ($lgsl_need['s'] && !$lgsl_need['c']) { $server['convars'] = array(); }
   
         if     ($lgsl_need['s']) { $lgsl_need['s'] = FALSE; }
-        elseif ($lgsl_need['e']) { $lgsl_need['e'] = FALSE; }
+        elseif ($lgsl_need['c']) { $lgsl_need['c'] = FALSE; }
         elseif ($lgsl_need['p']) { $lgsl_need['p'] = FALSE; }
   
         //---------------------------------------------------------+
@@ -566,7 +566,7 @@ class Protocols extends Functions{
         //  GET A CHALLENGE CODE IF NEEDED
         $challenge_code = "";
 
-        if ($server['b']['type'] != "bf2" && $server['b']['type'] != "graw")
+        if ($server['basic']['type'] != "bf2" && $server['basic']['type'] != "graw")
         {
             fwrite($lgsl_fp, "\xFE\xFD\x09\x21\x21\x21\x21\xFF\xFF\xFF\x01");
 
@@ -606,7 +606,7 @@ class Protocols extends Functions{
             }
 
             $buffer[$packet_order] = $packet;
-            if ($server['b']['type'] == "minecraft" || $server['b']['type'] == "jc2mp") { $packet_total = 1; }
+            if ($server['basic']['type'] == "minecraft" || $server['basic']['type'] == "jc2mp") { $packet_total = 1; }
 
         }
         while ($packet_count < $packet_total);
@@ -649,50 +649,50 @@ class Protocols extends Functions{
 
         while ($key = strtolower(self::CutString($buffer)))
         {
-            $server['e'][$key] = self::CutString($buffer);
+            $server['convars'][$key] = self::CutString($buffer);
         }
 
         $lgsl_conversion = [ "hostname" => "name", "gamename" => "game", "mapname" => "map", "map" => "map", "numplayers" => "players", "maxplayers" => "playersmax", "password" => "password" ];
         foreach ($lgsl_conversion as $e => $s) { 
-            if (isset($server['e'][$e])) { 
-                $server['s'][$s] = $server['e'][$e]; 
-                unset($server['e'][$e]); 
+            if (isset($server['convars'][$e])) { 
+                $server['server'][$s] = $server['convars'][$e]; 
+                unset($server['convars'][$e]); 
             }
         }
 
-        if ($server['b']['type'] == "bf2" || $server['b']['type'] == "bf2142") {
-          $server['s']['map'] = ucwords(str_replace("_", " ", $server['s']['map']));
+        if ($server['basic']['type'] == "bf2" || $server['basic']['type'] == "bf2142") {
+          $server['server']['map'] = ucwords(str_replace("_", " ", $server['server']['map']));
         } // MAP NAME CONSISTENCY
-        elseif ($server['b']['type'] == "jc2mp") {
-          $server['s']['map'] = 'Panau';
+        elseif ($server['basic']['type'] == "jc2mp") {
+          $server['server']['map'] = 'Panau';
         }
-        elseif ($server['b']['type'] == "minecraft") {
-            if (isset($server['e']['gametype'])) {
-                $server['s']['game'] = strtolower($server['e']['game_id']);
+        elseif ($server['basic']['type'] == "minecraft") {
+            if (isset($server['convars']['gametype'])) {
+                $server['server']['game'] = strtolower($server['convars']['game_id']);
             }
 
-            $server['s']['name'] = self::ParserColor($server['s']['name'], "minecraft");
-            foreach ($server['e'] as $key => $val) {
+            $server['server']['name'] = self::ParserColor($server['server']['name'], "minecraft");
+            foreach ($server['convars'] as $key => $val) {
                 if (($key != 'version') && ($key != 'plugins')) {
-                    unset($server['e'][$key]);
+                    unset($server['convars'][$key]);
                 }
             }
 
-            $plugins = explode(": ", $server['e']['plugins'], 2);
+            $plugins = explode(": ", $server['convars']['plugins'], 2);
             if ($plugins[0]) {
-                $server['e']['plugins'] = $plugins[0];
+                $server['convars']['plugins'] = $plugins[0];
             } else {
-                $server['e']['plugins'] = 'none (Vanilla)';
+                $server['convars']['plugins'] = 'none (Vanilla)';
             }
             if (count($plugins) == 2) {
                 while ($key = self::CutString($plugins[1], 0, " ")) {
-                    $server['e'][$key] = self::CutString($plugins[1], 0, "; ");
+                    $server['convars'][$key] = self::CutString($plugins[1], 0, "; ");
                 }
             }
             $buffer = $buffer."\x00"; // Needed to correctly terminate the players list
         }
 
-        if ($server['s']['players'] == "0") { return TRUE; } // IF SERVER IS EMPTY SKIP THE PLAYER CODE
+        if ($server['server']['players'] == "0") { return TRUE; } // IF SERVER IS EMPTY SKIP THE PLAYER CODE
 
         //---------------------------------------------------------+
         //  PLAYER DETAILS
@@ -716,7 +716,7 @@ class Protocols extends Functions{
 
             foreach ($value_list as $key => $value)
             {
-                $server['p'][$key][$field] = $value;
+                $server['players'][$key][$field] = $value;
             }
         }
 
@@ -739,23 +739,23 @@ class Protocols extends Functions{
 
             foreach ($value_list as $key => $value)
             {
-                $server['t'][$key][$field] = $value;
+                $server['teams'][$key][$field] = $value;
             }
         }
 
         //---------------------------------------------------------+
         //  TEAM NAME CONVERSION
-        if ($server['p'] && isset($server['t'][0]['name']) && $server['t'][0]['name'] != "Team")
+        if ($server['players'] && isset($server['teams'][0]['name']) && $server['teams'][0]['name'] != "Team")
         {
-            foreach ($server['p'] as $key => $value)
+            foreach ($server['players'] as $key => $value)
             {
-                if (empty($server['p'][$key]['team'])) { continue; }
+                if (empty($server['players'][$key]['team'])) { continue; }
             
-                $team_key = $server['p'][$key]['team'] - 1;
+                $team_key = $server['players'][$key]['team'] - 1;
             
-                if (!isset($server['t'][$team_key]['name'])) { continue; }
+                if (!isset($server['teams'][$team_key]['name'])) { continue; }
             
-                $server['p'][$key]['team'] = $server['t'][$team_key]['name'];
+                $server['players'][$key]['team'] = $server['teams'][$team_key]['name'];
             }
         }
 
@@ -784,7 +784,7 @@ class Protocols extends Functions{
             if ($item_key % 2) { continue; } // SKIP ODD KEYS
 
             $data_key               = strtolower($data_key);
-            $server['e'][$data_key] = $item[$item_key+1];
+            $server['convars'][$data_key] = $item[$item_key+1];
         }
 
         //---------------------------------------------------------+
@@ -794,23 +794,23 @@ class Protocols extends Functions{
         {
             preg_match("/(.*) (.*) (.*) (.*) \"(.*)\" \"(.*)\" (.*) (.*)/s", $data, $match); // GREEDY MATCH FOR SKINS
 
-            $server['p'][$key]['pid']         = $match[1];
-            $server['p'][$key]['score']       = $match[2];
-            $server['p'][$key]['time']        = $match[3];
-            $server['p'][$key]['ping']        = $match[4];
-            $server['p'][$key]['name']        = self::ParserColor($match[5], $server['b']['type']);
-            $server['p'][$key]['skin']        = $match[6];
-            $server['p'][$key]['skin_top']    = $match[7];
-            $server['p'][$key]['skin_bottom'] = $match[8];
+            $server['players'][$key]['pid']         = $match[1];
+            $server['players'][$key]['score']       = $match[2];
+            $server['players'][$key]['time']        = $match[3];
+            $server['players'][$key]['ping']        = $match[4];
+            $server['players'][$key]['name']        = self::ParserColor($match[5], $server['basic']['type']);
+            $server['players'][$key]['skin']        = $match[6];
+            $server['players'][$key]['skin_top']    = $match[7];
+            $server['players'][$key]['skin_bottom'] = $match[8];
         }
 
         //---------------------------------------------------------+
-        $server['s']['game']       = $server['e']['*gamedir'];
-        $server['s']['name']       = $server['e']['hostname'];
-        $server['s']['map']        = $server['e']['map'];
-        $server['s']['players']    = $server['p'] ? count($server['p']) : 0;
-        $server['s']['playersmax'] = $server['e']['maxclients'];
-        $server['s']['password']   = isset($server['e']['needpass']) && $server['e']['needpass'] > 0 && $server['e']['needpass'] < 4 ? 1 : 0;
+        $server['server']['game']       = $server['convars']['*gamedir'];
+        $server['server']['name']       = $server['convars']['hostname'];
+        $server['server']['map']        = $server['convars']['map'];
+        $server['server']['players']    = $server['players'] ? count($server['players']) : 0;
+        $server['server']['playersmax'] = $server['convars']['maxclients'];
+        $server['server']['password']   = isset($server['convars']['needpass']) && $server['convars']['needpass'] > 0 && $server['convars']['needpass'] < 4 ? 1 : 0;
 
         //---------------------------------------------------------+
         return TRUE;
@@ -828,22 +828,22 @@ class Protocols extends Functions{
         //---------------------------------------------------------+
         $buffer = substr($buffer, 4); // REMOVE HEADER
   
-        $server['e']['gamename']   = self::CutPascal($buffer, 1, -1);
-        $server['e']['hostport']   = self::CutPascal($buffer, 1, -1);
-        $server['s']['name']       = self::ParserColor(self::CutPascal($buffer, 1, -1), $server['b']['type']);
-        $server['e']['gamemode']   = self::CutPascal($buffer, 1, -1);
-        $server['s']['map']        = self::CutPascal($buffer, 1, -1);
-        $server['e']['version']    = self::CutPascal($buffer, 1, -1);
-        $server['s']['password']   = self::CutPascal($buffer, 1, -1);
-        $server['s']['players']    = self::CutPascal($buffer, 1, -1);
-        $server['s']['playersmax'] = self::CutPascal($buffer, 1, -1);
+        $server['convars']['gamename']   = self::CutPascal($buffer, 1, -1);
+        $server['convars']['hostport']   = self::CutPascal($buffer, 1, -1);
+        $server['server']['name']       = self::ParserColor(self::CutPascal($buffer, 1, -1), $server['basic']['type']);
+        $server['convars']['gamemode']   = self::CutPascal($buffer, 1, -1);
+        $server['server']['map']        = self::CutPascal($buffer, 1, -1);
+        $server['convars']['version']    = self::CutPascal($buffer, 1, -1);
+        $server['server']['password']   = self::CutPascal($buffer, 1, -1);
+        $server['server']['players']    = self::CutPascal($buffer, 1, -1);
+        $server['server']['playersmax'] = self::CutPascal($buffer, 1, -1);
   
         while ($buffer && $buffer[0] != "\x01")
         {
             $item_key   = strtolower(self::CutPascal($buffer, 1, -1));
             $item_value = self::CutPascal($buffer, 1, -1);
         
-            $server['e'][$item_key] = $item_value;
+            $server['convars'][$item_key] = $item_value;
         }
   
         $buffer = substr($buffer, 1); // REMOVE END MARKER
@@ -856,10 +856,10 @@ class Protocols extends Functions{
             $bit_flags = self::CutByte($buffer, 1); // FIELDS HARD CODED BELOW BECAUSE GAMES DO NOT USE THEM PROPERLY
         
             if     ($bit_flags == "\x3D")                 { $field_list = array("name",                  "score", "",     "time"); } // FARCRY PLAYERS CONNECTING
-            elseif ($server['b']['type'] == "farcry")     { $field_list = array("name", "team", "",      "score", "ping", "time"); } // FARCRY PLAYERS JOINED
-            elseif ($server['b']['type'] == "mta")        { $field_list = array("name", "",      "",     "score", "ping", ""    ); }
-            elseif ($server['b']['type'] == "painkiller") { $field_list = array("name", "",     "skin",  "score", "ping", ""    ); }
-            elseif ($server['b']['type'] == "soldat")     { $field_list = array("name", "team", "",      "score", "ping", "time"); }
+            elseif ($server['basic']['type'] == "farcry")     { $field_list = array("name", "team", "",      "score", "ping", "time"); } // FARCRY PLAYERS JOINED
+            elseif ($server['basic']['type'] == "mta")        { $field_list = array("name", "",      "",     "score", "ping", ""    ); }
+            elseif ($server['basic']['type'] == "painkiller") { $field_list = array("name", "",     "skin",  "score", "ping", ""    ); }
+            elseif ($server['basic']['type'] == "soldat")     { $field_list = array("name", "team", "",      "score", "ping", "time"); }
         
             foreach ($field_list as $item_key)
             {
@@ -867,9 +867,9 @@ class Protocols extends Functions{
 
                 if (!$item_key) { continue; }
 
-                if ($item_key == "name") { self::ParserColor($item_value, $server['b']['type']); }
+                if ($item_key == "name") { self::ParserColor($item_value, $server['basic']['type']); }
 
-                $server['p'][$player_key][$item_key] = $item_value;
+                $server['players'][$player_key][$item_key] = $item_value;
             }
             $player_key ++;
         }
@@ -882,13 +882,13 @@ class Protocols extends Functions{
     {
         //---------------------------------------------------------+
         // SERIOUS SAM 2 RETURNS ALL PLAYER NAMES AS "Unknown Player" SO SKIP OR CONVERT ANY PLAYER REQUESTS
-        if ($server['b']['type'] == "serioussam2") { $lgsl_need['p'] = FALSE; if (!$lgsl_need['s'] && !$lgsl_need['e']) { $lgsl_need['s'] = TRUE; } }
+        if ($server['basic']['type'] == "serioussam2") { $lgsl_need['p'] = FALSE; if (!$lgsl_need['s'] && !$lgsl_need['c']) { $lgsl_need['s'] = TRUE; } }
   
         //---------------------------------------------------------+
-        if ($lgsl_need['s'] || $lgsl_need['e'])
+        if ($lgsl_need['s'] || $lgsl_need['c'])
         {
             $lgsl_need['s'] = FALSE; 
-            $lgsl_need['e'] = FALSE;
+            $lgsl_need['c'] = FALSE;
   
             fwrite($lgsl_fp, "\xFE\xFD\x00\x21\x21\x21\x21\xFF\x00\x00\x00");
   
@@ -904,26 +904,26 @@ class Protocols extends Functions{
                 if ($item_key % 2) { continue; } // SKIP EVEN KEYS
             
                 $data_key = strtolower($data_key);
-                $server['e'][$data_key] = $item[$item_key+1];
+                $server['convars'][$data_key] = $item[$item_key+1];
             }
   
-            if (isset($server['e']['hostname']))   { $server['s']['name']       = $server['e']['hostname']; }
-            if (isset($server['e']['mapname']))    { $server['s']['map']        = $server['e']['mapname']; }
-            if (isset($server['e']['numplayers'])) { $server['s']['players']    = $server['e']['numplayers']; }
-            if (isset($server['e']['maxplayers'])) { $server['s']['playersmax'] = $server['e']['maxplayers']; }
-            if (isset($server['e']['password']))   { $server['s']['password']   = $server['e']['password']; }
+            if (isset($server['convars']['hostname']))   { $server['server']['name']       = $server['convars']['hostname']; }
+            if (isset($server['convars']['mapname']))    { $server['server']['map']        = $server['convars']['mapname']; }
+            if (isset($server['convars']['numplayers'])) { $server['server']['players']    = $server['convars']['numplayers']; }
+            if (isset($server['convars']['maxplayers'])) { $server['server']['playersmax'] = $server['convars']['maxplayers']; }
+            if (isset($server['convars']['password']))   { $server['server']['password']   = $server['convars']['password']; }
   
-            if (!empty($server['e']['gamename']))   { $server['s']['game'] = $server['e']['gamename']; }   // AARMY
-            if (!empty($server['e']['gsgamename'])) { $server['s']['game'] = $server['e']['gsgamename']; } // FEAR
-            if (!empty($server['e']['game_id']))    { $server['s']['game'] = $server['e']['game_id']; }    // BFVIETNAM
+            if (!empty($server['convars']['gamename']))   { $server['server']['game'] = $server['convars']['gamename']; }   // AARMY
+            if (!empty($server['convars']['gsgamename'])) { $server['server']['game'] = $server['convars']['gsgamename']; } // FEAR
+            if (!empty($server['convars']['game_id']))    { $server['server']['game'] = $server['convars']['game_id']; }    // BFVIETNAM
   
-            if ($server['b']['type'] == "arma" || $server['b']['type'] == "arma2")
+            if ($server['basic']['type'] == "arma" || $server['basic']['type'] == "arma2")
             {
-              $server['s']['map'] = $server['e']['mission'];
+              $server['server']['map'] = $server['convars']['mission'];
             }
-            elseif ($server['b']['type'] == "vietcong2")
+            elseif ($server['basic']['type'] == "vietcong2")
             {
-              $server['e']['extinfo_autobalance'] = ord($server['e']['extinfo'][18]) == 2 ? "off" : "on";
+              $server['convars']['extinfo_autobalance'] = ord($server['convars']['extinfo'][18]) == 2 ? "off" : "on";
               // [ 13 = Vietnam and RPG Mode 19 1b 99 9b ] [ 22 23 = Mounted MG Limit ]
               // [ 27 = Idle Limit ] [ 18 = Auto Balance ] [ 55 = Chat and Blind Spectator 5a 5c da dc ]
             }
@@ -956,7 +956,7 @@ class Protocols extends Functions{
             {
                 foreach ($field_list as $field)
                 {
-                    $server['p'][$player_key][$field] = $item[$item_position];
+                    $server['players'][$player_key][$field] = $item[$item_position];
                     $item_position ++;
                 }
             
@@ -972,7 +972,7 @@ class Protocols extends Functions{
     public static function Query10(&$server, &$lgsl_need, &$lgsl_fp)
     {
         //---------------------------------------------------------+
-        if ($server['b']['type'] == "quakewars") { fwrite($lgsl_fp, "\xFF\xFFgetInfoEX\xFF"); }
+        if ($server['basic']['type'] == "quakewars") { fwrite($lgsl_fp, "\xFF\xFFgetInfoEX\xFF"); }
         else                                     { fwrite($lgsl_fp, "\xFF\xFFgetInfo\xFF");   }
   
         $buffer = fread($lgsl_fp, 4096);
@@ -980,8 +980,8 @@ class Protocols extends Functions{
         if (!$buffer) { return FALSE; }
   
         //---------------------------------------------------------+
-        if     ($server['b']['type'] == "wolf2009")  { $buffer = substr($buffer, 31); }  // REMOVE HEADERS
-        elseif ($server['b']['type'] == "quakewars") { $buffer = substr($buffer, 33); }
+        if     ($server['basic']['type'] == "wolf2009")  { $buffer = substr($buffer, 31); }  // REMOVE HEADERS
+        elseif ($server['basic']['type'] == "quakewars") { $buffer = substr($buffer, 33); }
         else                                         { $buffer = substr($buffer, 23); }
   
         $buffer = self::ParserColor($buffer, "2");
@@ -992,7 +992,7 @@ class Protocols extends Functions{
             $item_key   = strtolower(self::CutString($buffer));
             $item_value = self::CutString($buffer);
         
-            $server['e'][$item_key] = $item_value;
+            $server['convars'][$item_key] = $item_value;
         }
   
         //---------------------------------------------------------+
@@ -1000,78 +1000,78 @@ class Protocols extends Functions{
         $player_key = 0;
   
         //---------------------------------------------------------+
-        if ($server['b']['type'] == "wolf2009") // WOLFENSTEIN: (PID)(PING)(NAME)(TAGPOSITION)(TAG)(BOT)
+        if ($server['basic']['type'] == "wolf2009") // WOLFENSTEIN: (PID)(PING)(NAME)(TAGPOSITION)(TAG)(BOT)
         {
             while ($buffer && $buffer[0] != "\x10") // STOPS AT PID 16
             {
-                $server['p'][$player_key]['pid']     = ord(self::CutByte($buffer, 1));
-                $server['p'][$player_key]['ping']    = self::UnPack(self::CutByte($buffer, 2), "S");
-                $server['p'][$player_key]['rate']    = self::UnPack(self::CutByte($buffer, 2), "S");
-                $server['p'][$player_key]['unknown'] = self::UnPack(self::CutByte($buffer, 2), "S");
+                $server['players'][$player_key]['pid']     = ord(self::CutByte($buffer, 1));
+                $server['players'][$player_key]['ping']    = self::UnPack(self::CutByte($buffer, 2), "S");
+                $server['players'][$player_key]['rate']    = self::UnPack(self::CutByte($buffer, 2), "S");
+                $server['players'][$player_key]['unknown'] = self::UnPack(self::CutByte($buffer, 2), "S");
                 $player_name                         = self::CutString($buffer);
                 $player_tag_position                 = ord(self::CutByte($buffer, 1));
                 $player_tag                          = self::CutString($buffer);
-                $server['p'][$player_key]['bot']     = ord(self::CutByte($buffer, 1));
+                $server['players'][$player_key]['bot']     = ord(self::CutByte($buffer, 1));
 
-                if     ($player_tag == "")           { $server['p'][$player_key]['name'] = $player_name; }
-                elseif ($player_tag_position == "0") { $server['p'][$player_key]['name'] = $player_tag." ".$player_name; }
-                else                                 { $server['p'][$player_key]['name'] = $player_name." ".$player_tag; }
+                if     ($player_tag == "")           { $server['players'][$player_key]['name'] = $player_name; }
+                elseif ($player_tag_position == "0") { $server['players'][$player_key]['name'] = $player_tag." ".$player_name; }
+                else                                 { $server['players'][$player_key]['name'] = $player_name." ".$player_tag; }
 
                 $player_key ++;
             }
         }
   
         //---------------------------------------------------------+
-        elseif ($server['b']['type'] == "quakewars") // QUAKEWARS: (PID)(PING)(NAME)(TAGPOSITION)(TAG)(BOT)
+        elseif ($server['basic']['type'] == "quakewars") // QUAKEWARS: (PID)(PING)(NAME)(TAGPOSITION)(TAG)(BOT)
         {
             while ($buffer && $buffer[0] != "\x20") // STOPS AT PID 32
             {
-                $server['p'][$player_key]['pid']  = ord(self::CutByte($buffer, 1));
-                $server['p'][$player_key]['ping'] = self::UnPack(self::CutByte($buffer, 2), "S");
+                $server['players'][$player_key]['pid']  = ord(self::CutByte($buffer, 1));
+                $server['players'][$player_key]['ping'] = self::UnPack(self::CutByte($buffer, 2), "S");
                 $player_name                      = self::CutString($buffer);
                 $player_tag_position              = ord(self::CutByte($buffer, 1));
                 $player_tag                       = self::CutString($buffer);
-                $server['p'][$player_key]['bot']  = ord(self::CutByte($buffer, 1));
+                $server['players'][$player_key]['bot']  = ord(self::CutByte($buffer, 1));
                 
-                    if ($player_tag_position == "")  { $server['p'][$player_key]['name'] = $player_name; }
-                elseif ($player_tag_position == "1") { $server['p'][$player_key]['name'] = $player_name." ".$player_tag; }
-                else                                 { $server['p'][$player_key]['name'] = $player_tag." ".$player_name; }
+                    if ($player_tag_position == "")  { $server['players'][$player_key]['name'] = $player_name; }
+                elseif ($player_tag_position == "1") { $server['players'][$player_key]['name'] = $player_name." ".$player_tag; }
+                else                                 { $server['players'][$player_key]['name'] = $player_tag." ".$player_name; }
             
                 $player_key ++;
             }
         
             $buffer                      = substr($buffer, 1);
-            $server['e']['si_osmask']    = self::UnPack(self::CutByte($buffer, 4), "I");
-            $server['e']['si_ranked']    = ord(self::CutByte($buffer, 1));
-            $server['e']['si_timeleft']  = self::Time(self::UnPack(self::CutByte($buffer, 4), "I") / 1000);
-            $server['e']['si_gamestate'] = ord(self::CutByte($buffer, 1));
+            $server['convars']['si_osmask']    = self::UnPack(self::CutByte($buffer, 4), "I");
+            $server['convars']['si_ranked']    = ord(self::CutByte($buffer, 1));
+            $server['convars']['si_timeleft']  = self::Time(self::UnPack(self::CutByte($buffer, 4), "I") / 1000);
+            $server['convars']['si_gamestate'] = ord(self::CutByte($buffer, 1));
             $buffer                      = substr($buffer, 2);
         
             $player_key = 0;
         
             while ($buffer && $buffer[0] != "\x20") // QUAKEWARS EXTENDED: (PID)(XP)(TEAM)(KILLS)(DEATHS)
             {
-                $server['p'][$player_key]['pid']    = ord(self::CutByte($buffer, 1));
-                $server['p'][$player_key]['xp']     = intval(self::UnPack(self::CutByte($buffer, 4), "f"));
-                $server['p'][$player_key]['team']   = self::CutString($buffer);
-                $server['p'][$player_key]['score']  = self::UnPack(self::CutByte($buffer, 4), "i");
-                $server['p'][$player_key]['deaths'] = self::UnPack(self::CutByte($buffer, 4), "i");
+                $server['players'][$player_key]['pid']    = ord(self::CutByte($buffer, 1));
+                $server['players'][$player_key]['xp']     = intval(self::UnPack(self::CutByte($buffer, 4), "f"));
+                $server['players'][$player_key]['team']   = self::CutString($buffer);
+                $server['players'][$player_key]['score']  = self::UnPack(self::CutByte($buffer, 4), "i");
+                $server['players'][$player_key]['deaths'] = self::UnPack(self::CutByte($buffer, 4), "i");
                 $player_key ++;
             }
         }
   
         //---------------------------------------------------------+
-        elseif ($server['b']['type'] == "quake4") // QUAKE4: (PID)(PING)(RATE)(NULLNULL)(NAME)(TAG)
+        elseif ($server['basic']['type'] == "quake4") // QUAKE4: (PID)(PING)(RATE)(NULLNULL)(NAME)(TAG)
         {
             while ($buffer && $buffer[0] != "\x20") // STOPS AT PID 32
             {
-                $server['p'][$player_key]['pid']  = ord(self::CutByte($buffer, 1));
-                $server['p'][$player_key]['ping'] = self::UnPack(self::CutByte($buffer, 2), "S");
-                $server['p'][$player_key]['rate'] = self::UnPack(self::CutByte($buffer, 2), "S");
+                $server['players'][$player_key]['pid']  = ord(self::CutByte($buffer, 1));
+                $server['players'][$player_key]['ping'] = self::UnPack(self::CutByte($buffer, 2), "S");
+                $server['players'][$player_key]['rate'] = self::UnPack(self::CutByte($buffer, 2), "S");
                 $buffer                           = substr($buffer, 2);
                 $player_name                      = self::CutString($buffer);
                 $player_tag                       = self::CutString($buffer);
-                $server['p'][$player_key]['name'] = $player_tag ? $player_tag." ".$player_name : $player_name;
+                $server['players'][$player_key]['name'] = $player_tag ? $player_tag." ".$player_name : $player_name;
                 
                 $player_key ++;
             }
@@ -1082,29 +1082,29 @@ class Protocols extends Functions{
         {
             while ($buffer && $buffer[0] != "\x20") // STOPS AT PID 32
             {
-                $server['p'][$player_key]['pid']  = ord(self::CutByte($buffer, 1));
-                $server['p'][$player_key]['ping'] = self::UnPack(self::CutByte($buffer, 2), "S");
-                $server['p'][$player_key]['rate'] = self::UnPack(self::CutByte($buffer, 2), "S");
+                $server['players'][$player_key]['pid']  = ord(self::CutByte($buffer, 1));
+                $server['players'][$player_key]['ping'] = self::UnPack(self::CutByte($buffer, 2), "S");
+                $server['players'][$player_key]['rate'] = self::UnPack(self::CutByte($buffer, 2), "S");
                 $buffer                           = substr($buffer, 2);
-                $server['p'][$player_key]['name'] = self::CutString($buffer);
+                $server['players'][$player_key]['name'] = self::CutString($buffer);
             
                 $player_key ++;
             }
         }
   
         //---------------------------------------------------------+
-        $server['s']['game']       = $server['e']['gamename'];
-        $server['s']['name']       = $server['e']['si_name'];
-        $server['s']['map']        = $server['e']['si_map'];
-        $server['s']['players']    = $server['p'] ? count($server['p']) : 0;
-        $server['s']['playersmax'] = $server['e']['si_maxplayers'];
+        $server['server']['game']       = $server['convars']['gamename'];
+        $server['server']['name']       = $server['convars']['si_name'];
+        $server['server']['map']        = $server['convars']['si_map'];
+        $server['server']['players']    = $server['players'] ? count($server['players']) : 0;
+        $server['server']['playersmax'] = $server['convars']['si_maxplayers'];
   
-        if ($server['b']['type'] == "wolf2009" || $server['b']['type'] == "quakewars")
+        if ($server['basic']['type'] == "wolf2009" || $server['basic']['type'] == "quakewars")
         {
-            $server['s']['map']      = str_replace(".entities", "", $server['s']['map']);
-            $server['s']['password'] = $server['e']['si_needpass'];
+            $server['server']['map']      = str_replace(".entities", "", $server['server']['map']);
+            $server['server']['password'] = $server['convars']['si_needpass'];
         }else{
-            $server['s']['password'] = $server['e']['si_usepass'];
+            $server['server']['password'] = $server['convars']['si_usepass'];
         }
   
         //---------------------------------------------------------+
@@ -1121,8 +1121,8 @@ class Protocols extends Functions{
         if (!$status) { return FALSE; }
   
         //---------------------------------------------------------+
-        $server['s']['map'] = $server['e']['p1073741825'];
-        unset($server['e']['p1073741825']);
+        $server['server']['map'] = $server['convars']['p1073741825'];
+        unset($server['convars']['p1073741825']);
   
         //---------------------------------------------------------+
         $lgsl_ut3_key = [
@@ -1142,37 +1142,37 @@ class Protocols extends Functions{
   
         foreach ($lgsl_ut3_key as $old => $new)
         {
-            if (!isset($server['e'][$old])) { continue; }
-            $server['e'][$new] = $server['e'][$old];
-            unset($server['e'][$old]);
+            if (!isset($server['convars'][$old])) { continue; }
+            $server['convars'][$new] = $server['convars'][$old];
+            unset($server['convars'][$old]);
         }
   
         //---------------------------------------------------------+
-        $part = explode(".", $server['e']['gamemode']);
+        $part = explode(".", $server['convars']['gamemode']);
         if ($part[0] && (stristr($part[0], "UT") === FALSE))
         {
-            $server['s']['game'] = $part[0];
+            $server['server']['game'] = $part[0];
         }
   
         //---------------------------------------------------------+
-        $tmp = $server['e']['mutators_default'];
-        $server['e']['mutators_default'] = "";
+        $tmp = $server['convars']['mutators_default'];
+        $server['convars']['mutators_default'] = "";
   
-        if ($tmp & 1)     { $server['e']['mutators_default'] .= " BigHead";           }
-        if ($tmp & 2)     { $server['e']['mutators_default'] .= " FriendlyFire";      }
-        if ($tmp & 4)     { $server['e']['mutators_default'] .= " Handicap";          }
-        if ($tmp & 8)     { $server['e']['mutators_default'] .= " Instagib";          }
-        if ($tmp & 16)    { $server['e']['mutators_default'] .= " LowGrav";           }
-        if ($tmp & 64)    { $server['e']['mutators_default'] .= " NoPowerups";        }
-        if ($tmp & 128)   { $server['e']['mutators_default'] .= " NoTranslocator";    }
-        if ($tmp & 256)   { $server['e']['mutators_default'] .= " Slomo";             }
-        if ($tmp & 1024)  { $server['e']['mutators_default'] .= " SpeedFreak";        }
-        if ($tmp & 2048)  { $server['e']['mutators_default'] .= " SuperBerserk";      }
-        if ($tmp & 8192)  { $server['e']['mutators_default'] .= " WeaponReplacement"; }
-        if ($tmp & 16384) { $server['e']['mutators_default'] .= " WeaponsRespawn";    }
+        if ($tmp & 1)     { $server['convars']['mutators_default'] .= " BigHead";           }
+        if ($tmp & 2)     { $server['convars']['mutators_default'] .= " FriendlyFire";      }
+        if ($tmp & 4)     { $server['convars']['mutators_default'] .= " Handicap";          }
+        if ($tmp & 8)     { $server['convars']['mutators_default'] .= " Instagib";          }
+        if ($tmp & 16)    { $server['convars']['mutators_default'] .= " LowGrav";           }
+        if ($tmp & 64)    { $server['convars']['mutators_default'] .= " NoPowerups";        }
+        if ($tmp & 128)   { $server['convars']['mutators_default'] .= " NoTranslocator";    }
+        if ($tmp & 256)   { $server['convars']['mutators_default'] .= " Slomo";             }
+        if ($tmp & 1024)  { $server['convars']['mutators_default'] .= " SpeedFreak";        }
+        if ($tmp & 2048)  { $server['convars']['mutators_default'] .= " SuperBerserk";      }
+        if ($tmp & 8192)  { $server['convars']['mutators_default'] .= " WeaponReplacement"; }
+        if ($tmp & 16384) { $server['convars']['mutators_default'] .= " WeaponsRespawn";    }
   
-        $server['e']['mutators_default'] = str_replace(" ",    " / ", trim($server['e']['mutators_default']));
-        $server['e']['mutators_custom']  = str_replace("\x1c", " / ",      $server['e']['mutators_custom']);
+        $server['convars']['mutators_default'] = str_replace(" ",    " / ", trim($server['convars']['mutators_default']));
+        $server['convars']['mutators_custom']  = str_replace("\x1c", " / ",      $server['convars']['mutators_custom']);
   
         //---------------------------------------------------------+
         return TRUE;
@@ -1181,13 +1181,13 @@ class Protocols extends Functions{
     public static function Query12(&$server, &$lgsl_need, &$lgsl_fp)
     {
         //---------------------------------------------------------+
-        if     ($server['b']['type'] == "samp") { $challenge_packet = "SAMP\x21\x21\x21\x21\x00\x00"; }
-        elseif ($server['b']['type'] == "vcmp") { $challenge_packet = "VCMP\x21\x21\x21\x21\x00\x00"; $lgsl_need['e'] = FALSE; }
+        if     ($server['basic']['type'] == "samp") { $challenge_packet = "SAMP\x21\x21\x21\x21\x00\x00"; }
+        elseif ($server['basic']['type'] == "vcmp") { $challenge_packet = "VCMP\x21\x21\x21\x21\x00\x00"; $lgsl_need['c'] = FALSE; }
   
         if     ($lgsl_need['s']) { $challenge_packet .= "i"; }
-        elseif ($lgsl_need['e']) { $challenge_packet .= "r"; }
-        elseif ($lgsl_need['p'] && $server['b']['type'] == "samp") { $challenge_packet .= "d"; }
-        elseif ($lgsl_need['p'] && $server['b']['type'] == "vcmp") { $challenge_packet .= "c"; }
+        elseif ($lgsl_need['c']) { $challenge_packet .= "r"; }
+        elseif ($lgsl_need['p'] && $server['basic']['type'] == "samp") { $challenge_packet .= "d"; }
+        elseif ($lgsl_need['p'] && $server['basic']['type'] == "vcmp") { $challenge_packet .= "c"; }
   
         fwrite($lgsl_fp, $challenge_packet);  
   
@@ -1204,20 +1204,20 @@ class Protocols extends Functions{
         {
             $lgsl_need['s'] = FALSE;
         
-            if ($server['b']['type'] == "vcmp") { $buffer = substr($buffer, 12); }
+            if ($server['basic']['type'] == "vcmp") { $buffer = substr($buffer, 12); }
         
-            $server['s']['password']   = ord(self::CutByte($buffer, 1));
-            $server['s']['players']    = self::UnPack(self::CutByte($buffer, 2), "S");
-            $server['s']['playersmax'] = self::UnPack(self::CutByte($buffer, 2), "S");
-            $server['s']['name']       = self::CutPascal($buffer, 4);
-            $server['e']['gamemode']   = self::CutPascal($buffer, 4);
-            $server['s']['map']        = self::CutPascal($buffer, 4);
+            $server['server']['password']   = ord(self::CutByte($buffer, 1));
+            $server['server']['players']    = self::UnPack(self::CutByte($buffer, 2), "S");
+            $server['server']['playersmax'] = self::UnPack(self::CutByte($buffer, 2), "S");
+            $server['server']['name']       = self::CutPascal($buffer, 4);
+            $server['convars']['gamemode']   = self::CutPascal($buffer, 4);
+            $server['server']['map']        = self::CutPascal($buffer, 4);
         }
   
         //---------------------------------------------------------+
         elseif ($response_type == "r")
         {
-            $lgsl_need['e'] = FALSE;
+            $lgsl_need['c'] = FALSE;
         
             $item_total = self::UnPack(self::CutByte($buffer, 2), "S");
         
@@ -1228,7 +1228,7 @@ class Protocols extends Functions{
                 $data_key   = strtolower(self::CutPascal($buffer));
                 $data_value = self::CutPascal($buffer);
 
-                $server['e'][$data_key] = $data_value;
+                $server['convars'][$data_key] = $data_value;
             }
         }
   
@@ -1243,10 +1243,10 @@ class Protocols extends Functions{
             {
                 if (!$buffer) { return FALSE; }
 
-                $server['p'][$i]['pid']   = ord(self::CutByte($buffer, 1));
-                $server['p'][$i]['name']  = self::CutPascal($buffer);
-                $server['p'][$i]['score'] = self::UnPack(self::CutByte($buffer, 4), "S");
-                $server['p'][$i]['ping']  = self::UnPack(self::CutByte($buffer, 4), "S");
+                $server['players'][$i]['pid']   = ord(self::CutByte($buffer, 1));
+                $server['players'][$i]['name']  = self::CutPascal($buffer);
+                $server['players'][$i]['score'] = self::UnPack(self::CutByte($buffer, 4), "S");
+                $server['players'][$i]['ping']  = self::UnPack(self::CutByte($buffer, 4), "S");
             }
         }
       
@@ -1261,7 +1261,7 @@ class Protocols extends Functions{
             {
                 if (!$buffer) { return FALSE; }
 
-                $server['p'][$i]['name']  = self::CutPascal($buffer);
+                $server['players'][$i]['name']  = self::CutPascal($buffer);
             }
         }
   
@@ -1291,13 +1291,13 @@ class Protocols extends Functions{
         //  CERTAIN CHARACTERS CAUSE A WRONG PASCAL LENGTH AND NULLS TO APPEAR WITHIN NAMES
         $buffer_s = str_replace("\xa0", "\x20", $buffer_s); // REPLACE SPECIAL SPACE WITH NORMAL SPACE
         $buffer_s = substr($buffer_s, 5);
-        $server['e']['hostport']   = self::UnPack(self::CutByte($buffer_s, 4), "S");
+        $server['convars']['hostport']   = self::UnPack(self::CutByte($buffer_s, 4), "S");
         $buffer_s = substr($buffer_s, 4);
-        $server['s']['name']       = self::CutString($buffer_s, 1);
-        $server['s']['map']        = self::CutString($buffer_s, 1);
-        $server['e']['gamemode']   = self::CutString($buffer_s, 1);
-        $server['s']['players']    = self::UnPack(self::CutByte($buffer_s, 4), "S");
-        $server['s']['playersmax'] = self::UnPack(self::CutByte($buffer_s, 4), "S");
+        $server['server']['name']       = self::CutString($buffer_s, 1);
+        $server['server']['map']        = self::CutString($buffer_s, 1);
+        $server['convars']['gamemode']   = self::CutString($buffer_s, 1);
+        $server['server']['players']    = self::UnPack(self::CutByte($buffer_s, 4), "S");
+        $server['server']['playersmax'] = self::UnPack(self::CutByte($buffer_s, 4), "S");
   
         //---------------------------------------------------------+
         while ($buffer_e && $buffer_e[0] != "\x00")
@@ -1308,36 +1308,36 @@ class Protocols extends Functions{
             $item_key   = str_replace("\x1B\xFF\xFF\x01", "", $item_key);   // REMOVE MOD
             $item_value = str_replace("\x1B\xFF\xFF\x01", "", $item_value); // GARBAGE
   
-            $server['e'][$item_key] = $item_value;
+            $server['convars'][$item_key] = $item_value;
         }
   
         //---------------------------------------------------------+
         //  THIS PROTOCOL RETURNS MORE INFO THAN THE ALTERNATIVE BUT IT DOES NOT
         //  RETURN THE GAME NAME ! SO WE HAVE MANUALLY DETECT IT USING THE GAME TYPE
   
-        $tmp = strtolower(substr($server['e']['gamemode'], 0, 2));
+        $tmp = strtolower(substr($server['convars']['gamemode'], 0, 2));
   
-        if ($tmp == "ro") { $server['s']['game'] = "Red Orchestra"; }
-        elseif ($tmp == "kf") { $server['s']['game'] = "Killing Floor"; }
+        if ($tmp == "ro") { $server['server']['game'] = "Red Orchestra"; }
+        elseif ($tmp == "kf") { $server['server']['game'] = "Killing Floor"; }
   
-        $server['s']['password'] = empty($server['e']['password']) && empty($server['e']['gamepassword']) ? "0" : "1";
+        $server['server']['password'] = empty($server['convars']['password']) && empty($server['convars']['gamepassword']) ? "0" : "1";
   
         //---------------------------------------------------------+
         $player_key = 0;
   
         while ($buffer_p && $buffer_p[0] != "\x00")
         {
-            $server['p'][$player_key]['pid']   = self::UnPack(self::CutByte($buffer_p, 4), "S");
+            $server['players'][$player_key]['pid']   = self::UnPack(self::CutByte($buffer_p, 4), "S");
   
             $end_marker = ord($buffer_p[0]) > 64 ? "\x00\x00" : "\x00"; // DIRTY WORK-AROUND FOR NAMES WITH PROBLEM CHARACTERS
   
-            $server['p'][$player_key]['name']  = self::CutString($buffer_p, 1, $end_marker);
-            $server['p'][$player_key]['ping']  = self::UnPack(self::CutByte($buffer_p, 4), "S");
-            $server['p'][$player_key]['score'] = self::UnPack(self::CutByte($buffer_p, 4), "s");
+            $server['players'][$player_key]['name']  = self::CutString($buffer_p, 1, $end_marker);
+            $server['players'][$player_key]['ping']  = self::UnPack(self::CutByte($buffer_p, 4), "S");
+            $server['players'][$player_key]['score'] = self::UnPack(self::CutByte($buffer_p, 4), "s");
             $tmp                               = self::CutByte($buffer_p, 4);
   
-            if ($tmp[3] == "\x20") { $server['p'][$player_key]['team'] = 1; }
-            elseif ($tmp[3] == "\x40") { $server['p'][$player_key]['team'] = 2; }
+            if ($tmp[3] == "\x20") { $server['players'][$player_key]['team'] = 1; }
+            elseif ($tmp[3] == "\x40") { $server['players'][$player_key]['team'] = 2; }
   
             $player_key ++;
         }
@@ -1362,14 +1362,14 @@ class Protocols extends Functions{
         $buffer = substr($buffer, 4); // NOT USED ( NAME END TO BUFFER END LENGTH )
         $buffer = substr($buffer, 4); // UNKNOWN  ( 80 )
   
-        $server['s']['map']        = "freelancer";
-        $server['s']['password']   = self::UnPack(self::CutByte($buffer, 4), "l") - 1 ? 1 : 0;
-        $server['s']['playersmax'] = self::UnPack(self::CutByte($buffer, 4), "l") - 1;
-        $server['s']['players']    = self::UnPack(self::CutByte($buffer, 4), "l") - 1;
+        $server['server']['map']        = "freelancer";
+        $server['server']['password']   = self::UnPack(self::CutByte($buffer, 4), "l") - 1 ? 1 : 0;
+        $server['server']['playersmax'] = self::UnPack(self::CutByte($buffer, 4), "l") - 1;
+        $server['server']['players']    = self::UnPack(self::CutByte($buffer, 4), "l") - 1;
         $buffer                    = substr($buffer, 4);  // UNKNOWN ( 88 )
         $name_length               = self::UnPack(self::CutByte($buffer, 4), "l");
         $buffer                    = substr($buffer, 56); // UNKNOWN
-        $server['s']['name']       = self::CutByte($buffer, $name_length);
+        $server['server']['name']       = self::CutByte($buffer, $name_length);
   
         self::CutString($buffer, 0, ":");
         self::CutString($buffer, 0, ":");
@@ -1378,11 +1378,11 @@ class Protocols extends Functions{
         self::CutString($buffer, 0, ":");
   
         // WHATS LEFT IS THE MOTD
-        $server['e']['motd'] = substr($buffer, 0, -1);
+        $server['convars']['motd'] = substr($buffer, 0, -1);
   
         // REMOVE UTF-8 ENCODING NULLS
-        $server['s']['name'] = str_replace("\x00", "", $server['s']['name']);
-        $server['e']['motd'] = str_replace("\x00", "", $server['e']['motd']);
+        $server['server']['name'] = str_replace("\x00", "", $server['server']['name']);
+        $server['convars']['motd'] = str_replace("\x00", "", $server['convars']['motd']);
   
         // DOES NOT RETURN PLAYER INFORMATION
         //---------------------------------------------------------+
@@ -1402,14 +1402,14 @@ class Protocols extends Functions{
         $buffer = str_replace("\xFE", "\xFF", $buffer);
         $buffer = explode("\xFF", $buffer);
   
-        $server['s']['name']       = $buffer[3];
-        $server['s']['game']       = $buffer[7];
-        $server['e']['version']    = $buffer[11];
-        $server['e']['hostport']   = $buffer[15];
-        $server['s']['map']        = $buffer[19];
-        $server['s']['players']    = $buffer[25];
-        $server['s']['playersmax'] = $buffer[27];
-        $server['e']['gamemode']   = $buffer[31];
+        $server['server']['name']       = $buffer[3];
+        $server['server']['game']       = $buffer[7];
+        $server['convars']['version']    = $buffer[11];
+        $server['convars']['hostport']   = $buffer[15];
+        $server['server']['map']        = $buffer[19];
+        $server['server']['players']    = $buffer[25];
+        $server['server']['playersmax'] = $buffer[27];
+        $server['convars']['gamemode']   = $buffer[31];
   
         // DOES NOT RETURN PLAYER INFORMATION
         //---------------------------------------------------------+
@@ -1430,68 +1430,68 @@ class Protocols extends Functions{
         if (!$buffer) { return FALSE; }
   
         //---------------------------------------------------------+
-        // $server['e']['gamename']         = self::GetString($buffer);
+        // $server['convars']['gamename']         = self::GetString($buffer);
         $buffer = substr($buffer, 8);
-        // $server['e']['fullupdate']       = self::UnPack($buffer[0], "C");
-        $server['e']['region']           = self::UnPack($buffer[1] .$buffer[2],  "S");
-        // $server['e']['ip']               = ($buffer[3] .$buffer[4].$buffer[5].$buffer[6]); // UNSIGNED LONG
-        // $server['e']['size']             = self::UnPack($buffer[7] .$buffer[8],  "S");
-        $server['e']['version']          = self::UnPack($buffer[9] .$buffer[10], "S");
-        // $server['e']['version_racecast'] = self::UnPack($buffer[11].$buffer[12], "S");
-        $server['e']['hostport']         = self::UnPack($buffer[13].$buffer[14], "S");
-        // $server['e']['queryport']        = self::UnPack($buffer[15].$buffer[16], "S");
+        // $server['convars']['fullupdate']       = self::UnPack($buffer[0], "C");
+        $server['convars']['region']           = self::UnPack($buffer[1] .$buffer[2],  "S");
+        // $server['convars']['ip']               = ($buffer[3] .$buffer[4].$buffer[5].$buffer[6]); // UNSIGNED LONG
+        // $server['convars']['size']             = self::UnPack($buffer[7] .$buffer[8],  "S");
+        $server['convars']['version']          = self::UnPack($buffer[9] .$buffer[10], "S");
+        // $server['convars']['version_racecast'] = self::UnPack($buffer[11].$buffer[12], "S");
+        $server['convars']['hostport']         = self::UnPack($buffer[13].$buffer[14], "S");
+        // $server['convars']['queryport']        = self::UnPack($buffer[15].$buffer[16], "S");
         $buffer = substr($buffer, 17);
-        $server['s']['game']             = self::GetString($buffer);
+        $server['server']['game']             = self::GetString($buffer);
         $buffer = substr($buffer, 20);
-        $server['s']['name']             = self::GetString($buffer);
+        $server['server']['name']             = self::GetString($buffer);
         $buffer = substr($buffer, 28);
-        $server['s']['map']              = self::GetString($buffer);
+        $server['server']['map']              = self::GetString($buffer);
         $buffer = substr($buffer, 32);
-        $server['e']['motd']             = self::GetString($buffer);
+        $server['convars']['motd']             = self::GetString($buffer);
         $buffer = substr($buffer, 96);
-        $server['e']['packed_aids']      = self::UnPack($buffer[0].$buffer[1], "S");
-        // $server['e']['ping']             = self::UnPack($buffer[2].$buffer[3], "S");
-        $server['e']['packed_flags']     = self::UnPack($buffer[4],  "C");
-        $server['e']['rate']             = self::UnPack($buffer[5],  "C");
-        $server['s']['players']          = self::UnPack($buffer[6],  "C");
-        $server['s']['playersmax']       = self::UnPack($buffer[7],  "C");
-        $server['e']['bots']             = self::UnPack($buffer[8],  "C");
-        $server['e']['packed_special']   = self::UnPack($buffer[9],  "C");
-        $server['e']['damage']           = self::UnPack($buffer[10], "C");
-        $server['e']['packed_rules']     = self::UnPack($buffer[11].$buffer[12], "S");
-        $server['e']['credits1']         = self::UnPack($buffer[13], "C");
-        $server['e']['credits2']         = self::UnPack($buffer[14].$buffer[15], "S");
-        $server['e']['time']             = self::Time(self::UnPack($buffer[16].$buffer[17], "S"));
-        $server['e']['laps']             = self::UnPack($buffer[18].$buffer[19], "s") / 16;
+        $server['convars']['packed_aids']      = self::UnPack($buffer[0].$buffer[1], "S");
+        // $server['convars']['ping']             = self::UnPack($buffer[2].$buffer[3], "S");
+        $server['convars']['packed_flags']     = self::UnPack($buffer[4],  "C");
+        $server['convars']['rate']             = self::UnPack($buffer[5],  "C");
+        $server['server']['players']          = self::UnPack($buffer[6],  "C");
+        $server['server']['playersmax']       = self::UnPack($buffer[7],  "C");
+        $server['convars']['bots']             = self::UnPack($buffer[8],  "C");
+        $server['convars']['packed_special']   = self::UnPack($buffer[9],  "C");
+        $server['convars']['damage']           = self::UnPack($buffer[10], "C");
+        $server['convars']['packed_rules']     = self::UnPack($buffer[11].$buffer[12], "S");
+        $server['convars']['credits1']         = self::UnPack($buffer[13], "C");
+        $server['convars']['credits2']         = self::UnPack($buffer[14].$buffer[15], "S");
+        $server['convars']['time']             = self::Time(self::UnPack($buffer[16].$buffer[17], "S"));
+        $server['convars']['laps']             = self::UnPack($buffer[18].$buffer[19], "s") / 16;
         $buffer                          = substr($buffer, 23);
-        $server['e']['vehicles']         = self::GetString($buffer);
+        $server['convars']['vehicles']         = self::GetString($buffer);
   
         // DOES NOT RETURN PLAYER INFORMATION
         //---------------------------------------------------------+
-        $server['s']['password']    = ($server['e']['packed_special'] & 2)  ? 1 : 0;
-        $server['e']['racecast']    = ($server['e']['packed_special'] & 4)  ? 1 : 0;
-        $server['e']['fixedsetups'] = ($server['e']['packed_special'] & 16) ? 1 : 0;
+        $server['server']['password']    = ($server['convars']['packed_special'] & 2)  ? 1 : 0;
+        $server['convars']['racecast']    = ($server['convars']['packed_special'] & 4)  ? 1 : 0;
+        $server['convars']['fixedsetups'] = ($server['convars']['packed_special'] & 16) ? 1 : 0;
   
-        $server['e']['aids']  = "";
-        if ($server['e']['packed_aids'] & 1)    { $server['e']['aids'] .= " TractionControl"; }
-        if ($server['e']['packed_aids'] & 2)    { $server['e']['aids'] .= " AntiLockBraking"; }
-        if ($server['e']['packed_aids'] & 4)    { $server['e']['aids'] .= " StabilityControl"; }
-        if ($server['e']['packed_aids'] & 8)    { $server['e']['aids'] .= " AutoShifting"; }
-        if ($server['e']['packed_aids'] & 16)   { $server['e']['aids'] .= " AutoClutch"; }
-        if ($server['e']['packed_aids'] & 32)   { $server['e']['aids'] .= " Invulnerability"; }
-        if ($server['e']['packed_aids'] & 64)   { $server['e']['aids'] .= " OppositeLock"; }
-        if ($server['e']['packed_aids'] & 128)  { $server['e']['aids'] .= " SteeringHelp"; }
-        if ($server['e']['packed_aids'] & 256)  { $server['e']['aids'] .= " BrakingHelp"; }
-        if ($server['e']['packed_aids'] & 512)  { $server['e']['aids'] .= " SpinRecovery"; }
-        if ($server['e']['packed_aids'] & 1024) { $server['e']['aids'] .= " AutoPitstop"; }
+        $server['convars']['aids']  = "";
+        if ($server['convars']['packed_aids'] & 1)    { $server['convars']['aids'] .= " TractionControl"; }
+        if ($server['convars']['packed_aids'] & 2)    { $server['convars']['aids'] .= " AntiLockBraking"; }
+        if ($server['convars']['packed_aids'] & 4)    { $server['convars']['aids'] .= " StabilityControl"; }
+        if ($server['convars']['packed_aids'] & 8)    { $server['convars']['aids'] .= " AutoShifting"; }
+        if ($server['convars']['packed_aids'] & 16)   { $server['convars']['aids'] .= " AutoClutch"; }
+        if ($server['convars']['packed_aids'] & 32)   { $server['convars']['aids'] .= " Invulnerability"; }
+        if ($server['convars']['packed_aids'] & 64)   { $server['convars']['aids'] .= " OppositeLock"; }
+        if ($server['convars']['packed_aids'] & 128)  { $server['convars']['aids'] .= " SteeringHelp"; }
+        if ($server['convars']['packed_aids'] & 256)  { $server['convars']['aids'] .= " BrakingHelp"; }
+        if ($server['convars']['packed_aids'] & 512)  { $server['convars']['aids'] .= " SpinRecovery"; }
+        if ($server['convars']['packed_aids'] & 1024) { $server['convars']['aids'] .= " AutoPitstop"; }
   
-        $server['e']['aids']     = str_replace(" ", " / ", trim($server['e']['aids']));
-        $server['e']['vehicles'] = str_replace("|", " / ", trim($server['e']['vehicles']));
+        $server['convars']['aids']     = str_replace(" ", " / ", trim($server['convars']['aids']));
+        $server['convars']['vehicles'] = str_replace("|", " / ", trim($server['convars']['vehicles']));
   
-        unset($server['e']['packed_aids']);
-        unset($server['e']['packed_flags']);
-        unset($server['e']['packed_special']);
-        unset($server['e']['packed_rules']);
+        unset($server['convars']['packed_aids']);
+        unset($server['convars']['packed_flags']);
+        unset($server['convars']['packed_special']);
+        unset($server['convars']['packed_rules']);
   
         //---------------------------------------------------------+
         return TRUE;
@@ -1516,21 +1516,21 @@ class Protocols extends Functions{
         
             $value = self::CutString($buffer, 0, "\xFF");
             $value = str_replace("\x00", "", $value);
-            $value = self::ParserColor($value, $server['b']['type']);
+            $value = self::ParserColor($value, $server['basic']['type']);
         
-            $server['e'][$key] = $value;
+            $server['convars'][$key] = $value;
         }
   
-        $server['s']['name']       = $server['e']['name'];  unset($server['e']['name']);
-        $server['s']['map']        = $server['e']['world']; unset($server['e']['world']);
-        $server['s']['players']    = $server['e']['cnum'];  unset($server['e']['cnum']);
-        $server['s']['playersmax'] = $server['e']['cmax'];  unset($server['e']['cnum']);
-        $server['s']['password']   = $server['e']['pass'];  unset($server['e']['cnum']);
+        $server['server']['name']       = $server['convars']['name'];  unset($server['convars']['name']);
+        $server['server']['map']        = $server['convars']['world']; unset($server['convars']['world']);
+        $server['server']['players']    = $server['convars']['cnum'];  unset($server['convars']['cnum']);
+        $server['server']['playersmax'] = $server['convars']['cmax'];  unset($server['convars']['cnum']);
+        $server['server']['password']   = $server['convars']['pass'];  unset($server['convars']['cnum']);
   
         //---------------------------------------------------------+
-        $server['t'][0]['name'] = $server['e']['race1'];
-        $server['t'][1]['name'] = $server['e']['race2'];
-        $server['t'][2]['name'] = "spectator";
+        $server['teams'][0]['name'] = $server['convars']['race1'];
+        $server['teams'][1]['name'] = $server['convars']['race2'];
+        $server['teams'][2]['name'] = "spectator";
   
         $team_key   = -1;
         $player_key = 0;
@@ -1540,8 +1540,8 @@ class Protocols extends Functions{
             if ($value[0] == "\x00") { break; }
             if ($value[0] != "\x20") { $team_key++; continue; }
         
-            $server['p'][$player_key]['name'] = self::ParserColor(substr($value, 1), $server['b']['type']);
-            $server['p'][$player_key]['team'] = $server['t'][$team_key]['name'];
+            $server['players'][$player_key]['name'] = self::ParserColor(substr($value, 1), $server['basic']['type']);
+            $server['players'][$player_key]['team'] = $server['teams'][$team_key]['name'];
         
             $player_key++;
         }
@@ -1563,17 +1563,17 @@ class Protocols extends Functions{
         //---------------------------------------------------------+
         $buffer = substr($buffer, 12); // REMOVE HEADER
   
-        $server['s']['name']            = self::CutString($buffer);
-        $server['s']['players']         = ord(self::CutByte($buffer, 1));
-        $server['s']['playersmax']      = ord(self::CutByte($buffer, 1));
-        $server['e']['time']            = self::CutString($buffer);
-        $server['s']['map']             = self::CutString($buffer);
-        $server['e']['nextmap']         = self::CutString($buffer);
-        $server['e']['location']        = self::CutString($buffer);
-        $server['e']['minimum_players'] = ord(self::CutString($buffer));
-        $server['e']['gamemode']        = self::CutString($buffer);
-        $server['e']['version']         = self::CutString($buffer);
-        $server['e']['minimum_level']   = ord(self::CutByte($buffer, 1));
+        $server['server']['name']            = self::CutString($buffer);
+        $server['server']['players']         = ord(self::CutByte($buffer, 1));
+        $server['server']['playersmax']      = ord(self::CutByte($buffer, 1));
+        $server['convars']['time']            = self::CutString($buffer);
+        $server['server']['map']             = self::CutString($buffer);
+        $server['convars']['nextmap']         = self::CutString($buffer);
+        $server['convars']['location']        = self::CutString($buffer);
+        $server['convars']['minimum_players'] = ord(self::CutString($buffer));
+        $server['convars']['gamemode']        = self::CutString($buffer);
+        $server['convars']['version']         = self::CutString($buffer);
+        $server['convars']['minimum_level']   = ord(self::CutByte($buffer, 1));
   
         // DOES NOT RETURN PLAYER INFORMATION
         //---------------------------------------------------------+
@@ -1592,43 +1592,43 @@ class Protocols extends Functions{
         //---------------------------------------------------------+
         $buffer = substr($buffer, 25); // REMOVE HEADER
   
-        $server['s']['name']       = self::GetString(self::CutPascal($buffer, 4, 3, -3));
-        $server['s']['map']        = self::GetString(self::CutPascal($buffer, 4, 3, -3));
-        $server['e']['nextmap']    = self::GetString(self::CutPascal($buffer, 4, 3, -3));
-        $server['e']['gametype']   = self::GetString(self::CutPascal($buffer, 4, 3, -3));
+        $server['server']['name']       = self::GetString(self::CutPascal($buffer, 4, 3, -3));
+        $server['server']['map']        = self::GetString(self::CutPascal($buffer, 4, 3, -3));
+        $server['convars']['nextmap']    = self::GetString(self::CutPascal($buffer, 4, 3, -3));
+        $server['convars']['gametype']   = self::GetString(self::CutPascal($buffer, 4, 3, -3));
   
         $buffer = substr($buffer, 1);
   
-        $server['s']['password']   = ord(self::CutByte($buffer, 1));
-        $server['s']['playersmax'] = ord(self::CutByte($buffer, 4));
-        $server['s']['players']    = ord(self::CutByte($buffer, 4));
+        $server['server']['password']   = ord(self::CutByte($buffer, 1));
+        $server['server']['playersmax'] = ord(self::CutByte($buffer, 4));
+        $server['server']['players']    = ord(self::CutByte($buffer, 4));
   
         //---------------------------------------------------------+
-        for ($player_key = 0; $player_key < $server['s']['players']; $player_key++)
+        for ($player_key = 0; $player_key < $server['server']['players']; $player_key++)
         {
-             $server['p'][$player_key]['name'] = self::GetString(self::CutPascal($buffer, 4, 3, -3));
+             $server['players'][$player_key]['name'] = self::GetString(self::CutPascal($buffer, 4, 3, -3));
         }
   
         //---------------------------------------------------------+
         $buffer = substr($buffer, 17);
   
-        $server['e']['version']    = self::GetString(self::CutPascal($buffer, 4, 3, -3));
-        $server['e']['mods']       = self::GetString(self::CutPascal($buffer, 4, 3, -3));
-        $server['e']['dedicated']  = ord(self::CutByte($buffer, 1));
-        $server['e']['time']       = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
-        $server['e']['status']     = ord(self::CutByte($buffer, 4));
-        $server['e']['gamemode']   = ord(self::CutByte($buffer, 4));
-        $server['e']['motd']       = self::GetString(self::CutPascal($buffer, 4, 3, -3));
-        $server['e']['respawns']   = ord(self::CutByte($buffer, 4));
-        $server['e']['time_limit'] = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
-        $server['e']['voting']     = ord(self::CutByte($buffer, 4));
+        $server['convars']['version']    = self::GetString(self::CutPascal($buffer, 4, 3, -3));
+        $server['convars']['mods']       = self::GetString(self::CutPascal($buffer, 4, 3, -3));
+        $server['convars']['dedicated']  = ord(self::CutByte($buffer, 1));
+        $server['convars']['time']       = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
+        $server['convars']['status']     = ord(self::CutByte($buffer, 4));
+        $server['convars']['gamemode']   = ord(self::CutByte($buffer, 4));
+        $server['convars']['motd']       = self::GetString(self::CutPascal($buffer, 4, 3, -3));
+        $server['convars']['respawns']   = ord(self::CutByte($buffer, 4));
+        $server['convars']['time_limit'] = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
+        $server['convars']['voting']     = ord(self::CutByte($buffer, 4));
   
         $buffer = substr($buffer, 2);
   
         //---------------------------------------------------------+
-        for ($player_key=0; $player_key<$server['s']['players']; $player_key++)
+        for ($player_key=0; $player_key<$server['server']['players']; $player_key++)
         {
-            $server['p'][$player_key]['team'] = ord(self::CutByte($buffer, 4));
+            $server['players'][$player_key]['team'] = ord(self::CutByte($buffer, 4));
         
             $unknown = ord(self::CutByte($buffer, 1));
         }
@@ -1636,59 +1636,59 @@ class Protocols extends Functions{
         //---------------------------------------------------------+
         $buffer = substr($buffer, 7);
   
-        $server['e']['platoon_1_color']   = ord(self::CutByte($buffer, 8));
-        $server['e']['platoon_2_color']   = ord(self::CutByte($buffer, 8));
-        $server['e']['platoon_3_color']   = ord(self::CutByte($buffer, 8));
-        $server['e']['platoon_4_color']   = ord(self::CutByte($buffer, 8));
-        $server['e']['timer_on']          = ord(self::CutByte($buffer, 1));
-        $server['e']['timer_time']        = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
-        $server['e']['time_debriefing']   = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
-        $server['e']['time_respawn_min']  = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
-        $server['e']['time_respawn_max']  = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
-        $server['e']['time_respawn_safe'] = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
-        $server['e']['difficulty']        = ord(self::CutByte($buffer, 4));
-        $server['e']['respawn_total']     = ord(self::CutByte($buffer, 4));
-        $server['e']['random_insertions'] = ord(self::CutByte($buffer, 1));
-        $server['e']['spectators']        = ord(self::CutByte($buffer, 1));
-        $server['e']['arcademode']        = ord(self::CutByte($buffer, 1));
-        $server['e']['ai_backup']         = ord(self::CutByte($buffer, 1));
-        $server['e']['random_teams']      = ord(self::CutByte($buffer, 1));
-        $server['e']['time_starting']     = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
-        $server['e']['identify_friends']  = ord(self::CutByte($buffer, 1));
-        $server['e']['identify_threats']  = ord(self::CutByte($buffer, 1));
+        $server['convars']['platoon_1_color']   = ord(self::CutByte($buffer, 8));
+        $server['convars']['platoon_2_color']   = ord(self::CutByte($buffer, 8));
+        $server['convars']['platoon_3_color']   = ord(self::CutByte($buffer, 8));
+        $server['convars']['platoon_4_color']   = ord(self::CutByte($buffer, 8));
+        $server['convars']['timer_on']          = ord(self::CutByte($buffer, 1));
+        $server['convars']['timer_time']        = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
+        $server['convars']['time_debriefing']   = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
+        $server['convars']['time_respawn_min']  = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
+        $server['convars']['time_respawn_max']  = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
+        $server['convars']['time_respawn_safe'] = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
+        $server['convars']['difficulty']        = ord(self::CutByte($buffer, 4));
+        $server['convars']['respawn_total']     = ord(self::CutByte($buffer, 4));
+        $server['convars']['random_insertions'] = ord(self::CutByte($buffer, 1));
+        $server['convars']['spectators']        = ord(self::CutByte($buffer, 1));
+        $server['convars']['arcademode']        = ord(self::CutByte($buffer, 1));
+        $server['convars']['ai_backup']         = ord(self::CutByte($buffer, 1));
+        $server['convars']['random_teams']      = ord(self::CutByte($buffer, 1));
+        $server['convars']['time_starting']     = self::Time(self::UnPack(self::CutByte($buffer, 4), "f"));
+        $server['convars']['identify_friends']  = ord(self::CutByte($buffer, 1));
+        $server['convars']['identify_threats']  = ord(self::CutByte($buffer, 1));
   
         $buffer = substr($buffer, 5);
   
-        $server['e']['restrictions']      = self::GetString(self::CutPascal($buffer, 4, 3, -3));
+        $server['convars']['restrictions']      = self::GetString(self::CutPascal($buffer, 4, 3, -3));
   
         //---------------------------------------------------------+
-        switch ($server['e']['status'])
+        switch ($server['convars']['status'])
         {
-            case 3: $server['e']['status'] = "Joining"; break;
-            case 4: $server['e']['status'] = "Joining"; break;
-            case 5: $server['e']['status'] = "Joining"; break;
+            case 3: $server['convars']['status'] = "Joining"; break;
+            case 4: $server['convars']['status'] = "Joining"; break;
+            case 5: $server['convars']['status'] = "Joining"; break;
         }
   
-        switch ($server['e']['gamemode'])
+        switch ($server['convars']['gamemode'])
         {
-            case 2: $server['e']['gamemode'] = "Co-Op"; break;
-            case 3: $server['e']['gamemode'] = "Solo";  break;
-            case 4: $server['e']['gamemode'] = "Team";  break;
+            case 2: $server['convars']['gamemode'] = "Co-Op"; break;
+            case 3: $server['convars']['gamemode'] = "Solo";  break;
+            case 4: $server['convars']['gamemode'] = "Team";  break;
         }
   
-        switch ($server['e']['respawns'])
+        switch ($server['convars']['respawns'])
         {
-            case 0: $server['e']['respawns'] = "None";       break;
-            case 1: $server['e']['respawns'] = "Individual"; break;
-            case 2: $server['e']['respawns'] = "Team";       break;
-            case 3: $server['e']['respawns'] = "Infinite";   break;
+            case 0: $server['convars']['respawns'] = "None";       break;
+            case 1: $server['convars']['respawns'] = "Individual"; break;
+            case 2: $server['convars']['respawns'] = "Team";       break;
+            case 3: $server['convars']['respawns'] = "Infinite";   break;
         }
   
-        switch ($server['e']['difficulty'])
+        switch ($server['convars']['difficulty'])
         {
-            case 0: $server['e']['difficulty'] = "Recruit"; break;
-            case 1: $server['e']['difficulty'] = "Veteran"; break;
-            case 2: $server['e']['difficulty'] = "Elite";   break;
+            case 0: $server['convars']['difficulty'] = "Recruit"; break;
+            case 1: $server['convars']['difficulty'] = "Veteran"; break;
+            case 2: $server['convars']['difficulty'] = "Elite";   break;
         }
   
         //---------------------------------------------------------+
@@ -1710,7 +1710,7 @@ class Protocols extends Functions{
   
             $challenge_code = substr($challenge_packet, 5, 4);
   
-            if     ($lgsl_need['e']) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFF\x56{$challenge_code}"); }
+            if     ($lgsl_need['c']) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFF\x56{$challenge_code}"); }
             elseif ($lgsl_need['p']) { fwrite($lgsl_fp, "\xFF\xFF\xFF\xFF\x55{$challenge_code}"); }
         }
   
@@ -1724,24 +1724,24 @@ class Protocols extends Functions{
   
         if ($response_type == "I")
         {
-            $server['e']['netcode']     = ord(self::CutByte($buffer, 1));
-            $server['s']['name']        = self::CutString($buffer);
-            $server['s']['map']         = self::CutString($buffer);
-            $server['s']['game']        = self::CutString($buffer);
-            $server['e']['gamemode']    = self::CutString($buffer);
-            $server['e']['description'] = self::CutString($buffer);
-            $server['e']['version']     = self::CutString($buffer);
-            $server['e']['hostport']    = self::UnPack(self::CutByte($buffer, 2), "n");
-            $server['s']['players']     = self::UnPack(self::CutByte($buffer, 1), "C");
-            $server['s']['playersmax']  = self::UnPack(self::CutByte($buffer, 1), "C");
-            $server['e']['dedicated']   = self::CutByte($buffer, 1);
-            $server['e']['os']          = self::CutByte($buffer, 1);
-            $server['s']['password']    = self::UnPack(self::CutByte($buffer, 1), "C");
-            $server['e']['anticheat']   = self::UnPack(self::CutByte($buffer, 1), "C");
-            $server['e']['cpu_load']    = round(3.03 * self::UnPack(self::CutByte($buffer, 1), "C"))."%";
-            $server['e']['round']       = self::UnPack(self::CutByte($buffer, 1), "C");
-            $server['e']['roundsmax']   = self::UnPack(self::CutByte($buffer, 1), "C");
-            $server['e']['timeleft']    = self::Time(self::UnPack(self::CutByte($buffer, 2), "S") / 250);
+            $server['convars']['netcode']     = ord(self::CutByte($buffer, 1));
+            $server['server']['name']        = self::CutString($buffer);
+            $server['server']['map']         = self::CutString($buffer);
+            $server['server']['game']        = self::CutString($buffer);
+            $server['convars']['gamemode']    = self::CutString($buffer);
+            $server['convars']['description'] = self::CutString($buffer);
+            $server['convars']['version']     = self::CutString($buffer);
+            $server['convars']['hostport']    = self::UnPack(self::CutByte($buffer, 2), "n");
+            $server['server']['players']     = self::UnPack(self::CutByte($buffer, 1), "C");
+            $server['server']['playersmax']  = self::UnPack(self::CutByte($buffer, 1), "C");
+            $server['convars']['dedicated']   = self::CutByte($buffer, 1);
+            $server['convars']['os']          = self::CutByte($buffer, 1);
+            $server['server']['password']    = self::UnPack(self::CutByte($buffer, 1), "C");
+            $server['convars']['anticheat']   = self::UnPack(self::CutByte($buffer, 1), "C");
+            $server['convars']['cpu_load']    = round(3.03 * self::UnPack(self::CutByte($buffer, 1), "C"))."%";
+            $server['convars']['round']       = self::UnPack(self::CutByte($buffer, 1), "C");
+            $server['convars']['roundsmax']   = self::UnPack(self::CutByte($buffer, 1), "C");
+            $server['convars']['timeleft']    = self::Time(self::UnPack(self::CutByte($buffer, 2), "S") / 250);
         }
   
         elseif ($response_type == "E")
@@ -1752,7 +1752,7 @@ class Protocols extends Functions{
             {
                 $item_key   = strtolower(self::CutString($buffer));
                 $item_value = self::CutString($buffer);
-                $server['e'][$item_key] = $item_value;
+                $server['convars'][$item_key] = $item_value;
             }
         }
   
@@ -1763,13 +1763,13 @@ class Protocols extends Functions{
   
             while ($buffer)
             {
-                $server['p'][$player_key]['pid']   = ord(self::CutByte($buffer, 1));
-                $server['p'][$player_key]['name']  = self::CutString($buffer);
-                $server['p'][$player_key]['score'] = self::UnPack(self::CutByte($buffer, 4), "N");
-                $server['p'][$player_key]['time']  = self::Time(self::UnPack(strrev(self::CutByte($buffer, 4)), "f"));
-                $server['p'][$player_key]['ping']  = self::UnPack(self::CutByte($buffer, 2), "n");
-                $server['p'][$player_key]['uid']   = self::UnPack(self::CutByte($buffer, 4), "N");
-                $server['p'][$player_key]['team']  = ord(self::CutByte($buffer, 1));
+                $server['players'][$player_key]['pid']   = ord(self::CutByte($buffer, 1));
+                $server['players'][$player_key]['name']  = self::CutString($buffer);
+                $server['players'][$player_key]['score'] = self::UnPack(self::CutByte($buffer, 4), "N");
+                $server['players'][$player_key]['time']  = self::Time(self::UnPack(strrev(self::CutByte($buffer, 4)), "f"));
+                $server['players'][$player_key]['ping']  = self::UnPack(self::CutByte($buffer, 2), "n");
+                $server['players'][$player_key]['uid']   = self::UnPack(self::CutByte($buffer, 4), "N");
+                $server['players'][$player_key]['team']  = ord(self::CutByte($buffer, 1));
   
                 $player_key ++;
             }
@@ -1777,7 +1777,7 @@ class Protocols extends Functions{
   
         //---------------------------------------------------------+
         if     ($lgsl_need['s']) { $lgsl_need['s'] = FALSE; }
-        elseif ($lgsl_need['e']) { $lgsl_need['e'] = FALSE; }
+        elseif ($lgsl_need['c']) { $lgsl_need['c'] = FALSE; }
         elseif ($lgsl_need['p']) { $lgsl_need['p'] = FALSE; }
   
         //---------------------------------------------------------+
@@ -1795,19 +1795,19 @@ class Protocols extends Functions{
         if (!$buffer) { return FALSE; }
   
         //---------------------------------------------------------+
-        $server['s']['name']       = self::CutString($buffer);
-        $server['s']['map']        = self::CutString($buffer);
-        $server['e']['gamemode']   = self::CutString($buffer);
-        $server['s']['password']   = self::CutString($buffer);
-        $server['e']['progress']   = self::CutString($buffer)."%";
-        $server['s']['players']    = self::CutString($buffer);
-        $server['s']['playersmax'] = self::CutString($buffer);
+        $server['server']['name']       = self::CutString($buffer);
+        $server['server']['map']        = self::CutString($buffer);
+        $server['convars']['gamemode']   = self::CutString($buffer);
+        $server['server']['password']   = self::CutString($buffer);
+        $server['convars']['progress']   = self::CutString($buffer)."%";
+        $server['server']['players']    = self::CutString($buffer);
+        $server['server']['playersmax'] = self::CutString($buffer);
   
-        switch ($server['e']['gamemode'])
+        switch ($server['convars']['gamemode'])
         {
-            case 0: $server['e']['gamemode'] = "Deathmatch"; break;
-            case 1: $server['e']['gamemode'] = "Team Deathmatch"; break;
-            case 2: $server['e']['gamemode'] = "Capture The Flag"; break;
+            case 0: $server['convars']['gamemode'] = "Deathmatch"; break;
+            case 1: $server['convars']['gamemode'] = "Team Deathmatch"; break;
+            case 2: $server['convars']['gamemode'] = "Capture The Flag"; break;
         }
   
         //---------------------------------------------------------+
@@ -1815,8 +1815,8 @@ class Protocols extends Functions{
   
         while ($buffer)
         {
-            $server['p'][$player_key]['name']  = self::CutString($buffer);
-            $server['p'][$player_key]['score'] = self::CutString($buffer);
+            $server['players'][$player_key]['name']  = self::CutString($buffer);
+            $server['players'][$player_key]['score'] = self::CutString($buffer);
             $player_key ++;
         }
   
@@ -1841,31 +1841,31 @@ class Protocols extends Functions{
   
         for ($a = 0; $a < $grf_count; $a++)
         {
-            $server['e']['grf_'.$a.'_id'] = strtoupper(dechex(self::UnPack(self::CutByte($buffer, 4), "N")));
+            $server['convars']['grf_'.$a.'_id'] = strtoupper(dechex(self::UnPack(self::CutByte($buffer, 4), "N")));
             for ($b = 0; $b < 16; $b++)
             {
-                $server['e']['grf_'.$a.'_md5'] .= strtoupper(dechex(ord(self::CutByte($buffer, 1))));
+                $server['convars']['grf_'.$a.'_md5'] .= strtoupper(dechex(ord(self::CutByte($buffer, 1))));
             }
         }
   
         //---------------------------------------------------------+
-        $server['e']['date_current']   = self::UnPack(self::CutByte($buffer, 4), "L");
-        $server['e']['date_start']     = self::UnPack(self::CutByte($buffer, 4), "L");
-        $server['e']['companies_max']  = ord(self::CutByte($buffer, 1));
-        $server['e']['companies']      = ord(self::CutByte($buffer, 1));
-        $server['e']['spectators_max'] = ord(self::CutByte($buffer, 1));
-        $server['s']['name']           = self::CutString($buffer);
-        $server['e']['version']        = self::CutString($buffer);
-        $server['e']['language']       = ord(self::CutByte($buffer, 1));
-        $server['s']['password']       = ord(self::CutByte($buffer, 1));
-        $server['s']['playersmax']     = ord(self::CutByte($buffer, 1));
-        $server['s']['players']        = ord(self::CutByte($buffer, 1));
-        $server['e']['spectators']     = ord(self::CutByte($buffer, 1));
-        $server['s']['map']            = self::CutString($buffer);
-        $server['e']['map_width']      = self::UnPack(self::CutByte($buffer, 2), "S");
-        $server['e']['map_height']     = self::UnPack(self::CutByte($buffer, 2), "S");
-        $server['e']['map_set']        = ord(self::CutByte($buffer, 1));
-        $server['e']['dedicated']      = ord(self::CutByte($buffer, 1));
+        $server['convars']['date_current']   = self::UnPack(self::CutByte($buffer, 4), "L");
+        $server['convars']['date_start']     = self::UnPack(self::CutByte($buffer, 4), "L");
+        $server['convars']['companies_max']  = ord(self::CutByte($buffer, 1));
+        $server['convars']['companies']      = ord(self::CutByte($buffer, 1));
+        $server['convars']['spectators_max'] = ord(self::CutByte($buffer, 1));
+        $server['server']['name']           = self::CutString($buffer);
+        $server['convars']['version']        = self::CutString($buffer);
+        $server['convars']['language']       = ord(self::CutByte($buffer, 1));
+        $server['server']['password']       = ord(self::CutByte($buffer, 1));
+        $server['server']['playersmax']     = ord(self::CutByte($buffer, 1));
+        $server['server']['players']        = ord(self::CutByte($buffer, 1));
+        $server['convars']['spectators']     = ord(self::CutByte($buffer, 1));
+        $server['server']['map']            = self::CutString($buffer);
+        $server['convars']['map_width']      = self::UnPack(self::CutByte($buffer, 2), "S");
+        $server['convars']['map_height']     = self::UnPack(self::CutByte($buffer, 2), "S");
+        $server['convars']['map_set']        = ord(self::CutByte($buffer, 1));
+        $server['convars']['dedicated']      = ord(self::CutByte($buffer, 1));
   
         // DOES NOT RETURN PLAYER INFORMATION
         //---------------------------------------------------------+
@@ -1887,19 +1887,19 @@ class Protocols extends Functions{
         $buffer = substr($buffer, 4); // REMOVE HEADER
   
         //---------------------------------------------------------+
-        $server['s']['game']       = self::CutPascal($buffer);
-        $server['e']['version']    = self::CutPascal($buffer);
-        $server['s']['name']       = self::CutPascal($buffer);
-        $server['e']['dedicated']  = ord(self::CutByte($buffer, 1));
-        $server['s']['password']   = ord(self::CutByte($buffer, 1));
-        $server['s']['players']    = ord(self::CutByte($buffer, 1));
-        $server['s']['playersmax'] = ord(self::CutByte($buffer, 1));
-        $server['e']['cpu']        = self::UnPack(self::CutByte($buffer, 2), "S");
-        $server['e']['mod']        = self::CutPascal($buffer);
-        $server['e']['type']       = self::CutPascal($buffer);
-        $server['s']['map']        = self::CutPascal($buffer);
-        $server['e']['motd']       = self::CutPascal($buffer);
-        $server['e']['teams']      = ord(self::CutByte($buffer, 1));
+        $server['server']['game']       = self::CutPascal($buffer);
+        $server['convars']['version']    = self::CutPascal($buffer);
+        $server['server']['name']       = self::CutPascal($buffer);
+        $server['convars']['dedicated']  = ord(self::CutByte($buffer, 1));
+        $server['server']['password']   = ord(self::CutByte($buffer, 1));
+        $server['server']['players']    = ord(self::CutByte($buffer, 1));
+        $server['server']['playersmax'] = ord(self::CutByte($buffer, 1));
+        $server['convars']['cpu']        = self::UnPack(self::CutByte($buffer, 2), "S");
+        $server['convars']['mod']        = self::CutPascal($buffer);
+        $server['convars']['type']       = self::CutPascal($buffer);
+        $server['server']['map']        = self::CutPascal($buffer);
+        $server['convars']['motd']       = self::CutPascal($buffer);
+        $server['convars']['teams']      = ord(self::CutByte($buffer, 1));
   
         //---------------------------------------------------------+
         $team_field = "?".self::CutPascal($buffer);
@@ -1930,7 +1930,7 @@ class Protocols extends Functions{
         $player_field[] = "unknown_2";
   
         //---------------------------------------------------------+
-        for ($i=0; $i<$server['e']['teams']; $i++)
+        for ($i=0; $i<$server['convars']['teams']; $i++)
         {
             $team_name = self::CutPascal($buffer);
             $team_info = self::CutPascal($buffer);
@@ -1947,12 +1947,12 @@ class Protocols extends Functions{
 
                 if ($field == "team name") { $field = "name"; }
 
-                $server['t'][$i][$field] = $value;
+                $server['teams'][$i][$field] = $value;
             }
         }
   
         //---------------------------------------------------------+
-        for ($i = 0; $i < $server['s']['players']; $i++)
+        for ($i = 0; $i < $server['server']['players']; $i++)
         {
             $player_bits   = [];
             $player_bits[] = ord(self::CutByte($buffer, 1)) * 4; // %p = PING
@@ -1971,9 +1971,9 @@ class Protocols extends Functions{
                 $field = $player_field[$key];
                 $value = trim($value);
             
-                if ($field == "team") { $value = $server['t'][$value]['name']; }
+                if ($field == "team") { $value = $server['teams'][$value]['name']; }
             
-                $server['p'][$i][$field] = $value;
+                $server['players'][$i][$field] = $value;
             }
         }
   
@@ -2001,14 +2001,14 @@ class Protocols extends Functions{
                 $buffer[$i] = chr(ord($buffer[$i]) ^ 0x61); 
             }
 
-            $server['s']['game']       = "Cube";
-            $server['e']['netcode']    = ord(self::CutByte($buffer, 1));
-            $server['e']['gamemode']   = ord(self::CutByte($buffer, 1));
-            $server['s']['players']    = ord(self::CutByte($buffer, 1));
-            $server['e']['timeleft']   = self::Time(ord(self::CutByte($buffer, 1)) * 60);
-            $server['s']['map']        = self::CutString($buffer);
-            $server['s']['name']       = self::CutString($buffer);
-            $server['s']['playersmax'] = "0"; // NOT PROVIDED
+            $server['server']['game']       = "Cube";
+            $server['convars']['netcode']    = ord(self::CutByte($buffer, 1));
+            $server['convars']['gamemode']   = ord(self::CutByte($buffer, 1));
+            $server['server']['players']    = ord(self::CutByte($buffer, 1));
+            $server['convars']['timeleft']   = self::Time(ord(self::CutByte($buffer, 1)) * 60);
+            $server['server']['map']        = self::CutString($buffer);
+            $server['server']['name']       = self::CutString($buffer);
+            $server['server']['playersmax'] = "0"; // NOT PROVIDED
 
             // DOES NOT RETURN PLAYER INFORMATION
             return TRUE;
@@ -2016,48 +2016,48 @@ class Protocols extends Functions{
 
         elseif ($buffer[0] == "\x80") // ASSAULT CUBE
         {
-            $server['s']['game']       = "AssaultCube";
-            $server['e']['netcode']    = ord(self::CutByte($buffer, 1));
-            $server['e']['version']    = self::UnPack(self::CutByte($buffer, 2), "S");
-            $server['e']['gamemode']   = ord(self::CutByte($buffer, 1));
-            $server['s']['players']    = ord(self::CutByte($buffer, 1));
-            $server['e']['timeleft']   = self::Time(ord(self::CutByte($buffer, 1)) * 60);
-            $server['s']['map']        = self::CutString($buffer);
-            $server['s']['name']       = self::CutString($buffer);
-            $server['s']['playersmax'] = ord(self::CutByte($buffer, 1));
+            $server['server']['game']       = "AssaultCube";
+            $server['convars']['netcode']    = ord(self::CutByte($buffer, 1));
+            $server['convars']['version']    = self::UnPack(self::CutByte($buffer, 2), "S");
+            $server['convars']['gamemode']   = ord(self::CutByte($buffer, 1));
+            $server['server']['players']    = ord(self::CutByte($buffer, 1));
+            $server['convars']['timeleft']   = self::Time(ord(self::CutByte($buffer, 1)) * 60);
+            $server['server']['map']        = self::CutString($buffer);
+            $server['server']['name']       = self::CutString($buffer);
+            $server['server']['playersmax'] = ord(self::CutByte($buffer, 1));
         }
 
         elseif ($buffer[1] == "\x05") // CUBE 2 - SAUERBRATEN
         {
-            $server['s']['game']       = "Sauerbraten";
-            $server['s']['players']    = ord(self::CutByte($buffer, 1));
+            $server['server']['game']       = "Sauerbraten";
+            $server['server']['players']    = ord(self::CutByte($buffer, 1));
             $info_returned             = ord(self::CutByte($buffer, 1)); // CODED FOR 5
-            $server['e']['netcode']    = ord(self::CutByte($buffer, 1));
-            $server['e']['version']    = self::UnPack(self::CutByte($buffer, 2), "S");
-            $server['e']['gamemode']   = ord(self::CutByte($buffer, 1));
-            $server['e']['timeleft']   = self::Time(ord(self::CutByte($buffer, 1)) * 60);
-            $server['s']['playersmax'] = ord(self::CutByte($buffer, 1));
-            $server['s']['password']   = ord(self::CutByte($buffer, 1)); // BIT FIELD
-            $server['s']['password']   = $server['s']['password'] & 4 ? "1" : "0";
-            $server['s']['map']        = self::CutString($buffer);
-            $server['s']['name']       = self::CutString($buffer);
+            $server['convars']['netcode']    = ord(self::CutByte($buffer, 1));
+            $server['convars']['version']    = self::UnPack(self::CutByte($buffer, 2), "S");
+            $server['convars']['gamemode']   = ord(self::CutByte($buffer, 1));
+            $server['convars']['timeleft']   = self::Time(ord(self::CutByte($buffer, 1)) * 60);
+            $server['server']['playersmax'] = ord(self::CutByte($buffer, 1));
+            $server['server']['password']   = ord(self::CutByte($buffer, 1)); // BIT FIELD
+            $server['server']['password']   = $server['server']['password'] & 4 ? "1" : "0";
+            $server['server']['map']        = self::CutString($buffer);
+            $server['server']['name']       = self::CutString($buffer);
         }
 
         elseif ($buffer[1] == "\x06") // BLOODFRONTIER
         {
-            $server['s']['game']       = "Blood Frontier";
-            $server['s']['players']    = ord(self::CutByte($buffer, 1));
+            $server['server']['game']       = "Blood Frontier";
+            $server['server']['players']    = ord(self::CutByte($buffer, 1));
             $info_returned             = ord(self::CutByte($buffer, 1)); // CODED FOR 6
-            $server['e']['netcode']    = ord(self::CutByte($buffer, 1));
-            $server['e']['version']    = self::UnPack(self::CutByte($buffer, 2), "S");
-            $server['e']['gamemode']   = ord(self::CutByte($buffer, 1));
-            $server['e']['mutators']   = ord(self::CutByte($buffer, 1));
-            $server['e']['timeleft']   = self::Time(ord(self::CutByte($buffer, 1)) * 60);
-            $server['s']['playersmax'] = ord(self::CutByte($buffer, 1));
-            $server['s']['password']   = ord(self::CutByte($buffer, 1)); // BIT FIELD
-            $server['s']['password']   = $server['s']['password'] & 4 ? "1" : "0";
-            $server['s']['map']        = self::CutString($buffer);
-            $server['s']['name']       = self::CutString($buffer);
+            $server['convars']['netcode']    = ord(self::CutByte($buffer, 1));
+            $server['convars']['version']    = self::UnPack(self::CutByte($buffer, 2), "S");
+            $server['convars']['gamemode']   = ord(self::CutByte($buffer, 1));
+            $server['convars']['mutators']   = ord(self::CutByte($buffer, 1));
+            $server['convars']['timeleft']   = self::Time(ord(self::CutByte($buffer, 1)) * 60);
+            $server['server']['playersmax'] = ord(self::CutByte($buffer, 1));
+            $server['server']['password']   = ord(self::CutByte($buffer, 1)); // BIT FIELD
+            $server['server']['password']   = $server['server']['password'] & 4 ? "1" : "0";
+            $server['server']['map']        = self::CutString($buffer);
+            $server['server']['name']       = self::CutString($buffer);
         }
 
         else // UNKNOWN
@@ -2070,7 +2070,7 @@ class Protocols extends Functions{
         //  BOTS ARE RETURNED BUT NOT INCLUDED IN THE PLAYER TOTAL
         //  AND THERE CAN BE ID GAPS BETWEEN THE PLAYERS RETURNED
 
-        if ($lgsl_need['p'] && $server['s']['players'])
+        if ($lgsl_need['p'] && $server['server']['players'])
         {
             $player_key = 0;
 
@@ -2085,7 +2085,7 @@ class Protocols extends Functions{
                 // CHECK IF PLAYER ID IS ACTIVE
                 if ($buffer[5] != "\x00")
                 {
-                    if ($player_key < $server['s']['players']) { continue; }
+                    if ($player_key < $server['server']['players']) { continue; }
                     break;
                 }
 
@@ -2100,32 +2100,32 @@ class Protocols extends Functions{
                 $buffer = substr($buffer, 7);
 
                 // WE CAN NOW GET THE PLAYER DETAILS
-                if ($server['s']['game'] == "Blood Frontier")
+                if ($server['server']['game'] == "Blood Frontier")
                 {
-                    $server['p'][$player_key]['pid']       = self::UnPack(self::CutByte($buffer, 1), "C");
-                    $server['p'][$player_key]['ping']      = self::UnPack(self::CutByte($buffer, 1), "C");
-                    $server['p'][$player_key]['ping']      = $server['p'][$player_key]['ping'] == 128 ? self::UnPack(self::CutByte($buffer, 2), "S") : $server['p'][$player_key]['ping'];
-                    $server['p'][$player_key]['name']      = self::CutString($buffer);
-                    $server['p'][$player_key]['team']      = self::CutString($buffer);
-                    $server['p'][$player_key]['score']     = self::UnPack(self::CutByte($buffer, 1), "c");
-                    $server['p'][$player_key]['damage']    = self::UnPack(self::CutByte($buffer, 1), "C");
-                    $server['p'][$player_key]['deaths']    = self::UnPack(self::CutByte($buffer, 1), "C");
-                    $server['p'][$player_key]['teamkills'] = self::UnPack(self::CutByte($buffer, 1), "C");
-                    $server['p'][$player_key]['accuracy']  = self::UnPack(self::CutByte($buffer, 1), "C")."%";
-                    $server['p'][$player_key]['health']    = self::UnPack(self::CutByte($buffer, 1), "c");
-                    $server['p'][$player_key]['spree']     = self::UnPack(self::CutByte($buffer, 1), "C");
-                    $server['p'][$player_key]['weapon']    = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['pid']       = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['ping']      = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['ping']      = $server['players'][$player_key]['ping'] == 128 ? self::UnPack(self::CutByte($buffer, 2), "S") : $server['players'][$player_key]['ping'];
+                    $server['players'][$player_key]['name']      = self::CutString($buffer);
+                    $server['players'][$player_key]['team']      = self::CutString($buffer);
+                    $server['players'][$player_key]['score']     = self::UnPack(self::CutByte($buffer, 1), "c");
+                    $server['players'][$player_key]['damage']    = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['deaths']    = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['teamkills'] = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['accuracy']  = self::UnPack(self::CutByte($buffer, 1), "C")."%";
+                    $server['players'][$player_key]['health']    = self::UnPack(self::CutByte($buffer, 1), "c");
+                    $server['players'][$player_key]['spree']     = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['weapon']    = self::UnPack(self::CutByte($buffer, 1), "C");
                 }else{
-                    $server['p'][$player_key]['pid']       = self::UnPack(self::CutByte($buffer, 1), "C");
-                    $server['p'][$player_key]['name']      = self::CutString($buffer);
-                    $server['p'][$player_key]['team']      = self::CutString($buffer);
-                    $server['p'][$player_key]['score']     = self::UnPack(self::CutByte($buffer, 1), "c");
-                    $server['p'][$player_key]['deaths']    = self::UnPack(self::CutByte($buffer, 1), "C");
-                    $server['p'][$player_key]['teamkills'] = self::UnPack(self::CutByte($buffer, 1), "C");
-                    $server['p'][$player_key]['accuracy']  = self::UnPack(self::CutByte($buffer, 1), "C")."%";
-                    $server['p'][$player_key]['health']    = self::UnPack(self::CutByte($buffer, 1), "c");
-                    $server['p'][$player_key]['armour']    = self::UnPack(self::CutByte($buffer, 1), "C");
-                    $server['p'][$player_key]['weapon']    = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['pid']       = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['name']      = self::CutString($buffer);
+                    $server['players'][$player_key]['team']      = self::CutString($buffer);
+                    $server['players'][$player_key]['score']     = self::UnPack(self::CutByte($buffer, 1), "c");
+                    $server['players'][$player_key]['deaths']    = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['teamkills'] = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['accuracy']  = self::UnPack(self::CutByte($buffer, 1), "C")."%";
+                    $server['players'][$player_key]['health']    = self::UnPack(self::CutByte($buffer, 1), "c");
+                    $server['players'][$player_key]['armour']    = self::UnPack(self::CutByte($buffer, 1), "C");
+                    $server['players'][$player_key]['weapon']    = self::UnPack(self::CutByte($buffer, 1), "C");
                 }
                 $player_key++;
             }
@@ -2148,32 +2148,32 @@ class Protocols extends Functions{
         $buffer = substr($buffer, 6); // REMOVE HEADER
 
         //---------------------------------------------------------+
-        $server['s']['game']       = self::CutPascal($buffer);
-        $server['e']['gamemode']   = self::CutPascal($buffer);
-        $server['s']['map']        = self::CutPascal($buffer);
-        $server['e']['bit_flags']  = ord(self::CutByte($buffer, 1));
-        $server['s']['players']    = ord(self::CutByte($buffer, 1));
-        $server['s']['playersmax'] = ord(self::CutByte($buffer, 1));
-        $server['e']['bots']       = ord(self::CutByte($buffer, 1));
-        $server['e']['cpu']        = self::UnPack(self::CutByte($buffer, 2), "S");
-        $server['e']['motd']       = self::CutPascal($buffer);
-        $server['e']['unknown']    = self::UnPack(self::CutByte($buffer, 2), "S");
+        $server['server']['game']       = self::CutPascal($buffer);
+        $server['convars']['gamemode']   = self::CutPascal($buffer);
+        $server['server']['map']        = self::CutPascal($buffer);
+        $server['convars']['bit_flags']  = ord(self::CutByte($buffer, 1));
+        $server['server']['players']    = ord(self::CutByte($buffer, 1));
+        $server['server']['playersmax'] = ord(self::CutByte($buffer, 1));
+        $server['convars']['bots']       = ord(self::CutByte($buffer, 1));
+        $server['convars']['cpu']        = self::UnPack(self::CutByte($buffer, 2), "S");
+        $server['convars']['motd']       = self::CutPascal($buffer);
+        $server['convars']['unknown']    = self::UnPack(self::CutByte($buffer, 2), "S");
 
-        $server['e']['dedicated']  = ($server['e']['bit_flags'] & 1)  ? "1" : "0";
-        $server['s']['password']   = ($server['e']['bit_flags'] & 2)  ? "1" : "0";
-        $server['e']['os']         = ($server['e']['bit_flags'] & 4)  ? "L" : "W";
-        $server['e']['tournament'] = ($server['e']['bit_flags'] & 8)  ? "1" : "0";
-        $server['e']['no_alias']   = ($server['e']['bit_flags'] & 16) ? "1" : "0";
+        $server['convars']['dedicated']  = ($server['convars']['bit_flags'] & 1)  ? "1" : "0";
+        $server['server']['password']   = ($server['convars']['bit_flags'] & 2)  ? "1" : "0";
+        $server['convars']['os']         = ($server['convars']['bit_flags'] & 4)  ? "L" : "W";
+        $server['convars']['tournament'] = ($server['convars']['bit_flags'] & 8)  ? "1" : "0";
+        $server['convars']['no_alias']   = ($server['convars']['bit_flags'] & 16) ? "1" : "0";
 
-        unset($server['e']['bit_flags']);
+        unset($server['convars']['bit_flags']);
 
         //---------------------------------------------------------+
         $team_total = self::CutString($buffer, 0, "\x0A");
 
         for ($i=0; $i<$team_total; $i++)
         {
-            $server['t'][$i]['name']  = self::CutString($buffer, 0, "\x09");
-            $server['t'][$i]['score'] = self::CutString($buffer, 0, "\x0A");
+            $server['teams'][$i]['name']  = self::CutString($buffer, 0, "\x09");
+            $server['teams'][$i]['score'] = self::CutString($buffer, 0, "\x0A");
         }
 
         $player_total = self::CutString($buffer, 0, "\x0A");
@@ -2186,10 +2186,10 @@ class Protocols extends Functions{
                 self::CutByte($buffer, 1); 
             } // ? 8 PREFIXES SOME NAMES
 
-            $server['p'][$i]['name']  = self::CutString($buffer, 0, "\x11");
+            $server['players'][$i]['name']  = self::CutString($buffer, 0, "\x11");
             self::CutString($buffer, 0, "\x09"); // ALWAYS BLANK
-            $server['p'][$i]['team']  = self::CutString($buffer, 0, "\x09");
-            $server['p'][$i]['score'] = self::CutString($buffer, 0, "\x0A");
+            $server['players'][$i]['team']  = self::CutString($buffer, 0, "\x09");
+            $server['players'][$i]['score'] = self::CutString($buffer, 0, "\x0A");
         }
 
         //---------------------------------------------------------+
@@ -2205,7 +2205,7 @@ class Protocols extends Functions{
         if (!function_exists('gzuncompress')) { return FALSE; } // REQUIRES http://www.php.net/zlib
 
         $packet = "\x0A\x00playerName\x06\x06\x00query\x00";
-        self::GSEncrypt($server['b']['type'], $packet, TRUE);
+        self::GSEncrypt($server['basic']['type'], $packet, TRUE);
         fwrite($lgsl_fp, "\x4A\x35\xFF\xFF\x02\x00\x02\x00\x01\x00{$packet}");
 
         $buffer = array();
@@ -2241,7 +2241,7 @@ class Protocols extends Functions{
 
         $buffer = implode("", $buffer);
 
-        self::GSEncrypt($server['b']['type'], $buffer, FALSE);
+        self::GSEncrypt($server['basic']['type'], $buffer, FALSE);
 
         $buffer = @gzuncompress($buffer);
 
@@ -2304,19 +2304,19 @@ class Protocols extends Functions{
                 if ($match[1] == "name")        { $match[1] = "username"; }
                 if ($match[1] == "soldiername") { $match[1] = "name"; }
 
-                $server['p'][$match[2]][$match[1]] = $raw['attributeValues'][$key];
+                $server['players'][$match[2]][$match[1]] = $raw['attributeValues'][$key];
             }else{
                 if (substr($field, 0, 6) == "server") { $field = substr($field, 6); }
-                $server['e'][$field] = $raw['attributeValues'][$key];
+                $server['convars'][$field] = $raw['attributeValues'][$key];
             }
         }
 
         $lgsl_conversion = [ "gamename" => "name", "mapname" => "map", "playercount" => "players", "maxplayers" => "playersmax", "flagpassword" => "password" ];
         foreach ($lgsl_conversion as $e => $s) { 
-            $server['s'][$s] = $server['e'][$e];
+            $server['server'][$s] = $server['convars'][$e];
              unset($server['ea'][$e]); 
         } // LGSL STANDARD
-        $server['s']['playersmax'] += intval($server['e']['maxspectators']); // ADD SPECTATOR SLOTS TO MAX PLAYERS
+        $server['server']['playersmax'] += intval($server['convars']['maxspectators']); // ADD SPECTATOR SLOTS TO MAX PLAYERS
 
         //---------------------------------------------------------+
         return TRUE;
@@ -2386,77 +2386,77 @@ class Protocols extends Functions{
         //---------------------------------------------------------+
         $response_status        = self::UnPack(self::CutByte($buffer, 4), "l"); if ($response_status != "5660023") { return FALSE; }
         $response_time          = self::UnPack(self::CutByte($buffer, 4), "l");
-        $server['e']['version'] = self::CutString($buffer);
+        $server['convars']['version'] = self::CutString($buffer);
         $response_flag          = self::UnPack(self::CutByte($buffer, 4), "l");
 
         //---------------------------------------------------------+
-        if ($response_flag & 0x00000001) { $server['s']['name']       = self::CutString($buffer); }
-        if ($response_flag & 0x00000002) { $server['e']['wadurl']     = self::CutString($buffer); }
-        if ($response_flag & 0x00000004) { $server['e']['email']      = self::CutString($buffer); }
-        if ($response_flag & 0x00000008) { $server['s']['map']        = self::CutString($buffer); }
-        if ($response_flag & 0x00000010) { $server['s']['playersmax'] = ord(self::CutByte($buffer, 1)); }
-        if ($response_flag & 0x00000020) { $server['e']['playersmax'] = ord(self::CutByte($buffer, 1)); }
+        if ($response_flag & 0x00000001) { $server['server']['name']       = self::CutString($buffer); }
+        if ($response_flag & 0x00000002) { $server['convars']['wadurl']     = self::CutString($buffer); }
+        if ($response_flag & 0x00000004) { $server['convars']['email']      = self::CutString($buffer); }
+        if ($response_flag & 0x00000008) { $server['server']['map']        = self::CutString($buffer); }
+        if ($response_flag & 0x00000010) { $server['server']['playersmax'] = ord(self::CutByte($buffer, 1)); }
+        if ($response_flag & 0x00000020) { $server['convars']['playersmax'] = ord(self::CutByte($buffer, 1)); }
         
         if ($response_flag & 0x00000040){
             $pwad_total = ord(self::CutByte($buffer, 1));
-            $server['e']['pwads'] = "";
+            $server['convars']['pwads'] = "";
             for ($i = 0; $i < $pwad_total; $i++)
             {
-                $server['e']['pwads'] .= self::CutString($buffer)." ";
+                $server['convars']['pwads'] .= self::CutString($buffer)." ";
             }
         }
 
         if ($response_flag & 0x00000080){
-            $server['e']['gametype'] = ord(self::CutByte($buffer, 1));
-            $server['e']['instagib'] = ord(self::CutByte($buffer, 1));
-            $server['e']['buckshot'] = ord(self::CutByte($buffer, 1));
+            $server['convars']['gametype'] = ord(self::CutByte($buffer, 1));
+            $server['convars']['instagib'] = ord(self::CutByte($buffer, 1));
+            $server['convars']['buckshot'] = ord(self::CutByte($buffer, 1));
         }
         
-        if ($response_flag & 0x00000100) { $server['s']['game']         = self::CutString($buffer); }
-        if ($response_flag & 0x00000200) { $server['e']['iwad']         = self::CutString($buffer); }
-        if ($response_flag & 0x00000400) { $server['s']['password']     = ord(self::CutByte($buffer, 1)); }
-        if ($response_flag & 0x00000800) { $server['e']['playpassword'] = ord(self::CutByte($buffer, 1)); }
-        if ($response_flag & 0x00001000) { $server['e']['skill']        = ord(self::CutByte($buffer, 1)) + 1; }
-        if ($response_flag & 0x00002000) { $server['e']['botskill']     = ord(self::CutByte($buffer, 1)) + 1; }
+        if ($response_flag & 0x00000100) { $server['server']['game']         = self::CutString($buffer); }
+        if ($response_flag & 0x00000200) { $server['convars']['iwad']         = self::CutString($buffer); }
+        if ($response_flag & 0x00000400) { $server['server']['password']     = ord(self::CutByte($buffer, 1)); }
+        if ($response_flag & 0x00000800) { $server['convars']['playpassword'] = ord(self::CutByte($buffer, 1)); }
+        if ($response_flag & 0x00001000) { $server['convars']['skill']        = ord(self::CutByte($buffer, 1)) + 1; }
+        if ($response_flag & 0x00002000) { $server['convars']['botskill']     = ord(self::CutByte($buffer, 1)) + 1; }
         
         if ($response_flag & 0x00004000){
-            $server['e']['dmflags']     = self::UnPack(self::CutByte($buffer, 4), "l");
-            $server['e']['dmflags2']    = self::UnPack(self::CutByte($buffer, 4), "l");
-            $server['e']['compatflags'] = self::UnPack(self::CutByte($buffer, 4), "l");
+            $server['convars']['dmflags']     = self::UnPack(self::CutByte($buffer, 4), "l");
+            $server['convars']['dmflags2']    = self::UnPack(self::CutByte($buffer, 4), "l");
+            $server['convars']['compatflags'] = self::UnPack(self::CutByte($buffer, 4), "l");
         }
         
         if ($response_flag & 0x00010000){
-            $server['e']['fraglimit'] = self::UnPack(self::CutByte($buffer, 2), "s");
+            $server['convars']['fraglimit'] = self::UnPack(self::CutByte($buffer, 2), "s");
             $timelimit                = self::UnPack(self::CutByte($buffer, 2), "S");
             if ($timelimit){
-                $server['e']['timeleft'] = self::Time(self::UnPack(self::CutByte($buffer, 2), "S") * 60);
+                $server['convars']['timeleft'] = self::Time(self::UnPack(self::CutByte($buffer, 2), "S") * 60);
             }
-            $server['e']['timelimit']  = self::Time($timelimit * 60);
-            $server['e']['duellimit']  = self::UnPack(self::CutByte($buffer, 2), "s");
-            $server['e']['pointlimit'] = self::UnPack(self::CutByte($buffer, 2), "s");
-            $server['e']['winlimit']   = self::UnPack(self::CutByte($buffer, 2), "s");
+            $server['convars']['timelimit']  = self::Time($timelimit * 60);
+            $server['convars']['duellimit']  = self::UnPack(self::CutByte($buffer, 2), "s");
+            $server['convars']['pointlimit'] = self::UnPack(self::CutByte($buffer, 2), "s");
+            $server['convars']['winlimit']   = self::UnPack(self::CutByte($buffer, 2), "s");
         }
 
-        if ($response_flag & 0x00020000) { $server['e']['teamdamage'] = self::UnPack(self::CutByte($buffer, 4), "f"); }
+        if ($response_flag & 0x00020000) { $server['convars']['teamdamage'] = self::UnPack(self::CutByte($buffer, 4), "f"); }
         
         if ($response_flag & 0x00040000){
-            $server['t'][0]['score'] = self::UnPack(self::CutByte($buffer, 2), "s");
-            $server['t'][1]['score'] = self::UnPack(self::CutByte($buffer, 2), "s");
+            $server['teams'][0]['score'] = self::UnPack(self::CutByte($buffer, 2), "s");
+            $server['teams'][1]['score'] = self::UnPack(self::CutByte($buffer, 2), "s");
         }
-        if ($response_flag & 0x00080000) { $server['s']['players'] = ord(self::CutByte($buffer, 1)); }
+        if ($response_flag & 0x00080000) { $server['server']['players'] = ord(self::CutByte($buffer, 1)); }
         
         if ($response_flag & 0x00100000){
-            for ($i = 0; $i < $server['s']['players']; $i++){
-                $server['p'][$i]['name']      = self::ParserColor(self::CutString($buffer), $server['b']['type']);
-                $server['p'][$i]['score']     = self::UnPack(self::CutByte($buffer, 2), "s");
-                $server['p'][$i]['ping']      = self::UnPack(self::CutByte($buffer, 2), "S");
-                $server['p'][$i]['spectator'] = ord(self::CutByte($buffer, 1));
-                $server['p'][$i]['bot']       = ord(self::CutByte($buffer, 1));
+            for ($i = 0; $i < $server['server']['players']; $i++){
+                $server['players'][$i]['name']      = self::ParserColor(self::CutString($buffer), $server['basic']['type']);
+                $server['players'][$i]['score']     = self::UnPack(self::CutByte($buffer, 2), "s");
+                $server['players'][$i]['ping']      = self::UnPack(self::CutByte($buffer, 2), "S");
+                $server['players'][$i]['spectator'] = ord(self::CutByte($buffer, 1));
+                $server['players'][$i]['bot']       = ord(self::CutByte($buffer, 1));
 
                 if (($response_flag & 0x00200000) && ($response_flag & 0x00400000)){
-                    $server['p'][$i]['team'] = ord(self::CutByte($buffer, 1));
+                    $server['players'][$i]['team'] = ord(self::CutByte($buffer, 1));
                 }
-                $server['p'][$i]['time'] = self::Time(ord(self::CutByte($buffer, 1)) * 60);
+                $server['players'][$i]['time'] = self::Time(ord(self::CutByte($buffer, 1)) * 60);
             }
         }
 
@@ -2465,25 +2465,25 @@ class Protocols extends Functions{
 
             if ($response_flag & 0x00400000){
                 for ($i = 0; $i < $team_total; $i++) { 
-                    $server['t'][$i]['name'] = self::CutString($buffer); 
+                    $server['teams'][$i]['name'] = self::CutString($buffer); 
                 }
             }
 
             if ($response_flag & 0x00800000){
                 for ($i = 0; $i < $team_total; $i++) { 
-                    $server['t'][$i]['color'] = self::UnPack(self::CutByte($buffer, 4), "l"); 
+                    $server['teams'][$i]['color'] = self::UnPack(self::CutByte($buffer, 4), "l"); 
                 }
             }
 
             if ($response_flag & 0x01000000){
                 for ($i = 0; $i < $team_total; $i++) { 
-                    $server['t'][$i]['score'] = self::UnPack(self::CutByte($buffer, 2), "s"); 
+                    $server['teams'][$i]['score'] = self::UnPack(self::CutByte($buffer, 2), "s"); 
                 }
             }
 
-            for ($i=0; $i<$server['s']['players']; $i++){
-                if ($server['t'][$i]['name']) { 
-                    $server['p'][$i]['team'] = $server['t'][$i]['name']; 
+            for ($i=0; $i<$server['server']['players']; $i++){
+                if ($server['teams'][$i]['name']) { 
+                    $server['players'][$i]['team'] = $server['teams'][$i]['name']; 
                 }
             }
         }
@@ -2507,74 +2507,74 @@ class Protocols extends Functions{
         $response_version = self::UnPack(self::CutByte($buffer, 4), "l");
         $response_time    = self::UnPack(self::CutByte($buffer, 4), "l");
 
-        $server['e']['invited']    = ord(self::CutByte($buffer, 1));
-        $server['e']['version']    = self::UnPack(self::CutByte($buffer, 2), "S");
-        $server['s']['name']       = self::CutString($buffer);
-        $server['s']['players']    = ord(self::CutByte($buffer, 1));
-        $server['s']['playersmax'] = ord(self::CutByte($buffer, 1));
-        $server['s']['map']        = self::CutString($buffer);
+        $server['convars']['invited']    = ord(self::CutByte($buffer, 1));
+        $server['convars']['version']    = self::UnPack(self::CutByte($buffer, 2), "S");
+        $server['server']['name']       = self::CutString($buffer);
+        $server['server']['players']    = ord(self::CutByte($buffer, 1));
+        $server['server']['playersmax'] = ord(self::CutByte($buffer, 1));
+        $server['server']['map']        = self::CutString($buffer);
 
         $pwad_total = ord(self::CutByte($buffer, 1));
 
         for ($i=0; $i<$pwad_total; $i++)
         {
-            $server['e']['pwads'] .= self::CutString($buffer)." ";
+            $server['convars']['pwads'] .= self::CutString($buffer)." ";
             $pwad_optional         = ord(self::CutByte($buffer, 1));
             $pwad_alternative      = self::CutString($buffer);
         }
 
-        $server['e']['gametype']   = ord(self::CutByte($buffer, 1));
-        $server['s']['game']       = self::CutString($buffer);
-        $server['e']['iwad']       = self::CutString($buffer);
+        $server['convars']['gametype']   = ord(self::CutByte($buffer, 1));
+        $server['server']['game']       = self::CutString($buffer);
+        $server['convars']['iwad']       = self::CutString($buffer);
         $iwad_altenative           = self::CutString($buffer);
-        $server['e']['skill']      = ord(self::CutByte($buffer, 1)) + 1;
-        $server['e']['wadurl']     = self::CutString($buffer);
-        $server['e']['email']      = self::CutString($buffer);
-        $server['e']['dmflags']    = self::UnPack(self::CutByte($buffer, 4), "l");
-        $server['e']['dmflags2']   = self::UnPack(self::CutByte($buffer, 4), "l");
-        $server['s']['password']   = ord(self::CutByte($buffer, 1));
-        $server['e']['inviteonly'] = ord(self::CutByte($buffer, 1));
-        $server['e']['players']    = ord(self::CutByte($buffer, 1));
-        $server['e']['playersmax'] = ord(self::CutByte($buffer, 1));
-        $server['e']['timelimit']  = self::Time(self::UnPack(self::CutByte($buffer, 2), "S") * 60);
-        $server['e']['timeleft']   = self::Time(self::UnPack(self::CutByte($buffer, 2), "S") * 60);
-        $server['e']['fraglimit']  = self::UnPack(self::CutByte($buffer, 2), "s");
-        $server['e']['gravity']    = self::UnPack(self::CutByte($buffer, 4), "f");
-        $server['e']['aircontrol'] = self::UnPack(self::CutByte($buffer, 4), "f");
-        $server['e']['playersmin'] = ord(self::CutByte($buffer, 1));
-        $server['e']['removebots'] = ord(self::CutByte($buffer, 1));
-        $server['e']['voting']     = ord(self::CutByte($buffer, 1));
-        $server['e']['serverinfo'] = self::CutString($buffer);
-        $server['e']['startup']    = self::UnPack(self::CutByte($buffer, 4), "l");
+        $server['convars']['skill']      = ord(self::CutByte($buffer, 1)) + 1;
+        $server['convars']['wadurl']     = self::CutString($buffer);
+        $server['convars']['email']      = self::CutString($buffer);
+        $server['convars']['dmflags']    = self::UnPack(self::CutByte($buffer, 4), "l");
+        $server['convars']['dmflags2']   = self::UnPack(self::CutByte($buffer, 4), "l");
+        $server['server']['password']   = ord(self::CutByte($buffer, 1));
+        $server['convars']['inviteonly'] = ord(self::CutByte($buffer, 1));
+        $server['convars']['players']    = ord(self::CutByte($buffer, 1));
+        $server['convars']['playersmax'] = ord(self::CutByte($buffer, 1));
+        $server['convars']['timelimit']  = self::Time(self::UnPack(self::CutByte($buffer, 2), "S") * 60);
+        $server['convars']['timeleft']   = self::Time(self::UnPack(self::CutByte($buffer, 2), "S") * 60);
+        $server['convars']['fraglimit']  = self::UnPack(self::CutByte($buffer, 2), "s");
+        $server['convars']['gravity']    = self::UnPack(self::CutByte($buffer, 4), "f");
+        $server['convars']['aircontrol'] = self::UnPack(self::CutByte($buffer, 4), "f");
+        $server['convars']['playersmin'] = ord(self::CutByte($buffer, 1));
+        $server['convars']['removebots'] = ord(self::CutByte($buffer, 1));
+        $server['convars']['voting']     = ord(self::CutByte($buffer, 1));
+        $server['convars']['serverinfo'] = self::CutString($buffer);
+        $server['convars']['startup']    = self::UnPack(self::CutByte($buffer, 4), "l");
 
-        for ($i = 0; $i < $server['s']['players']; $i++)
+        for ($i = 0; $i < $server['server']['players']; $i++)
         {
-            $server['p'][$i]['name']      = self::CutString($buffer);
-            $server['p'][$i]['score']     = self::UnPack(self::CutByte($buffer, 2), "s");
-            $server['p'][$i]['death']     = self::UnPack(self::CutByte($buffer, 2), "s");
-            $server['p'][$i]['ping']      = self::UnPack(self::CutByte($buffer, 2), "S");
-            $server['p'][$i]['time']      = self::Time(self::UnPack(self::CutByte($buffer, 2), "S") * 60);
-            $server['p'][$i]['bot']       = ord(self::CutByte($buffer, 1));
-            $server['p'][$i]['spectator'] = ord(self::CutByte($buffer, 1));
-            $server['p'][$i]['team']      = ord(self::CutByte($buffer, 1));
-            $server['p'][$i]['country']   = self::CutByte($buffer, 2);
+            $server['players'][$i]['name']      = self::CutString($buffer);
+            $server['players'][$i]['score']     = self::UnPack(self::CutByte($buffer, 2), "s");
+            $server['players'][$i]['death']     = self::UnPack(self::CutByte($buffer, 2), "s");
+            $server['players'][$i]['ping']      = self::UnPack(self::CutByte($buffer, 2), "S");
+            $server['players'][$i]['time']      = self::Time(self::UnPack(self::CutByte($buffer, 2), "S") * 60);
+            $server['players'][$i]['bot']       = ord(self::CutByte($buffer, 1));
+            $server['players'][$i]['spectator'] = ord(self::CutByte($buffer, 1));
+            $server['players'][$i]['team']      = ord(self::CutByte($buffer, 1));
+            $server['players'][$i]['country']   = self::CutByte($buffer, 2);
         }
 
         $team_total                = ord(self::CutByte($buffer, 1));
-        $server['e']['pointlimit'] = self::UnPack(self::CutByte($buffer, 2), "s");
-        $server['e']['teamdamage'] = self::UnPack(self::CutByte($buffer, 4), "f");
+        $server['convars']['pointlimit'] = self::UnPack(self::CutByte($buffer, 2), "s");
+        $server['convars']['teamdamage'] = self::UnPack(self::CutByte($buffer, 4), "f");
 
         for ($i = 0; $i < $team_total; $i++) // RETURNS 4 TEAMS BUT IGNORE THOSE NOT IN USE
         {
-            $server['t']['team'][$i]['name']  = self::CutString($buffer);
-            $server['t']['team'][$i]['color'] = self::UnPack(self::CutByte($buffer, 4), "l");
-            $server['t']['team'][$i]['score'] = self::UnPack(self::CutByte($buffer, 2), "s");
+            $server['teams']['team'][$i]['name']  = self::CutString($buffer);
+            $server['teams']['team'][$i]['color'] = self::UnPack(self::CutByte($buffer, 4), "l");
+            $server['teams']['team'][$i]['score'] = self::UnPack(self::CutByte($buffer, 2), "s");
         }
 
-        for ($i = 0; $i < $server['s']['players']; $i++)
+        for ($i = 0; $i < $server['server']['players']; $i++)
         {
-            if ($server['t'][$i]['name']) { 
-                $server['p'][$i]['team'] = $server['t'][$i]['name']; 
+            if ($server['teams'][$i]['name']) { 
+                $server['players'][$i]['team'] = $server['teams'][$i]['name']; 
             }
         }
 
@@ -2586,9 +2586,9 @@ class Protocols extends Functions{
     {
         //---------------------------------------------------------+
         //  REFERENCE: http://www.cs2d.com/servers.php
-        if ($lgsl_need['s'] || $lgsl_need['e']){
+        if ($lgsl_need['s'] || $lgsl_need['c']){
             $lgsl_need['s'] = FALSE;
-            $lgsl_need['e'] = FALSE;
+            $lgsl_need['c'] = FALSE;
 
             fwrite($lgsl_fp, "\x01\x00\x03\x10\x21\xFB\x01\x75\x00");
 
@@ -2598,18 +2598,18 @@ class Protocols extends Functions{
 
             $buffer = substr($buffer, 4); // REMOVE HEADER
 
-            $server['e']['bit_flags']  = ord(self::CutByte($buffer, 1)) - 48;
-            $server['s']['name']       = self::CutPascal($buffer);
-            $server['s']['map']        = self::CutPascal($buffer);
-            $server['s']['players']    = ord(self::CutByte($buffer, 1));
-            $server['s']['playersmax'] = ord(self::CutByte($buffer, 1));
-            $server['e']['gamemode']   = ord(self::CutByte($buffer, 1));
-            $server['e']['bots']       = ord(self::CutByte($buffer, 1));
+            $server['convars']['bit_flags']  = ord(self::CutByte($buffer, 1)) - 48;
+            $server['server']['name']       = self::CutPascal($buffer);
+            $server['server']['map']        = self::CutPascal($buffer);
+            $server['server']['players']    = ord(self::CutByte($buffer, 1));
+            $server['server']['playersmax'] = ord(self::CutByte($buffer, 1));
+            $server['convars']['gamemode']   = ord(self::CutByte($buffer, 1));
+            $server['convars']['bots']       = ord(self::CutByte($buffer, 1));
 
-            $server['s']['password']        = ($server['e']['bit_flags'] & 1) ? "1" : "0";
-            $server['e']['registered_only'] = ($server['e']['bit_flags'] & 2) ? "1" : "0";
-            $server['e']['fog_of_war']      = ($server['e']['bit_flags'] & 4) ? "1" : "0";
-            $server['e']['friendlyfire']    = ($server['e']['bit_flags'] & 8) ? "1" : "0";
+            $server['server']['password']        = ($server['convars']['bit_flags'] & 1) ? "1" : "0";
+            $server['convars']['registered_only'] = ($server['convars']['bit_flags'] & 2) ? "1" : "0";
+            $server['convars']['fog_of_war']      = ($server['convars']['bit_flags'] & 4) ? "1" : "0";
+            $server['convars']['friendlyfire']    = ($server['convars']['bit_flags'] & 8) ? "1" : "0";
         }
 
         if ($lgsl_need['p'])
@@ -2628,11 +2628,11 @@ class Protocols extends Functions{
 
             for ($i = 0; $i < $player_total; $i++)
             {
-                $server['p'][$i]['pid']    = ord(self::CutByte($buffer, 1));
-                $server['p'][$i]['name']   = self::CutPascal($buffer);
-                $server['p'][$i]['team']   = ord(self::CutByte($buffer, 1));
-                $server['p'][$i]['score']  = self::UnPack(self::CutByte($buffer, 4), "l");
-                $server['p'][$i]['deaths'] = self::UnPack(self::CutByte($buffer, 4), "l");
+                $server['players'][$i]['pid']    = ord(self::CutByte($buffer, 1));
+                $server['players'][$i]['name']   = self::CutPascal($buffer);
+                $server['players'][$i]['team']   = ord(self::CutByte($buffer, 1));
+                $server['players'][$i]['score']  = self::UnPack(self::CutByte($buffer, 4), "l");
+                $server['players'][$i]['deaths'] = self::UnPack(self::CutByte($buffer, 4), "l");
             }
         }
 
@@ -2645,7 +2645,7 @@ class Protocols extends Functions{
         //---------------------------------------------------------+
         //  REFERENCE: http://blogs.battlefield.ea.com/battlefield_bad_company/archive/2010/02/05/remote-administration-interface-for-bfbc2-pc.aspx
         //  THIS USES TCP COMMUNICATION
-        if ($lgsl_need['s'] || $lgsl_need['e']){
+        if ($lgsl_need['s'] || $lgsl_need['c']){
             fwrite($lgsl_fp, "\x00\x00\x00\x00\x1B\x00\x00\x00\x01\x00\x00\x00\x0A\x00\x00\x00serverInfo\x00");
         }
         elseif ($lgsl_need['p']){
@@ -2673,33 +2673,33 @@ class Protocols extends Functions{
 
         //---------------------------------------------------------+
 
-        if ($lgsl_need['s'] || $lgsl_need['e'])
+        if ($lgsl_need['s'] || $lgsl_need['c'])
         {
             $lgsl_need['s'] = FALSE;
-            $lgsl_need['e'] = FALSE;
+            $lgsl_need['c'] = FALSE;
 
-            $server['s']['name']            = self::CutPascal($buffer, 4, 0, 1);
-            $server['s']['players']         = self::CutPascal($buffer, 4, 0, 1);
-            $server['s']['playersmax']      = self::CutPascal($buffer, 4, 0, 1);
-            $server['e']['gamemode']        = self::CutPascal($buffer, 4, 0, 1);
-            $server['s']['map']             = self::CutPascal($buffer, 4, 0, 1);
-            $server['e']['score_attackers'] = self::CutPascal($buffer, 4, 0, 1);
-            $server['e']['score_defenders'] = self::CutPascal($buffer, 4, 0, 1);
+            $server['server']['name']            = self::CutPascal($buffer, 4, 0, 1);
+            $server['server']['players']         = self::CutPascal($buffer, 4, 0, 1);
+            $server['server']['playersmax']      = self::CutPascal($buffer, 4, 0, 1);
+            $server['convars']['gamemode']        = self::CutPascal($buffer, 4, 0, 1);
+            $server['server']['map']             = self::CutPascal($buffer, 4, 0, 1);
+            $server['convars']['score_attackers'] = self::CutPascal($buffer, 4, 0, 1);
+            $server['convars']['score_defenders'] = self::CutPascal($buffer, 4, 0, 1);
 
             // CONVERT MAP NUMBER TO DESCRIPTIVE NAME
-            $server['e']['level'] = $server['s']['map'];
-            $map_check = strtolower($server['s']['map']);
+            $server['convars']['level'] = $server['server']['map'];
+            $map_check = strtolower($server['server']['map']);
 
-            if     (strpos($map_check, "mp_001") !== FALSE) { $server['s']['map'] = "Panama Canal";   }
-            elseif (strpos($map_check, "mp_002") !== FALSE) { $server['s']['map'] = "Valparaiso";     }
-            elseif (strpos($map_check, "mp_003") !== FALSE) { $server['s']['map'] = "Laguna Alta";    }
-            elseif (strpos($map_check, "mp_004") !== FALSE) { $server['s']['map'] = "Isla Inocentes"; }
-            elseif (strpos($map_check, "mp_005") !== FALSE) { $server['s']['map'] = "Atacama Desert"; }
-            elseif (strpos($map_check, "mp_006") !== FALSE) { $server['s']['map'] = "Arica Harbor";   }
-            elseif (strpos($map_check, "mp_007") !== FALSE) { $server['s']['map'] = "White Pass";     }
-            elseif (strpos($map_check, "mp_008") !== FALSE) { $server['s']['map'] = "Nelson Bay";     }
-            elseif (strpos($map_check, "mp_009") !== FALSE) { $server['s']['map'] = "Laguna Presa";   }
-            elseif (strpos($map_check, "mp_012") !== FALSE) { $server['s']['map'] = "Port Valdez";    }
+            if     (strpos($map_check, "mp_001") !== FALSE) { $server['server']['map'] = "Panama Canal";   }
+            elseif (strpos($map_check, "mp_002") !== FALSE) { $server['server']['map'] = "Valparaiso";     }
+            elseif (strpos($map_check, "mp_003") !== FALSE) { $server['server']['map'] = "Laguna Alta";    }
+            elseif (strpos($map_check, "mp_004") !== FALSE) { $server['server']['map'] = "Isla Inocentes"; }
+            elseif (strpos($map_check, "mp_005") !== FALSE) { $server['server']['map'] = "Atacama Desert"; }
+            elseif (strpos($map_check, "mp_006") !== FALSE) { $server['server']['map'] = "Arica Harbor";   }
+            elseif (strpos($map_check, "mp_007") !== FALSE) { $server['server']['map'] = "White Pass";     }
+            elseif (strpos($map_check, "mp_008") !== FALSE) { $server['server']['map'] = "Nelson Bay";     }
+            elseif (strpos($map_check, "mp_009") !== FALSE) { $server['server']['map'] = "Laguna Presa";   }
+            elseif (strpos($map_check, "mp_012") !== FALSE) { $server['server']['map'] = "Port Valdez";    }
         }
 
         //---------------------------------------------------------+
@@ -2724,11 +2724,11 @@ class Protocols extends Functions{
                     $value = self::CutPascal($buffer, 4, 0, 1);
                     switch ($field)
                     {
-                        case "clantag": $server['p'][$i]['name']  = $value;                                                                             break;
-                        case "name":    $server['p'][$i]['name']  = empty($server['p'][$i]['name']) ? $value : "[{$server['p'][$i]['name']}] {$value}"; break;
-                        case "teamid":  $server['p'][$i]['team']  = isset($player_team[$value]) ? $player_team[$value] : $value;                        break;
-                        case "squadid": $server['p'][$i]['squad'] = isset($player_squad[$value]) ? $player_squad[$value] : $value;                      break;
-                        default:        $server['p'][$i][$field]  = $value;                                                                             break;
+                        case "clantag": $server['players'][$i]['name']  = $value;                                                                             break;
+                        case "name":    $server['players'][$i]['name']  = empty($server['players'][$i]['name']) ? $value : "[{$server['players'][$i]['name']}] {$value}"; break;
+                        case "teamid":  $server['players'][$i]['team']  = isset($player_team[$value]) ? $player_team[$value] : $value;                        break;
+                        case "squadid": $server['players'][$i]['squad'] = isset($player_squad[$value]) ? $player_squad[$value] : $value;                      break;
+                        default:        $server['players'][$i][$field]  = $value;                                                                             break;
                     }
                 }
             }
@@ -2751,24 +2751,24 @@ class Protocols extends Functions{
 
         $buffer = substr($buffer, 5); // REMOVE HEADER
 
-        $server['e']['netcode']     = ord(self::CutByte($buffer, 1));
-        $server['s']['name']        = self::CutString($buffer);
-        $server['s']['map']         = self::CutString($buffer);
-        $server['s']['game']        = self::CutString($buffer);
-        $server['e']['description'] = self::CutString($buffer);
-        $server['e']['appid']       = self::UnPack(self::CutByte($buffer, 2), "S");
-        $server['s']['players']     = ord(self::CutByte($buffer, 1));
-        $server['s']['playersmax']  = ord(self::CutByte($buffer, 1));
-        $server['e']['bots']        = ord(self::CutByte($buffer, 1));
-        $server['e']['dedicated']   = self::CutByte($buffer, 1);
-        $server['e']['os']          = self::CutByte($buffer, 1);
-        $server['s']['password']    = ord(self::CutByte($buffer, 1));
-        $server['e']['anticheat']   = ord(self::CutByte($buffer, 1));
-        $server['e']['version']     = self::CutString($buffer);
+        $server['convars']['netcode']     = ord(self::CutByte($buffer, 1));
+        $server['server']['name']        = self::CutString($buffer);
+        $server['server']['map']         = self::CutString($buffer);
+        $server['server']['game']        = self::CutString($buffer);
+        $server['convars']['description'] = self::CutString($buffer);
+        $server['convars']['appid']       = self::UnPack(self::CutByte($buffer, 2), "S");
+        $server['server']['players']     = ord(self::CutByte($buffer, 1));
+        $server['server']['playersmax']  = ord(self::CutByte($buffer, 1));
+        $server['convars']['bots']        = ord(self::CutByte($buffer, 1));
+        $server['convars']['dedicated']   = self::CutByte($buffer, 1);
+        $server['convars']['os']          = self::CutByte($buffer, 1);
+        $server['server']['password']    = ord(self::CutByte($buffer, 1));
+        $server['convars']['anticheat']   = ord(self::CutByte($buffer, 1));
+        $server['convars']['version']     = self::CutString($buffer);
 
         $buffer = substr($buffer, 1);
-        $server['e']['hostport']     = self::UnPack(self::CutByte($buffer, 2), "S");
-        $server['e']['friendlyfire'] = $buffer[124];
+        $server['convars']['hostport']     = self::UnPack(self::CutByte($buffer, 2), "S");
+        $server['convars']['friendlyfire'] = $buffer[124];
 
         // DOES NOT RETURN PLAYER INFORMATION
         //---------------------------------------------------------+
@@ -2786,10 +2786,10 @@ class Protocols extends Functions{
 
         $buffer = substr($buffer, 5); // REMOVE HEADER
 
-        $server['s']['name']       = self::CutPascal($buffer);
-        $server['s']['map']        = self::CutPascal($buffer);
-        $server['s']['players']    = ord(self::CutByte($buffer, 1));
-        $server['s']['playersmax'] = 0; // HELD ON MASTER
+        $server['server']['name']       = self::CutPascal($buffer);
+        $server['server']['map']        = self::CutPascal($buffer);
+        $server['server']['players']    = ord(self::CutByte($buffer, 1));
+        $server['server']['playersmax'] = 0; // HELD ON MASTER
 
         // DOES NOT RETURN PLAYER INFORMATION
         //---------------------------------------------------------+
@@ -2804,7 +2804,7 @@ class Protocols extends Functions{
             }
         }
 
-        $ver = $server['b']['type'] == 'ts' ? 0 : 1;
+        $ver = $server['basic']['type'] == 'ts' ? 0 : 1;
         $param[0] = [ 'sel ', 'si',"\r\n", 'pl' ];
         $param[1] = [ 'use port=', 'serverinfo', ' ','clientlist -country', 'channellist -topic' ];
 
@@ -2812,7 +2812,7 @@ class Protocols extends Functions{
             fread($lgsl_fp, 4096); 
         }
 
-        fwrite($lgsl_fp, $param[$ver][0].$server['b']['c_port']."\n"); // select virtualserver
+        fwrite($lgsl_fp, $param[$ver][0].$server['basic']['c_port']."\n"); // select virtualserver
         if (strtoupper(substr(fread($lgsl_fp, 4096), -4, -2)) != 'OK') { 
             return FALSE; 
         }
@@ -2837,18 +2837,18 @@ class Protocols extends Functions{
             return FALSE; 
         }
 
-        $server['s']['name']       = $ver ? self::UnEscape($items['name']) : $items['name'];
-        $server['s']['map']        = $server['b']['type'];
-        $server['s']['players']    = intval($items[$ver ? 'clientsonline' : 'currentusers']) - $ver;
-        $server['s']['playersmax'] = intval($items[$ver ? 'maxclients' : 'maxusers']);
-        $server['s']['password']   = intval($items[$ver ? 'flag_password' : 'password']);
-        $server['e']['platform']   = $items['platform'];
-        $server['e']['motd']       = $ver ? self::UnEscape($items['welcomemessage']) : $items['welcomemessage'];
-        $server['e']['uptime']     = self::Time($items['uptime']);
-        $server['e']['channels']   = $items[$ver ? 'channelsonline' : 'currentchannels'];
+        $server['server']['name']       = $ver ? self::UnEscape($items['name']) : $items['name'];
+        $server['server']['map']        = $server['basic']['type'];
+        $server['server']['players']    = intval($items[$ver ? 'clientsonline' : 'currentusers']) - $ver;
+        $server['server']['playersmax'] = intval($items[$ver ? 'maxclients' : 'maxusers']);
+        $server['server']['password']   = intval($items[$ver ? 'flag_password' : 'password']);
+        $server['convars']['platform']   = $items['platform'];
+        $server['convars']['motd']       = $ver ? self::UnEscape($items['welcomemessage']) : $items['welcomemessage'];
+        $server['convars']['uptime']     = self::Time($items['uptime']);
+        $server['convars']['channels']   = $items[$ver ? 'channelsonline' : 'currentchannels'];
     
-        if ($ver) { $server['e']['version'] = self::UnEscape($items['version']); }
-        if (!$lgsl_need['p'] || $server['s']['players'] < 1) { return TRUE; }
+        if ($ver) { $server['convars']['version'] = self::UnEscape($items['version']); }
+        if (!$lgsl_need['p'] || $server['server']['players'] < 1) { return TRUE; }
 
         fwrite($lgsl_fp, $param[$ver][3]."\n"); // request playerlist
         $buffer = fread($lgsl_fp, 4096);
@@ -2870,16 +2870,16 @@ class Protocols extends Functions{
 
                 if (substr($name, 0, 15) == 'Unknown\sfrom\s') { continue; }
 
-                $server['p'][$i]['name'] = self::UnEscape($name); self::CutString($items, 0, 'ry');
-                $server['p'][$i]['country'] = substr($items, 0, 1) == '=' ? substr($items, 1, 2) : ''; $i++;
+                $server['players'][$i]['name'] = self::UnEscape($name); self::CutString($items, 0, 'ry');
+                $server['players'][$i]['country'] = substr($items, 0, 1) == '=' ? substr($items, 1, 2) : ''; $i++;
             }
         }else {
             $buffer = substr($buffer, 89, -4);
             while ($items = self::CutString($buffer, 0, "\r\n")) {
                 $items = explode("\t", $items);
-                $server['p'][$i]['name'] = substr($items[14], 1, -1);
-                $server['p'][$i]['ping'] = $items[7];
-                $server['p'][$i]['time'] = self::Time($items[8]); $i++;
+                $server['players'][$i]['name'] = substr($items[14], 1, -1);
+                $server['players'][$i]['ping'] = $items[7];
+                $server['players'][$i]['time'] = self::Time($items[8]); $i++;
             }
         }
 
@@ -2900,7 +2900,7 @@ class Protocols extends Functions{
                 self::CutString($items, 0, 'e=');
                 $name = self::CutString($items, 0, ' ');
                 if(strpos($name, '*spacer') != FALSE) { continue; }
-                $server['e']['channel'.$id] = self::UnEscape($name);
+                $server['convars']['channel'.$id] = self::UnEscape($name);
             }
         }
         return TRUE;
@@ -2910,23 +2910,23 @@ class Protocols extends Functions{
     {
         if(!$lgsl_fp) return FALSE;
 
-        $lgsl_need['e'] = FALSE;
+        $lgsl_need['c'] = FALSE;
         $lgsl_need['p'] = FALSE;
 
         curl_setopt($lgsl_fp, CURLOPT_URL, 'https://cdn.rage.mp/master/');
         $buffer = curl_exec($lgsl_fp);
         $buffer = json_decode($buffer, true);
 
-        if(isset($buffer[$server['b']['ip'].':'.$server['b']['c_port']])){
-            $value = $buffer[$server['b']['ip'].':'.$server['b']['c_port']];
-            $server['s']['name']       = $value['name'];
-            $server['s']['map']        = "ragemp";
-            $server['s']['players']    = $value['players'];
-            $server['s']['playersmax'] = $value['maxplayers'];
-            $server['e']['url']        = $value['url'];
-            $server['e']['peak']       = $value['peak'];
-            $server['e']['gamemode']   = $value['gamemode'];
-            $server['e']['lang']       = $value['lang'];
+        if(isset($buffer[$server['basic']['ip'].':'.$server['basic']['c_port']])){
+            $value = $buffer[$server['basic']['ip'].':'.$server['basic']['c_port']];
+            $server['server']['name']       = $value['name'];
+            $server['server']['map']        = "ragemp";
+            $server['server']['players']    = $value['players'];
+            $server['server']['playersmax'] = $value['maxplayers'];
+            $server['convars']['url']        = $value['url'];
+            $server['convars']['peak']       = $value['peak'];
+            $server['convars']['gamemode']   = $value['gamemode'];
+            $server['convars']['lang']       = $value['lang'];
             return TRUE;
         }
         return FALSE;
@@ -2936,34 +2936,34 @@ class Protocols extends Functions{
     {
         if(!$lgsl_fp) return FALSE;
 
-        curl_setopt($lgsl_fp, CURLOPT_URL, "http://{$server['b']['ip']}:{$server['b']['q_port']}/dynamic.json");
+        curl_setopt($lgsl_fp, CURLOPT_URL, "http://{$server['basic']['ip']}:{$server['basic']['q_port']}/dynamic.json");
         $buffer = curl_exec($lgsl_fp);
         $buffer = json_decode($buffer, true);
 
         if(!$buffer) return FALSE;
 
-        $server['s']['name'] = self::ParserColor($buffer['hostname'], 'fivem');
-        $server['s']['players'] = $buffer['clients'];
-        $server['s']['playersmax'] = $buffer['sv_maxclients'];
-        $server['s']['map'] = $buffer['mapname'];
+        $server['server']['name'] = self::ParserColor($buffer['hostname'], 'fivem');
+        $server['server']['players'] = $buffer['clients'];
+        $server['server']['playersmax'] = $buffer['sv_maxclients'];
+        $server['server']['map'] = $buffer['mapname'];
 
-        if ($server['s']['map'] == 'redm-map-one'){
-            $server['s']['game'] = 'redm';
+        if ($server['server']['map'] == 'redm-map-one'){
+            $server['server']['game'] = 'redm';
         }
 
-        $server['e']['gametype'] = $buffer['gametype'];
-        $server['e']['version'] = $buffer['iv'];
+        $server['convars']['gametype'] = $buffer['gametype'];
+        $server['convars']['version'] = $buffer['iv'];
 
         if($lgsl_need['p']) {
             $lgsl_need['p'] = FALSE;
 
-            curl_setopt($lgsl_fp, CURLOPT_URL, "http://{$server['b']['ip']}:{$server['b']['q_port']}/players.json");
+            curl_setopt($lgsl_fp, CURLOPT_URL, "http://{$server['basic']['ip']}:{$server['basic']['q_port']}/players.json");
             $buffer = curl_exec($lgsl_fp);
             $buffer = json_decode($buffer, true);
 
             foreach($buffer as $key => $value){
-                $server['p'][$key]['name'] = $value['name'];
-                $server['p'][$key]['ping'] = $value['ping'];
+                $server['players'][$key]['name'] = $value['name'];
+                $server['players'][$key]['ping'] = $value['ping'];
             }
         }
         return TRUE;
@@ -2975,55 +2975,55 @@ class Protocols extends Functions{
 
         $lgsl_need['s'] = FALSE;
 
-        curl_setopt($lgsl_fp, CURLOPT_URL, "https://discord.com/api/v9/invites/{$server['b']['ip']}?with_counts=true");
+        curl_setopt($lgsl_fp, CURLOPT_URL, "https://discord.com/api/v9/invites/{$server['basic']['ip']}?with_counts=true");
         $buffer = curl_exec($lgsl_fp);
         $buffer = json_decode($buffer, true);
 
         if(isset($buffer['message'])){
-            $server['e']['_error_fetching_info'] = $buffer['message'];
+            $server['convars']['_error_fetching_info'] = $buffer['message'];
             return FALSE;
         }
 
-        $server['s']['map'] = 'discord';
-        $server['s']['name'] = $buffer['guild']['name'];
-        $server['s']['players'] = $buffer['approximate_presence_count'];
-        $server['s']['playersmax'] = $buffer['approximate_member_count'];
-        $server['e']['id'] = $buffer['guild']['id'];
+        $server['server']['map'] = 'discord';
+        $server['server']['name'] = $buffer['guild']['name'];
+        $server['server']['players'] = $buffer['approximate_presence_count'];
+        $server['server']['playersmax'] = $buffer['approximate_member_count'];
+        $server['convars']['id'] = $buffer['guild']['id'];
 
         if($buffer['guild']['description'])
-            $server['e']['description'] = $buffer['guild']['description'];
+            $server['convars']['description'] = $buffer['guild']['description'];
 
         if($buffer['guild']['welcome_screen'] && $buffer['guild']['welcome_screen']['description'])
-            $server['e']['description'] = $buffer['guild']['welcome_screen']['description'];
+            $server['convars']['description'] = $buffer['guild']['welcome_screen']['description'];
 
-        $server['e']['features'] = implode(', ', $buffer['guild']['features']);
-        $server['e']['nsfw'] = (int) $buffer['guild']['nsfw'];
+        $server['convars']['features'] = implode(', ', $buffer['guild']['features']);
+        $server['convars']['nsfw'] = (int) $buffer['guild']['nsfw'];
     
         if(isset($buffer['inviter']))
-            $server['e']['inviter'] = $buffer['inviter']['username'] . "#" . $buffer['inviter']['discriminator'];
+            $server['convars']['inviter'] = $buffer['inviter']['username'] . "#" . $buffer['inviter']['discriminator'];
 
         if($lgsl_need['p']) {
             $lgsl_need['p'] = FALSE;
 
-            curl_setopt($lgsl_fp, CURLOPT_URL, "https://discordapp.com/api/guilds/{$server['e']['id']}/widget.json");
+            curl_setopt($lgsl_fp, CURLOPT_URL, "https://discordapp.com/api/guilds/{$server['convars']['id']}/widget.json");
             $buffer = curl_exec($lgsl_fp);
             $buffer = json_decode($buffer, true);
 
             if(isset($buffer['code']) and $buffer['code'] == 0){
-                $server['e']['_error_fetching_users'] = $buffer['message'];
+                $server['convars']['_error_fetching_users'] = $buffer['message'];
             }
 
             if(isset($buffer['channels'])){
                 foreach($buffer['channels'] as $key => $value){
-                    $server['e']['channel'.$key] = $value['name'];
+                    $server['convars']['channel'.$key] = $value['name'];
                 }
             }
 
             if(isset($buffer['members'])){
                 foreach($buffer['members'] as $key => $value){
-                    $server['p'][$key]['name'] = $value['username'];
-                    $server['p'][$key]['status'] = $value['status'];
-                    $server['p'][$key]['game'] = isset($value['game']) ? $value['game']['name'] : '--';
+                    $server['players'][$key]['name'] = $value['username'];
+                    $server['players'][$key]['status'] = $value['status'];
+                    $server['players'][$key]['game'] = isset($value['game']) ? $value['game']['name'] : '--';
                 }
             }
         }
@@ -3034,10 +3034,10 @@ class Protocols extends Functions{
     {
         if (!$lgsl_fp) return FALSE;
 
-        $lgsl_need['e'] = FALSE;
+        $lgsl_need['c'] = FALSE;
         $lgsl_need['p'] = FALSE;
 
-        curl_setopt($lgsl_fp, CURLOPT_URL, "https://api.hellbz.de/scum/api.php?address={$server['b']['ip']}&port={$server['b']['c_port']}");
+        curl_setopt($lgsl_fp, CURLOPT_URL, "https://api.hellbz.de/scum/api.php?address={$server['basic']['ip']}&port={$server['basic']['c_port']}");
         $buffer = curl_exec($lgsl_fp);
         $buffer = json_decode($buffer, true);
 
@@ -3045,12 +3045,12 @@ class Protocols extends Functions{
 
         $lgsl_need['s'] = FALSE;
 
-        $server['s']['name']        = $buffer['data'][0]['name'];
-        $server['s']['map']         = "SCUM";
-        $server['s']['players']     = $buffer['data'][0]['players'];
-        $server['s']['playersmax']  = $buffer['data'][0]['players_max'];
-        $server['e']['time']        = $buffer['data'][0]['time'];
-        $server['e']['version']     = $buffer['data'][0]['version'];
+        $server['server']['name']        = $buffer['data'][0]['name'];
+        $server['server']['map']         = "SCUM";
+        $server['server']['players']     = $buffer['data'][0]['players'];
+        $server['server']['playersmax']  = $buffer['data'][0]['players_max'];
+        $server['convars']['time']        = $buffer['data'][0]['time'];
+        $server['convars']['version']     = $buffer['data'][0]['version'];
 
         return TRUE;
     }
@@ -3059,22 +3059,22 @@ class Protocols extends Functions{
     {
         if (!$lgsl_fp) return FALSE;
     
-        curl_setopt($lgsl_fp, CURLOPT_URL, "http://{$server['b']['ip']}:{$server['b']['q_port']}/v2/server/status?players=true");
+        curl_setopt($lgsl_fp, CURLOPT_URL, "http://{$server['basic']['ip']}:{$server['basic']['q_port']}/v2/server/status?players=true");
         $buffer = curl_exec($lgsl_fp);
         $buffer = json_decode($buffer, true);
 
         if($buffer['status'] != '200'){
-            $server['e']['_error']    = $buffer['error'];
+            $server['convars']['_error']    = $buffer['error'];
             return FALSE;
         }
     
-        $server['s']['name']        = $buffer['name'];
-        $server['s']['map']         = $buffer['world'];
-        $server['s']['players']     = $buffer['playercount'];
-        $server['s']['playersmax']  = $buffer['maxplayers'];
-        $server['s']['password']    = $buffer['serverpassword'];
-        $server['e']['uptime']      = $buffer['uptime'];
-        $server['e']['version']     = $buffer['serverversion'];
+        $server['server']['name']        = $buffer['name'];
+        $server['server']['map']         = $buffer['world'];
+        $server['server']['players']     = $buffer['playercount'];
+        $server['server']['playersmax']  = $buffer['maxplayers'];
+        $server['server']['password']    = $buffer['serverpassword'];
+        $server['convars']['uptime']      = $buffer['uptime'];
+        $server['convars']['version']     = $buffer['serverversion'];
 
         return TRUE;
     }
@@ -3088,27 +3088,27 @@ class Protocols extends Functions{
 
         $buffer = substr($buffer, 4); // REMOVE HEADER
 
-        $server['s']['name']        = self::CutPascal($buffer, 1, -1);
-        $server['s']['map']         = "Empire Bay";
-        $server['s']['players']     = self::CutPascal($buffer, 1, -1);
-        $server['s']['playersmax']  = self::CutPascal($buffer, 1, -1);
-        $server['s']['password']    = 0;
-        $server['e']['gamemode']    = self::CutPascal($buffer, 1, -1);
+        $server['server']['name']        = self::CutPascal($buffer, 1, -1);
+        $server['server']['map']         = "Empire Bay";
+        $server['server']['players']     = self::CutPascal($buffer, 1, -1);
+        $server['server']['playersmax']  = self::CutPascal($buffer, 1, -1);
+        $server['server']['password']    = 0;
+        $server['convars']['gamemode']    = self::CutPascal($buffer, 1, -1);
 
         return TRUE;
     }
 
     public static function Query40(&$server, &$lgsl_need, &$lgsl_fp) // Farming Simulator
     {
-        curl_setopt($lgsl_fp, CURLOPT_URL, "http://{$server['b']['ip']}:{$server['b']['q_port']}/index.html"); // CAN QUERY ONLY SERVER NAME AND ONLINE STATUS, MEH
+        curl_setopt($lgsl_fp, CURLOPT_URL, "http://{$server['basic']['ip']}:{$server['basic']['q_port']}/index.html"); // CAN QUERY ONLY SERVER NAME AND ONLINE STATUS, MEH
         $buffer = curl_exec($lgsl_fp);
 
         if (!$buffer) { return FALSE; }
     
         preg_match('/<h2>Login to [\w\d\s\/\\&@"\'-]+<\/h2>/', $buffer, $name);
 
-        $server['s']['name']        = substr($name[0], 12, strlen($name[0])-17);
-        $server['s']['map']         = "Farm";
+        $server['server']['name']        = substr($name[0], 12, strlen($name[0])-17);
+        $server['server']['map']         = "Farm";
 
         return strpos($buffer, 'status-indicator online') !== FALSE;
     }
@@ -3117,20 +3117,20 @@ class Protocols extends Functions{
     {
         if (!$lgsl_fp) return FALSE;
 
-        $lgsl_need['e'] = FALSE;
+        $lgsl_need['c'] = FALSE;
         $lgsl_need['p'] = FALSE;
 
-        if ($server['b']['type'] == 'wow') {
+        if ($server['basic']['type'] == 'wow') {
             $buffer = fread($lgsl_fp, 5);
             if ($buffer && $buffer == "\x00\x2A\xEC\x01\x01") {
-                $server['s']['name']        = "World of Warcraft Server";
-                $server['s']['map']         = "Twisting Nether";
+                $server['server']['name']        = "World of Warcraft Server";
+                $server['server']['map']         = "Twisting Nether";
                 return TRUE;
             }
             return FALSE;
         }
 
-        if ($server['b']['type'] == 'sf') {
+        if ($server['basic']['type'] == 'sf') {
             fwrite($lgsl_fp, "\x00\x00\xd6\x9c\x28\x25\x00\x00\x00\x00");
             $buffer = fread($lgsl_fp, 128);
             if (!$buffer) {
@@ -3140,9 +3140,9 @@ class Protocols extends Functions{
             $version = self::UnPack(self::CutByte($buffer, 1), "H*");
             $version = self::UnPack(self::CutByte($buffer, 1), "H*") . $version;
             $version = self::UnPack(self::CutByte($buffer, 1), "H*") . $version;
-            $server['s']['name']        = "Satisfactory Dedicated Server";
-            $server['s']['map']         = "World";
-            $server['e']['version']     = hexdec($version);
+            $server['server']['name']        = "Satisfactory Dedicated Server";
+            $server['server']['map']         = "World";
+            $server['convars']['version']     = hexdec($version);
             return TRUE;
         }
         return FALSE;
