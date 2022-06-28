@@ -1,55 +1,29 @@
 {
-    "name": "grinjackal/lgsl",
+    "name": "grinjackal/lgsq",
     "description": "Live Game Server Query",
+    "version": "2.0.0",
     "keywords": [
         "grinjackal",
-        "gameserver",
-        "query",
-		"discord", "fivem", "minecraft", "cs", "gmod", "rust", "dayz", "ark", "samp",
-        "cs16", "cs 1.6", "Counter strike", "csgo", "css", "samp", "mp"
-	],
-    "homepage": "https://github.com/grinjackal/lgsl",
-    "license": "MIT",
+        "lgsq"
+    ],
+    "homepage": "https://github.com/grinjackal/lgsq",
+    "license": "GNU AGPLv",
     "type": "library",
     "authors": [
         {
-			"name": "Richard Perry",
-			"homepage": "http://www.greycube.com",
-			"role": "Author"
-		},
-		{
-			"name": "Neon",
-			"homepage": "https://github.com/tltneon",
-			"role": "Developer"
-		},
-        {
             "name": "Grin Jackal",
-            "homepage": "https://github.com/grinjackal",
+            "email": "grinjackal@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0 || ^8.1",
+        "php": "^8.0"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^9.0"
-    },
+
     "autoload": {
         "psr-4": {
-            "GrinJackal\\LGSL\\": "src"
+            "GrinJackal\\LGSQ\\": "src",
+            "GrinJackal\\LGSQ\\Protocols\\": "src/Protocols"
         }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "GrinJackal\\LGSL\\Tests\\": "tests"
-        }
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-
-    },
-    "config": {
-        "sort-packages": true
     }
 }

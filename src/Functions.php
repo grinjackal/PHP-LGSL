@@ -1,5 +1,5 @@
 <?php
-namespace GrinJackal\LGSL;
+namespace GrinJackal\LGSQ;
 
 class Functions{
 
