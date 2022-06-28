@@ -7,7 +7,7 @@
         "lgsq"
     ],
     "homepage": "https://github.com/grinjackal/lgsq",
-    "license": "GNU AGPLv",
+    "license": "AGPL-3.0-or-later",
     "type": "library",
     "authors": [
         {
