@@ -28,10 +28,10 @@ use GrinJackal\LGSL\LGSL;
 
 $result = LGSL::Query('urbanterror', '176.9.28.206', 27971, 27971, 0, "sep");
 
-echo 'Status: '.($result['b']['status'] == 1 ? 'ONLINE' : 'OFFLINE').'<br />';
-echo 'Name: '.$result['s']['name'].'<br />';
-echo 'Map: '.$result['s']['map'] . '<br />';
-echo 'Players: '.$result['s']['players'].'/'.$result['s']['playersmax'].'<br />';
+echo 'Status: '.($result['basic']['status'] == 1 ? 'ONLINE' : 'OFFLINE').'<br />';
+echo 'Name: '.$result['server']['name'].'<br />';
+echo 'Map: '.$result['server']['map'] . '<br />';
+echo 'Players: '.$result['server']['players'].'/'.$result['server']['playersmax'].'<br />';
 ```
 
 ## Example #2
@@ -42,10 +42,10 @@ use GrinJackal\LGSL\LGSL;
 
 $result = LGSL::Query('discord', 'nDuNTC6', 1, 1, 0, "sep");
 
-echo 'Status: '.($result['b']['status'] == 1 ? 'ONLINE' : 'OFFLINE').'<br />';
-echo 'Name: '.$result['s']['name'].'<br />';
-echo 'Map: '.$result['s']['map'].'<br />';
-echo 'Players: '.$result['s']['players'].'/'.$result['s']['playersmax'].'<br />';
+echo 'Status: '.($result['basic']['status'] == 1 ? 'ONLINE' : 'OFFLINE').'<br />';
+echo 'Name: '.$result['server']['name'].'<br />';
+echo 'Map: '.$result['server']['map'].'<br />';
+echo 'Players: '.$result['server']['players'].'/'.$result['server']['playersmax'].'<br />';
 ```
 
 ### Security
